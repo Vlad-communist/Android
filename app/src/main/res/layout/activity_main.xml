@@ -5,76 +5,64 @@
     android:id="@+id/asd"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90D2E3"
+    android:background="@drawable/bckgf"
     tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="245dp"
+        android:layout_width="200dp"
         android:layout_height="43dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
-        android:layout_marginTop="63dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="245dp"
+        android:layout_width="200dp"
         android:layout_height="43dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#FF000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="58dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="144dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView10"
-        app:srcCompat="@android:drawable/sym_action_email" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="58dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="66dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
-        app:srcCompat="@android:drawable/ic_partial_secure" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="TextFields" />
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="117dp"
+        android:layout_width="150dp"
         android:layout_height="52dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginLeft="140dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/btnclr"
         android:onClick="onMyButtonClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:srcCompat="@android:drawable/ic_menu_send" />
 
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="336dp"
-        android:layout_height="194dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
-        android:layout_marginTop="16dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:gravity="center_horizontal"
+        android:text="@string/vsn"
+        android:textAlignment="center"
+        android:textColor="#FF000000"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/vsn" />
+        tools:text="VSN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
