@@ -17,7 +17,8 @@
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/vsn" />
+        app:srcCompat="@drawable/vsn"
+        tools:srcCompat="@drawable/iconca" />
 
     <ImageButton
         android:id="@+id/news"

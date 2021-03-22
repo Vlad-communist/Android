@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... arg) {
-            String url = "http://685667a5bcee.ngrok.io/" + arg[0] + "/" + arg[1];
+            String url = "http://f7c6cd3b4282.ngrok.io/" + arg[0] + "/" + arg[1];
             System.out.println(url);
             StringBuffer response;
             try {

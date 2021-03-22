@@ -53,9 +53,9 @@ public class News extends AppCompatActivity {
                 });
     }
     public void Next_posts() {
-        TextView text = (TextView)findViewById(R.id.textview);
-        text.setText(text.getText().toString() + "здесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текстздесь должен быть длинный текст");
-    }
+        new DownloadImageTask((ImageView) findViewById(R.id.ImageView1))
+                .execute("http://61deb242f03f.ngrok.io/image/18.png");
+            }
     class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
@@ -81,5 +81,30 @@ public class News extends AppCompatActivity {
             this.text = text;
         }
     }
+    //////////////////////////загрузка изображений с сервака//////////////////////
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+    ////////////////////////////////////КОНЕЦ////////////////////////////////////.
 
 }
