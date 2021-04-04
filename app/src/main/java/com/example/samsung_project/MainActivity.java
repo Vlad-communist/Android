@@ -36,12 +36,14 @@ public class MainActivity extends AppCompatActivity {
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor c = db.query("sq", null, null, null, null, null, null);
+        getSupportActionBar().hide();
         if (c.moveToFirst()) {
             Intent intent = new Intent(this, SecondActivity.class);
             startActivity(intent);
             this.finish();
         } else {
             setContentView(R.layout.activity_main);
+
         }
     }
 

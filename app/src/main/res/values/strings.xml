@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Samsung_project</string>
+    <string name="app_name">Vlad Social Network</string>
+    <string name="vsn">VSN</string>
 </resources>
