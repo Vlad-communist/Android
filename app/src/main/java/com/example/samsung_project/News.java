@@ -1,4 +1,5 @@
 package com.example.samsung_project;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.state.State;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,13 +35,14 @@ import java.net.URL;
 
 
 public class News extends AppCompatActivity {
+    public int current_im = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news);
-        Next_posts();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy) ;
+        StrictMode.setThreadPolicy(policy);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -47,40 +50,16 @@ public class News extends AppCompatActivity {
                     public void onScrollChanged() {
                         if (scrollView.getChildAt(0).getBottom()
                                 <= (scrollView.getHeight() + scrollView.getScrollY())) {
-                            Next_posts();
                         }
                     }
                 });
     }
     public void Next_posts() {
-        new DownloadImageTask((ImageView) findViewById(R.id.ImageView1))
-                .execute("http://61deb242f03f.ngrok.io/image/18.png");
-            }
-    class DBHelper extends SQLiteOpenHelper {
-
-        public DBHelper(Context context) {
-            // конструктор суперкласса
-            super(context, "myDB", null, 1);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL("create table sq ("
-                    + "id integer primary key autoincrement,"
-                    + "yes text" + ");");
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        }
-    }
-    class Lent_post {
-        String text;
-        void Lent_post(String text){
-            this.text = text;
-        }
-    }
+        ImageView im = new ImageView(getApplicationContext());
+        current_im += 1;
+        im.setId(current_im);
+        new DownloadImageTask((ImageView) findViewById(R.id.ImageView))
+                .execute("http://61deb242f03f.ngrok.io/image/18.png%22"); }
     //////////////////////////загрузка изображений с сервака//////////////////////
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -105,6 +84,27 @@ public class News extends AppCompatActivity {
             bmImage.setImageBitmap(result);
         }
     }
-    ////////////////////////////////////КОНЕЦ////////////////////////////////////.
+////////////////////////////////////КОНЕЦ////////////////////////////////////.
+
+class DBHelper extends SQLiteOpenHelper {
+
+    public DBHelper(Context context) {
+        // конструктор суперкласса
+        super(context, "myDB", null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("create table sq ("
+                + "id integer primary key autoincrement,"
+                + "yes text" + ");");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+}
 
 }
