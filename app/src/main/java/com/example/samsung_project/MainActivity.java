@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             DBHelper dbHelper = new DBHelper(this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor c = db.query("sq", null, null, null, null, null, null);
-            cv.put("yes", "1");
+            cv.put("yes", ans);
             db.insert("sq", null, cv);
             cv.clear();
             startActivity(intent);
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... arg) {
-            String url = "http://f7c6cd3b4282.ngrok.io/" + arg[0] + "/" + arg[1];
+            String url = "http://vsn.intercom.pro/" + arg[0] + "/" + arg[1];
             System.out.println(url);
             StringBuffer response;
             try {

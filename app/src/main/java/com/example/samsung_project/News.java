@@ -58,8 +58,9 @@ public class News extends AppCompatActivity {
         ImageView im = new ImageView(getApplicationContext());
         current_im += 1;
         im.setId(current_im);
-        new DownloadImageTask((ImageView) findViewById(R.id.ImageView))
-                .execute("http://61deb242f03f.ngrok.io/image/18.png%22"); }
+        ScrollView sc = (ScrollView) findViewById(R.id.lent);
+        new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" +  current_im + ".png2");
+    }
     //////////////////////////загрузка изображений с сервака//////////////////////
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -84,7 +85,7 @@ public class News extends AppCompatActivity {
             bmImage.setImageBitmap(result);
         }
     }
-////////////////////////////////////КОНЕЦ////////////////////////////////////.
+    ////////////////////////////////////КОНЕЦ////////////////////////////////////
 
 class DBHelper extends SQLiteOpenHelper {
 
