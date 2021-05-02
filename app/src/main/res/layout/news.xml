@@ -8,10 +8,10 @@
 
     <ScrollView
         android:id="@+id/lent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="411dp"
+        android:layout_height="862dp"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteY="3dp">
 
         <LinearLayout
             android:id="@+id/ln"
