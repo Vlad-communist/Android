@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             this.finish();
         } else {
             setContentView(R.layout.activity_main);
-
         }
     }
 

@@ -15,6 +15,7 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
     }
 
+
     public void New(View view) {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);
