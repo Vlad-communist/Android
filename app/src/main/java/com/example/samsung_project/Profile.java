@@ -26,4 +26,16 @@ public class Profile extends AppCompatActivity {
         startActivity(intent);
         this.finish();
     }
+
+    public void Mes(View view) {
+        Intent intent = new Intent(this, Messages.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    public void Prof(View view) {
+        Intent intent = new Intent(this, Profile.class);
+        startActivity(intent);
+        this.finish();
+    }
 }

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = db.query("sq", null, null, null, null, null, null);
         getSupportActionBar().hide();
         if (c.moveToFirst()) {
-            Intent intent = new Intent(this, SecondActivity.class);
+            Intent intent = new Intent(this, News.class);
             startActivity(intent);
             this.finish();
         } else {
