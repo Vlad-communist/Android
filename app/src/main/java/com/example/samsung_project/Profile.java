@@ -12,6 +12,7 @@ public class Profile extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
+        getSupportActionBar().hide();
     }
 
     public void Back_from_profile(View view){

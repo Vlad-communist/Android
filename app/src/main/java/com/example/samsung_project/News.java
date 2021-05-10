@@ -43,6 +43,7 @@ public class News extends AppCompatActivity {
         setContentView(R.layout.news);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        getSupportActionBar().hide();
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
