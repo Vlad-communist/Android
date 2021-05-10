@@ -30,7 +30,8 @@
         app:layout_constraintEnd_toStartOf="@+id/imageButton6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageButton6"
-        app:srcCompat="@drawable/icon_home" />
+        app:srcCompat="@drawable/icon_home"
+        android:onClick="New"/>
 
     <ImageButton
         android:id="@+id/imageButton5"
@@ -55,25 +56,25 @@
         app:srcCompat="@drawable/icon_messeges" />
 
     <androidx.constraintlayout.widget.Barrier
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="358dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="top" />
+        app:barrierDirection="top"
+        tools:layout_editor_absoluteX="107dp"
+        tools:layout_editor_absoluteY="358dp" />
 
     <androidx.constraintlayout.widget.Barrier
-        tools:layout_editor_absoluteX="201dp"
-        tools:layout_editor_absoluteY="644dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="top" />
+        app:barrierDirection="top"
+        tools:layout_editor_absoluteX="201dp"
+        tools:layout_editor_absoluteY="644dp" />
 
     <View
         android:id="@+id/divider"
-        tools:layout_editor_absoluteX="16dp"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="3dp"
         android:layout_marginBottom="15dp"
         android:background="#0000FF"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton6" />
+        app:layout_constraintBottom_toTopOf="@+id/imageButton6"
+        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
