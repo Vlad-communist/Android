@@ -32,7 +32,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.NetworkChannel;
 
 
 public class News extends AppCompatActivity {
@@ -52,21 +51,23 @@ public class News extends AppCompatActivity {
                     public void onScrollChanged() {
                         if (scrollView.getChildAt(0).getBottom()
                                 <= (scrollView.getHeight() + scrollView.getScrollY())) {
-                            Next_posts();
                         }
                     }
                 });
     }
 
-    public void Next_posts() {
-        ImageView im = new ImageView(getApplicationContext());
-        current_im += 1;
-        im.setId(current_im);
-        LinearLayout l = (LinearLayout) findViewById(R.id.ln);
-        new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + current_im + ".png");
-        l.addView(im);
+    public void New(View view) {
+        Intent intent = new Intent(this, News.class);
+        startActivity(intent);
+        this.finish();
     }
 
+    //    public void Next_posts() {
+//        ImageView im = new ImageView(getApplicationContext());
+//        current_im += 1;
+//        im.setId(current_im);
+//        new DownloadImageTask((ImageView) findViewById(R.id.ImageView))
+//                .execute("http://61deb242f03f.ngrok.io/image/18.png%22"); }
     //////////////////////////загрузка изображений с сервака//////////////////////
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -91,7 +92,7 @@ public class News extends AppCompatActivity {
             bmImage.setImageBitmap(result);
         }
     }
-    ////////////////////////////////////КОНЕЦ////////////////////////////////////
+////////////////////////////////////КОНЕЦ////////////////////////////////////.
 
     class DBHelper extends SQLiteOpenHelper {
 
