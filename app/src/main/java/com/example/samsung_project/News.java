@@ -46,6 +46,11 @@ public class News extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         getSupportActionBar().hide();
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
+        Next_posts();
+        Next_posts();
+        Next_posts();
+        Next_posts();
+        Next_posts();
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                     @Override
@@ -63,7 +68,9 @@ public class News extends AppCompatActivity {
         current_im += 1;
         im.setId(current_im);
         LinearLayout l = (LinearLayout) findViewById(R.id.ln);
-        new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + current_im + ".png");
+        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+//        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
+        im.setPadding(25, 25, 25, 25);
         l.addView(im);
     }
 
@@ -72,6 +79,7 @@ public class News extends AppCompatActivity {
         startActivity(intent);
         this.finish();
     }
+
     //////////////////////////загрузка изображений с сервака//////////////////////
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
