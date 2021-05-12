@@ -37,14 +37,14 @@
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="150dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="200dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/btnclr"
         android:onClick="onMyButtonClick"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:srcCompat="@android:drawable/ic_menu_send" />
 

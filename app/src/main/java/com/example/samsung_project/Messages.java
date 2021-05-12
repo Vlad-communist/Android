@@ -17,8 +17,8 @@ public class Messages extends AppCompatActivity {
 
     public void Back_from_messages(View view) {
         Intent intent = new Intent(this, SecondActivity.class);
-        this.finish();
         startActivity(intent);
+        this.finish();
     }
 
     public void New(View view) {
