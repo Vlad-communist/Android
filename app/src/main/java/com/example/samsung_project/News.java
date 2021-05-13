@@ -15,6 +15,7 @@ import android.graphics.Insets;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,22 +65,15 @@ public class News extends AppCompatActivity {
         current_im++;
         in_block = 0;
 
-        ImageView im = new ImageView(getApplicationContext());
+
         LinearLayout frameLayout = (LinearLayout) findViewById(R.id.ln);
-        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
-//        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
-//        LinearLayout linLayout = new LinearLayout(this);
+        //        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
         LinearLayout linLayout = new LinearLayout(getApplicationContext());
         linLayout.setOrientation(LinearLayout.VERTICAL);
-        // создаем LayoutParams
         LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
         linLayoutParam.setMargins(0, 0, 0, 20);
-
         linLayout.setLayoutParams(linLayoutParam);
-//        linLayout.setBackgroundResource(R.drawable.style_for_news);
         linLayout.setPadding(20, 20, 20, -3);
-
         View line1 = new View(getApplicationContext());
         View line2 = new View(getApplicationContext());
         ViewGroup.LayoutParams g = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 3);
@@ -87,14 +81,13 @@ public class News extends AppCompatActivity {
         line2.setLayoutParams(g);
         line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
         line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
-        im.setPadding(0, 40, 0, 0);
         line1.setPadding(0, 0, 0, 0);
-
-
+//        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
+        Display display = getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();  // deprecated
+//        int height = display.getHeight();  // deprecated
         TextView textView = new TextView(getApplicationContext());
-//        TextView textView = new TextView(this);
-//        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        textView.setText(Integer.toString(current_im) + "\naboba aboba aboba aboba aboba aboba " +
+        textView.setText(current_im + "\naboba aboba aboba aboba aboba aboba " +
                 "aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba");
         textView.setTextColor(Color.parseColor("#FFFFFF"));
         textView.setGravity(Gravity.FILL_VERTICAL | Gravity.BOTTOM);
@@ -102,16 +95,43 @@ public class News extends AppCompatActivity {
 
         linLayout.setId(current_im);
         in_block++;
-        im.setId(in_block);
+        line1.setId(in_block);
         in_block++;
         textView.setId(in_block);
         in_block++;
-        line1.setId(in_block);
-        in_block++;
         line2.setId(in_block);
-
         linLayout.addView(line1);
-        linLayout.addView(im);
+        int count_fotos = 1; //maximum 10
+        switch (count_fotos){
+            case 1:
+                ImageView im = new ImageView(getApplicationContext());
+                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+                ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams(width - 50, width - 50);
+                im.setLayoutParams(im_params);
+                im.setPadding(0, 20, 0, 0);
+                in_block++;
+                im.setId(in_block);
+                linLayout.addView(im);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+        }
         linLayout.addView(textView);
         linLayout.addView(line2);
 

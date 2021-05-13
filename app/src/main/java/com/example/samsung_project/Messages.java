@@ -15,12 +15,6 @@ public class Messages extends AppCompatActivity {
         getSupportActionBar().hide();
     }
 
-    public void Back_from_messages(View view) {
-        Intent intent = new Intent(this, SecondActivity.class);
-        startActivity(intent);
-        this.finish();
-    }
-
     public void New(View view) {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);

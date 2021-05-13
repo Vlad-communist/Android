@@ -15,12 +15,6 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().hide();
     }
 
-    public void Back_from_profile(View view) {
-        Intent intent = new Intent(this, SecondActivity.class);
-        startActivity(intent);
-        this.finish();
-    }
-
     public void New(View view) {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);
