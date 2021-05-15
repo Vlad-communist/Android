@@ -6,6 +6,7 @@ import androidx.core.view.KeyEventDispatcher;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.UriMatcher;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -27,11 +28,20 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class News extends AppCompatActivity {
-    public int current_im = 0;
+    public int current_im = 1;
     public int in_block = 0;
 
     @Override
@@ -42,18 +52,30 @@ public class News extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         getSupportActionBar().hide();
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
-        Next_posts();
-        Next_posts();
-        Next_posts();
-        Next_posts();
-        Next_posts();
+        try {
+            Next_posts();
+            Next_posts();
+            Next_posts();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                     @Override
                     public void onScrollChanged() {
                         if (scrollView.getChildAt(0).getBottom()
                                 <= (scrollView.getHeight() + scrollView.getScrollY())) {
-                            Next_posts();
+                            try {
+                                Next_posts();
+                                Next_posts();
+                                Next_posts();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -61,13 +83,29 @@ public class News extends AppCompatActivity {
 
 //    @SuppressLint("SetTextI18n")
     @SuppressLint("SetTextI18n")
-    public void Next_posts() {
-        current_im++;
+    public void Next_posts() throws IOException, JSONException {
+        URL url = new URL("http://vsn.intercom.pro:9080/new/abc/" + current_im);
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        String content = "";
+        String photo = "";
+        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = bufferedReader.readLine()) != null) {
+                response.append(inputLine);
+            }
+            bufferedReader.close();
+            String g = response.toString();
+            JSONObject js = new JSONObject(g);
+            content = js.getString("text");
+            photo = js.getString("photo");
+            System.out.println(photo);
+        }
+        if (content != "nope"){
         in_block = 0;
-
-
         LinearLayout frameLayout = (LinearLayout) findViewById(R.id.ln);
-        //        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
         LinearLayout linLayout = new LinearLayout(getApplicationContext());
         linLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -82,13 +120,10 @@ public class News extends AppCompatActivity {
         line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
         line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
         line1.setPadding(0, 0, 0, 0);
-//        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();  // deprecated
-//        int height = display.getHeight();  // deprecated
         TextView textView = new TextView(getApplicationContext());
-        textView.setText(current_im + "\naboba aboba aboba aboba aboba aboba " +
-                "aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba");
+        textView.setText(current_im + "\n" + content);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
         textView.setGravity(Gravity.FILL_VERTICAL | Gravity.BOTTOM);
         linLayout.setGravity(Gravity.FILL_VERTICAL);
@@ -101,11 +136,11 @@ public class News extends AppCompatActivity {
         in_block++;
         line2.setId(in_block);
         linLayout.addView(line1);
-        int count_fotos = 1; //maximum 10
+        int count_fotos = 1;
         switch (count_fotos){
             case 1:
                 ImageView im = new ImageView(getApplicationContext());
-                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+                new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/"+photo);
                 ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams(width - 50, width - 50);
                 im.setLayoutParams(im_params);
                 im.setPadding(0, 20, 0, 0);
@@ -134,8 +169,8 @@ public class News extends AppCompatActivity {
         }
         linLayout.addView(textView);
         linLayout.addView(line2);
-
         frameLayout.addView(linLayout);
+        current_im++;}
     }
 
     public void New(View view) {
