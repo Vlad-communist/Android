@@ -3,6 +3,7 @@ package com.example.samsung_project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,8 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
         getSupportActionBar().hide();
+        LinearLayout main_main_layout = (LinearLayout) findViewById(R.id.ln);
+
     }
 
     public void New(View view) {
