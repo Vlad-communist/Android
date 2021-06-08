@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    public String a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 //                ee = c.getString(c.getColumnIndex("email"));
 
 
-    class DBHelper extends SQLiteOpenHelper {
+    public class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
             // конструктор суперкласса
