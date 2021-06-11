@@ -4,27 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/background_blak"
     android:rotation="0"
     android:rotationX="0"
-    android:rotationY="0" >
+    android:rotationY="0">
 
     <ScrollView
         android:id="@+id/lent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
+        android:layout_marginBottom="15dp"
+        android:background="@color/background"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/ln"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/background_blak"
+        android:onClick="Prof"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton5"
+        app:layout_constraintStart_toEndOf="@+id/imageButton6"
+        app:layout_constraintTop_toTopOf="@+id/imageButton6"
+        app:srcCompat="@drawable/friends_not_active" />
 
     <ImageButton
         android:id="@+id/imageButton4"
@@ -33,25 +48,12 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="17dp"
-        android:background="#000000"
+        android:background="@color/background_blak"
         android:onClick="New"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageButton6"
-        app:srcCompat="@drawable/icon_home" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="#000000"
-        android:onClick="Prof"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton5"
-        app:layout_constraintStart_toEndOf="@+id/imageButton6"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6"
-        app:srcCompat="@drawable/friends" />
+        app:srcCompat="@drawable/home_not_active" />
 
     <ImageButton
         android:id="@+id/imageButton5"
@@ -59,38 +61,37 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:background="#000000"
+        android:background="@color/background_blak"
         android:onClick="Prof"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageButton6"
-        app:srcCompat="@drawable/icon_plus" />
+        app:srcCompat="@drawable/me_not_active" />
 
     <ImageButton
         android:id="@+id/video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#000000"
+        android:background="@color/background_blak"
         android:onClick="Prof"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
         app:layout_constraintEnd_toStartOf="@+id/imageButton6"
         app:layout_constraintStart_toEndOf="@+id/imageButton4"
         app:layout_constraintTop_toTopOf="@+id/imageButton6"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/video" />
+        app:srcCompat="@drawable/video_not_active" />
 
     <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:background="#000000"
+        android:background="@color/background_blak"
         android:onClick="Mes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/icon_messeges" />
+        app:srcCompat="@drawable/messeges_active" />
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"
@@ -106,12 +107,4 @@
         tools:layout_editor_absoluteX="201dp"
         tools:layout_editor_absoluteY="644dp" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginBottom="15dp"
-        android:background="#0000FF"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton6"
-        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
