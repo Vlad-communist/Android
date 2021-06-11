@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 db.insert("sq", null, cv);
                 cv.clear();
                 startActivity(intent);
+                overridePendingTransition(R.anim.top, R.anim.top);
                 this.finish();
             }
         }
