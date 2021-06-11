@@ -49,7 +49,7 @@ public class News extends AppCompatActivity {
         Next_posts();
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                    @Override
+                    @Override   
                     public void onScrollChanged() {
                         if (scrollView.getChildAt(0).getBottom()
                                 <= (scrollView.getHeight() + scrollView.getScrollY())) {
