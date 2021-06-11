@@ -6,6 +6,7 @@ import androidx.core.view.KeyEventDispatcher;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ import java.io.InputStream;
 public class News extends AppCompatActivity {
     public int current_im = 0;
     public int in_block = 0;
+    public String key;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,11 @@ public class News extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         getSupportActionBar().hide();
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.query("sq", null, null, null, null, null, null);
+        c.moveToNext();
+        key = c.getString(1);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         Next_posts();
         Next_posts();

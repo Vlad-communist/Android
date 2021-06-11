@@ -28,6 +28,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     public String a;
+    public String key;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +55,27 @@ public class MainActivity extends AppCompatActivity {
         String email = em.getText().toString();
         final EditText pass = (EditText) findViewById(R.id.password);
         String password = pass.getText().toString();
-        Intent intent = new Intent(this, SecondActivity.class);
-        AsyncRequest a = new AsyncRequest();
-        String ans = a.doInBackground(email, password);
-        System.out.println(ans);
-        if (ans.contains("not ok")) {
+        if (email.equals("") || password.equals("")) {
             Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
         } else {
-            ContentValues cv = new ContentValues();
-            DBHelper dbHelper = new DBHelper(this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            Cursor c = db.query("sq", null, null, null, null, null, null);
-            cv.put("yes", ans);
-            db.insert("sq", null, cv);
-            cv.clear();
-            startActivity(intent);
-            this.finish();
+            Intent intent = new Intent(this, SecondActivity.class);
+            AsyncRequest a = new AsyncRequest();
+            String ans = a.doInBackground(email, password);
+            System.out.println(ans);
+            System.out.println(12);
+            if (ans.contains("not ok")) {
+                Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
+            } else {
+                ContentValues cv = new ContentValues();
+                DBHelper dbHelper = new DBHelper(this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                Cursor c = db.query("sq", null, null, null, null, null, null);
+                cv.put("yes", ans);
+                db.insert("sq", null, cv);
+                cv.clear();
+                startActivity(intent);
+                this.finish();
+            }
         }
     }
 
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... arg) {
-            String url = "http://vsn.intercom.pro/" + arg[0] + "/" + arg[1];
+            String url = "http://vsn.intercom.pro:9080/" + arg[0] + "/" + arg[1];
             System.out.println(url);
             StringBuffer response;
             try {
