@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/background_blak"
     android:rotation="0"
     android:rotationX="0"
     android:rotationY="0">
@@ -13,7 +13,9 @@
         android:id="@+id/lent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
+        android:layout_marginBottom="15dp"
+        android:background="@color/background"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,13 +109,4 @@
         app:barrierDirection="top"
         tools:layout_editor_absoluteX="201dp"
         tools:layout_editor_absoluteY="644dp" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginBottom="15dp"
-        android:background="#0000FF"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton6"
-        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
