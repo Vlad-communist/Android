@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, News.class);
             AsyncRequest a = new AsyncRequest();
             String ans = a.doInBackground(email, password);
-            System.out.println(ans);
-            System.out.println(12);
             if (ans.contains("not ok")) {
                 Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
             } else {
@@ -71,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 DBHelper dbHelper = new DBHelper(this);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 Cursor c = db.query("sq", null, null, null, null, null, null);
-                cv.put("yes", ans);
+                String key = ans.substring(1, ans.length()-1);
+                cv.put("yes", key);
                 db.insert("sq", null, cv);
                 cv.clear();
                 startActivity(intent);
@@ -110,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... arg) {
-            String url = "http://vsn.intercom.pro:9080/" + arg[0] + "/" + arg[1];
-            System.out.println(url);
+            String url = "http://vsn.intercom.pro:9080/connect?email=" + arg[0] + "&password=" + arg[1];
             StringBuffer response;
             try {
                 URL obj = new URL(url);

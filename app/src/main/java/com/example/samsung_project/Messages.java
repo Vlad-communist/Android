@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,6 +38,11 @@ public class Messages extends AppCompatActivity {
         key = c.getString(1);
         c.close();
         setContentView(R.layout.messages);
+        try {
+            Create_Chats();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
         getSupportActionBar().hide();
     }
 
@@ -60,9 +68,8 @@ public class Messages extends AppCompatActivity {
     }
 
     public void Create_Chats() throws IOException, JSONException {
-        URL url = new URL("http://vsn.intercom.pro:9080/all_messages//");
+        URL url = new URL("http://vsn.intercom.pro:9080/all_messages/" + key);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        String content = "";
         String photo = "";
         if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -75,8 +82,15 @@ public class Messages extends AppCompatActivity {
             bufferedReader.close();
             String g = response.toString();
             JSONObject js = new JSONObject(g);
-            content = js.getString("text");
-            System.out.println(content);
+            System.out.println(123);
+            JSONObject content = js.getJSONObject("answer");
+            LinearLayout layout = (LinearLayout) findViewById(R.id.ln);
+            for (int i = 0; i < content.length(); i++){
+                TextView ed = new TextView(getApplicationContext());
+                ed.setText((content.getJSONArray(Integer.toString(i))).getString(1));
+                layout.addView(ed);
+            }
+//            for (int i = 0; i < content.length(); )
         }
     }
 

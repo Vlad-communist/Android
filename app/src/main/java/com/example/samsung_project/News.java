@@ -28,6 +28,10 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,12 +58,14 @@ public class News extends AppCompatActivity {
         Cursor c = db.query("sq", null, null, null, null, null, null);
         c.moveToNext();
         key = c.getString(1);
+        System.out.println(key);
+        System.out.println(124134);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         try {
            Next_posts();
            Next_posts();
            Next_posts();
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         scrollView.getViewTreeObserver()
@@ -72,7 +78,7 @@ public class News extends AppCompatActivity {
                                 Next_posts();
                                 Next_posts();
                                 Next_posts();
-                            } catch (IOException e) {
+                            } catch (IOException | JSONException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -82,20 +88,21 @@ public class News extends AppCompatActivity {
 
 //    @SuppressLint("SetTextI18n")
     @SuppressLint("SetTextI18n")
-    public void Next_posts() throws IOException {
+    public void Next_posts() throws IOException, JSONException {
         in_block = 0;
         String url = "http://vsn.intercom.pro:9080/new/" + key + "/" + current_im;
 
         URL obj = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-
         connection.setRequestMethod("GET");
-
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        String text = "";
-        String image = "";
+        JSONObject root = new JSONObject(in.readLine());
+        in.close();
+        System.out.println();
+        String text = root.getString("text");
+        String title = root.getString("title");
+        String  image = root.getString("photo");
+        int count_fotos = Integer.parseInt(root.getString("count_photos").toString());
         LinearLayout frameLayout = (LinearLayout) findViewById(R.id.ln);
         //        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
         LinearLayout linLayout = new LinearLayout(getApplicationContext());
@@ -117,7 +124,7 @@ public class News extends AppCompatActivity {
         int width = display.getWidth();  // deprecated
 //        int height = display.getHeight();  // deprecated
         TextView textView = new TextView(getApplicationContext());
-        textView.setText(text);
+        textView.setText(title + "\n" + text);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
         textView.setGravity(Gravity.FILL_VERTICAL | Gravity.BOTTOM);
         linLayout.setGravity(Gravity.FILL_VERTICAL);
@@ -130,11 +137,13 @@ public class News extends AppCompatActivity {
         in_block++;
         line2.setId(in_block);
         linLayout.addView(line1);
-        int count_fotos = 1; //maximum 10
+//        count_fotos = 1; //maximum 10
         switch (count_fotos){
+            case 0:
+                break;
             case 1:
                 ImageView im = new ImageView(getApplicationContext());
-                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+                new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + image + ".jpg");
                 ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams(width - 50, width - 50);
                 im.setLayoutParams(im_params);
                 im.setPadding(0, 20, 0, 0);
