@@ -3,6 +3,7 @@ package com.example.samsung_project;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.solver.state.State;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.NestedScrollingChild;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = db.query("sq", null, null, null, null, null, null);
         getSupportActionBar().hide();
         if (c.moveToFirst()) {
-            Intent intent = new Intent(this, SecondActivity.class);
+            Intent intent = new Intent(this, News.class);
             startActivity(intent);
             this.finish();
         } else {
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         if (email.equals("") || password.equals("")) {
             Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(this, SecondActivity.class);
+            Intent intent = new Intent(this, News.class);
             AsyncRequest a = new AsyncRequest();
             String ans = a.doInBackground(email, password);
             System.out.println(ans);

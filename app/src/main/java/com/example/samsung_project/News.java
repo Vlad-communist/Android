@@ -28,7 +28,13 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 
 
 public class News extends AppCompatActivity {
@@ -49,18 +55,26 @@ public class News extends AppCompatActivity {
         c.moveToNext();
         key = c.getString(1);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
-        Next_posts();
-        Next_posts();
-        Next_posts();
-        Next_posts();
-        Next_posts();
+        try {
+           Next_posts();
+           Next_posts();
+           Next_posts();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                     @Override   
                     public void onScrollChanged() {
                         if (scrollView.getChildAt(0).getBottom()
                                 <= (scrollView.getHeight() + scrollView.getScrollY())) {
-                            Next_posts();
+                            try {
+                                Next_posts();
+                                Next_posts();
+                                Next_posts();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -68,11 +82,20 @@ public class News extends AppCompatActivity {
 
 //    @SuppressLint("SetTextI18n")
     @SuppressLint("SetTextI18n")
-    public void Next_posts() {
-        current_im++;
+    public void Next_posts() throws IOException {
         in_block = 0;
+        String url = "http://vsn.intercom.pro:9080/new/" + key + "/" + current_im;
 
+        URL obj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
+        connection.setRequestMethod("GET");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        String text = "";
+        String image = "";
         LinearLayout frameLayout = (LinearLayout) findViewById(R.id.ln);
         //        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
         LinearLayout linLayout = new LinearLayout(getApplicationContext());
@@ -94,8 +117,7 @@ public class News extends AppCompatActivity {
         int width = display.getWidth();  // deprecated
 //        int height = display.getHeight();  // deprecated
         TextView textView = new TextView(getApplicationContext());
-        textView.setText(current_im + "\naboba aboba aboba aboba aboba aboba " +
-                "aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba aboba");
+        textView.setText(text);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
         textView.setGravity(Gravity.FILL_VERTICAL | Gravity.BOTTOM);
         linLayout.setGravity(Gravity.FILL_VERTICAL);
@@ -141,8 +163,8 @@ public class News extends AppCompatActivity {
         }
         linLayout.addView(textView);
         linLayout.addView(line2);
-
         frameLayout.addView(linLayout);
+        current_im++;
     }
 
     public void New(View view) {
