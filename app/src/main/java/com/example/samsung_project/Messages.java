@@ -1,14 +1,17 @@
 package com.example.samsung_project;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +24,7 @@ import java.net.URL;
 
 public class Messages extends AppCompatActivity {
     public String key;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,18 +41,21 @@ public class Messages extends AppCompatActivity {
     public void New(View view) {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.right, R.anim.right1);
         this.finish();
     }
 
     public void Mes(View view) {
         Intent intent = new Intent(this, Messages.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.top, R.anim.top1);
         this.finish();
     }
 
     public void Prof(View view) {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.left, R.anim.left1);
         this.finish();
     }
 
@@ -72,6 +79,7 @@ public class Messages extends AppCompatActivity {
             System.out.println(content);
         }
     }
+
     public class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {

@@ -21,18 +21,21 @@ public class Profile extends AppCompatActivity {
     public void New(View view) {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.right, R.anim.right1);
         this.finish();
     }
 
     public void Mes(View view) {
         Intent intent = new Intent(this, Messages.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.right, R.anim.right1);
         this.finish();
     }
 
     public void Prof(View view) {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.top, R.anim.top1);
         this.finish();
     }
 }
