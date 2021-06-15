@@ -13,9 +13,8 @@
         android:id="@+id/lent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="15dp"
         android:background="@color/background"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton6"
+        app:layout_constraintBottom_toTopOf="@+id/messages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,43 +30,15 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/background_blak"
-        android:onClick="Prof"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton5"
-        app:layout_constraintStart_toEndOf="@+id/imageButton6"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6"
-        app:srcCompat="@drawable/friends_not_active" />
-
-    <ImageButton
-        android:id="@+id/imageButton4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="17dp"
         android:background="@color/background_blak"
         android:onClick="New"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/messages"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6"
+        app:layout_constraintTop_toTopOf="@+id/messages"
         app:srcCompat="@drawable/home_active" />
-
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/background_blak"
-        android:onClick="Prof"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6"
-        app:srcCompat="@drawable/me_not_active" />
 
     <ImageButton
         android:id="@+id/video"
@@ -75,24 +46,46 @@
         android:layout_height="wrap_content"
         android:background="@color/background_blak"
         android:onClick="Prof"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton6"
-        app:layout_constraintStart_toEndOf="@+id/imageButton4"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6"
+        app:layout_constraintBottom_toBottomOf="@+id/messages"
+        app:layout_constraintEnd_toStartOf="@+id/messages"
+        app:layout_constraintStart_toEndOf="@+id/home"
+        app:layout_constraintTop_toTopOf="@+id/messages"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/video_not_active" />
 
     <ImageButton
-        android:id="@+id/imageButton6"
+        android:id="@+id/messages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
         android:background="@color/background_blak"
         android:onClick="Mes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/messeges_not_active" />
+
+    <ImageButton
+        android:id="@+id/friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_blak"
+        android:onClick="Prof"
+        app:layout_constraintBottom_toBottomOf="@+id/messages"
+        app:layout_constraintEnd_toStartOf="@+id/me"
+        app:layout_constraintStart_toEndOf="@+id/messages"
+        app:layout_constraintTop_toTopOf="@+id/messages"
+        app:srcCompat="@drawable/friends_not_active" />
+
+    <ImageButton
+        android:id="@+id/me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_blak"
+        android:onClick="Prof"
+        app:layout_constraintBottom_toBottomOf="@+id/messages"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/messages"
+        app:srcCompat="@drawable/me_not_active" />
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"

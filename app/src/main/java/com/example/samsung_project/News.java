@@ -1,6 +1,8 @@
 package com.example.samsung_project;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.KeyEventDispatcher;
 
 import android.annotation.SuppressLint;
@@ -14,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Insets;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Display;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -46,10 +50,43 @@ public class News extends AppCompatActivity {
     public int in_block = 0;
     public String key;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        System.out.println(width);
+        width /= 5;
+        System.out.println(width);
+        ImageButton button_home = (ImageButton) findViewById(R.id.home);
+        ImageButton button_video = (ImageButton) findViewById(R.id.video);
+        ImageButton button_message = (ImageButton) findViewById(R.id.messages);
+        ImageButton button_friends = (ImageButton) findViewById(R.id.friends);
+        ImageButton button_me = (ImageButton) findViewById(R.id.me);
+        ViewGroup.LayoutParams params_home = button_home.getLayoutParams();
+        ViewGroup.LayoutParams params_video = button_video.getLayoutParams();
+        ViewGroup.LayoutParams params_messages = button_message.getLayoutParams();
+        ViewGroup.LayoutParams params_friends = button_friends.getLayoutParams();
+        ViewGroup.LayoutParams params_me = button_me.getLayoutParams();
+        params_home.width = width;
+        params_video.width = width;
+        params_messages.width = width;
+        params_friends.width = width;
+        params_me.width = width;
+        params_home.height = 150;
+        params_video.height = 150;
+        params_messages.height = 150;
+        params_friends.height = 150;
+        params_me.height = 150;
+        button_home.setLayoutParams(params_home);
+        button_video.setLayoutParams(params_video);
+        button_message.setLayoutParams(params_messages);
+        button_friends.setLayoutParams(params_friends);
+        button_me.setLayoutParams(params_me);
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         getSupportActionBar().hide();
@@ -87,6 +124,7 @@ public class News extends AppCompatActivity {
     }
 
 //    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
     public void Next_posts() throws IOException, JSONException {
         in_block = 0;
@@ -122,7 +160,7 @@ public class News extends AppCompatActivity {
 //        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();  // deprecated
-//        int height = display.getHeight();  // deprecated
+        int height = display.getHeight();  // deprecated
         TextView textView = new TextView(getApplicationContext());
         textView.setText(title + "\n" + text);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
@@ -146,9 +184,17 @@ public class News extends AppCompatActivity {
                 new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + image + ".jpg");
                 ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams(width - 50, width - 50);
                 im.setLayoutParams(im_params);
-                im.setPadding(0, 20, 0, 0);
+                im.setPadding(0, 0, 0, 0);
                 in_block++;
                 im.setId(in_block);
+//                CardView cardView = new CardView(getApplicationContext());
+//                cardView.setLayoutParams(im_params);
+//                cardView.setRadius((float) Math.max(height, width) / 2);
+//                cardView.setContentPadding(0,0,0,0);
+//                cardView.setElevation(8);
+//                cardView.setCardBackgroundColor(Color.LTGRAY);
+//                cardView.setMaxCardElevation(12);
+//                cardView.addView(im);
                 linLayout.addView(im);
                 break;
             case 2:

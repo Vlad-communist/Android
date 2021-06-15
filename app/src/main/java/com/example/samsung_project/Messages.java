@@ -8,8 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,13 +34,45 @@ public class Messages extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.messages);
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        System.out.println(width);
+        width /= 5;
+        System.out.println(width);
+        ImageButton button_home = (ImageButton) findViewById(R.id.home);
+        ImageButton button_video = (ImageButton) findViewById(R.id.video);
+        ImageButton button_message = (ImageButton) findViewById(R.id.messages);
+        ImageButton button_friends = (ImageButton) findViewById(R.id.friends);
+        ImageButton button_me = (ImageButton) findViewById(R.id.me);
+        ViewGroup.LayoutParams params_home = button_home.getLayoutParams();
+        ViewGroup.LayoutParams params_video = button_video.getLayoutParams();
+        ViewGroup.LayoutParams params_messages = button_message.getLayoutParams();
+        ViewGroup.LayoutParams params_friends = button_friends.getLayoutParams();
+        ViewGroup.LayoutParams params_me = button_me.getLayoutParams();
+        params_home.width = width;
+        params_video.width = width;
+        params_messages.width = width;
+        params_friends.width = width;
+        params_me.width = width;
+        params_home.height = 150;
+        params_video.height = 150;
+        params_messages.height = 150;
+        params_friends.height = 150;
+        params_me.height = 150;
+        button_home.setLayoutParams(params_home);
+        button_video.setLayoutParams(params_video);
+        button_message.setLayoutParams(params_messages);
+        button_friends.setLayoutParams(params_friends);
+        button_me.setLayoutParams(params_me);
+
         Cursor c = db.query("sq", null, null, null, null, null, null);
         c.moveToNext();
         key = c.getString(1);
         c.close();
-        setContentView(R.layout.messages);
         try {
             Create_Chats();
         } catch (IOException | JSONException e) {
