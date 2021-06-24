@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -40,6 +41,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Profile extends AppCompatActivity {
+
+    public int current_im = 0;
+    public int in_block = 0;
+    public String key;
 
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -81,7 +86,6 @@ public class Profile extends AppCompatActivity {
         button_friends.setLayoutParams(params_friends);
         button_me.setLayoutParams(params_me);
 
-//        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
         LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
 
         LinearLayout id_block = new LinearLayout(getApplicationContext());
@@ -280,34 +284,52 @@ public class Profile extends AppCompatActivity {
         friends_layout.setId(228);
 
         friends_scroll.addView(friends_layout);
+        for (int i = 0; i < 6; i++){
+            try {
+                Next_friend(friends_layout);
+            } catch (Exception ex){
+                System.out.println(ex);
+            }
+        }
 
-        //я это сделал и нихуя не робит, вместо этого можно for поставить, но если друзей больше 5к, press F
         friends_scroll.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                     @Override
                     public void onScrollChanged() {
                         if (friends_scroll.getChildAt(0).getRight()
                                 <= (friends_scroll.getWidth() + friends_scroll.getScrollX())) {
-                            Next_friend();
+                            try {
+                                Next_friend(friends_layout);
+                            } catch (Exception ex) {
+                                System.out.println(ex);
+                            }
                         }
                     }
                 });
         mainlayout.addView(friends_scroll);
+
+        TextView lable = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams lable_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 2);
+        lable_params.leftMargin = w_proc * 4;
+        lable_params.topMargin = h_proc * 2;
+        lable.setLayoutParams(lable_params);
+        lable.setText("Мои записи");
+        lable.setTextColor(Color.parseColor("#FFFFFF"));
+        lable.setGravity(Gravity.START);
+
+        mainlayout.addView(lable);
+
+        Next_post(mainlayout);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void Next_friend(){
+    public void Next_friend(LinearLayout friends_layout){
         Display display = getWindowManager().getDefaultDisplay();
         int width_of_screen = display.getWidth();
         int height_of_screen = display.getHeight();
         int h_proc = height_of_screen / 100;
         int w_proc = width_of_screen / 100;
         String name_of_chelik = "Биба Абоба Бобович";
-
-        // короч чекай, на сколько я понял, проблемма в этой хуйне, типа он её найти не может. Я
-        // в душе не ебу как это исправить.(листается по горизонтале, как в вк)
-        // *кроме этой строчки
-        @SuppressLint("ResourceType") LinearLayout friends_layout = findViewById(228);
 
         LinearLayout one_friend = new LinearLayout(getApplicationContext());
         LinearLayout.LayoutParams one_friend_params = new LinearLayout.LayoutParams(h_proc * 8, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -340,6 +362,11 @@ public class Profile extends AppCompatActivity {
         one_friend.addView(fio_friend);
 
         friends_layout.addView(one_friend);
+    }
+
+
+    public void Next_post(LinearLayout mainlayout){
+        String name = "Биба Абоба Бобович";
     }
 
     public void New(View view) {

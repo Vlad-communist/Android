@@ -15,19 +15,21 @@
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/actions" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity">
+        <activity android:name=".News"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".News">
+        <activity android:name=".Messages"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Messages">
-        </activity>
-        <activity android:name=".Profile">
+        <activity android:name=".Profile"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
