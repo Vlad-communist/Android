@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Insets;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -57,10 +58,13 @@ public class News extends AppCompatActivity {
         setContentView(R.layout.news);
 
         Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();
-        System.out.println(width);
+        int width_of_screen = display.getWidth();
+        int height_of_screen = display.getHeight();
+        int h_proc = height_of_screen / 100;
+        int w_proc = width_of_screen / 100;
+        int width = width_of_screen;
+
         width /= 5;
-        System.out.println(width);
         ImageButton button_home = (ImageButton) findViewById(R.id.home);
         ImageButton button_video = (ImageButton) findViewById(R.id.video);
         ImageButton button_message = (ImageButton) findViewById(R.id.messages);
@@ -96,7 +100,6 @@ public class News extends AppCompatActivity {
         c.moveToNext();
         key = c.getString(1);
         System.out.println(key);
-        System.out.println(124134);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         try {
            Next_posts();
@@ -127,6 +130,16 @@ public class News extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
     public void Next_posts() throws IOException, JSONException {
+
+        System.out.println(1);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width_of_screen = display.getWidth();
+        int height_of_screen = display.getHeight();
+        int h_proc = height_of_screen / 100;
+        int w_proc = width_of_screen / 100;
+        int width = width_of_screen;
+
         in_block = 0;
         String url = "http://vsn.intercom.pro:9080/new/" + key + "/" + current_im;
 
@@ -158,9 +171,6 @@ public class News extends AppCompatActivity {
         line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
         line1.setPadding(0, 0, 0, 0);
 //        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
-        Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();  // deprecated
-        int height = display.getHeight();  // deprecated
         TextView textView = new TextView(getApplicationContext());
         textView.setText(title + "\n" + text);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
@@ -175,13 +185,54 @@ public class News extends AppCompatActivity {
         in_block++;
         line2.setId(in_block);
         linLayout.addView(line1);
-//        count_fotos = 1; //maximum 10
+
+        count_fotos = 1; //maximum 10
+
+        LinearLayout logo_box = new LinearLayout(getApplicationContext());
+        logo_box.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams for_logo_box = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        logo_box.setLayoutParams(for_logo_box);
+
+        ImageView kartinka = new ImageView(getApplicationContext());
+
+        new DownloadImageTask(kartinka).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+
+        LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        kartinka.setLayoutParams(for_kartinka);
+
+        CardView crd_for_button = new CardView(getApplicationContext());
+        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams( w_proc * 20, w_proc * 20);
+        crd_for_button_params.leftMargin = w_proc * 4;
+        crd_for_button_params.topMargin = -w_proc * 4;
+        crd_for_button.setLayoutParams(crd_for_button_params);
+        crd_for_button.setRadius(h_proc);
+        crd_for_button.setContentPadding(0, 0, 0, 0);
+        crd_for_button.setCardBackgroundColor(Color.LTGRAY);
+        crd_for_button.addView(kartinka);
+
+        logo_box.addView(crd_for_button);
+
+        String name = "pidor";
+
+        TextView fio = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 20);
+        for_fio.gravity = Gravity.CENTER_VERTICAL;
+        fio.setLayoutParams(for_fio);
+
+        logo_box.addView(fio);
+
+        linLayout.addView(logo_box);
+
+        ImageView logo = new ImageView(getApplicationContext());
         switch (count_fotos){
             case 0:
                 break;
             case 1:
                 ImageView im = new ImageView(getApplicationContext());
+
                 new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + image + ".jpg");
+//                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+
                 ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams(width - 50, width - 50);
                 im.setLayoutParams(im_params);
                 im.setPadding(0, 0, 0, 0);
