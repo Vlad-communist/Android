@@ -201,25 +201,16 @@ public class News extends AppCompatActivity {
         kartinka.setLayoutParams(for_kartinka);
 
         CardView crd_for_button = new CardView(getApplicationContext());
-        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams( w_proc * 20, w_proc * 20);
+        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams( w_proc * 10, w_proc * 10);
         crd_for_button_params.leftMargin = w_proc * 4;
-        crd_for_button_params.topMargin = -w_proc * 4;
+        crd_for_button_params.topMargin = w_proc * 4;
         crd_for_button.setLayoutParams(crd_for_button_params);
-        crd_for_button.setRadius(h_proc);
+        crd_for_button.setRadius(w_proc * 2);
         crd_for_button.setContentPadding(0, 0, 0, 0);
         crd_for_button.setCardBackgroundColor(Color.LTGRAY);
         crd_for_button.addView(kartinka);
 
         logo_box.addView(crd_for_button);
-
-        String name = "pidor";
-
-        TextView fio = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 20);
-        for_fio.gravity = Gravity.CENTER_VERTICAL;
-        fio.setLayoutParams(for_fio);
-
-        logo_box.addView(fio);
 
         linLayout.addView(logo_box);
 
