@@ -180,7 +180,8 @@ public class Profile extends AppCompatActivity {
         cardView.setLayoutParams(card_params);
         cardView.setRadius(w_proc * 7);
         cardView.setContentPadding(0, 0, 0, 0);
-        cardView.setCardBackgroundColor(Color.LTGRAY);
+        cardView.setCardBackgroundColor(Color.parseColor("#36383F"));
+        im.setScaleType(ImageView.ScaleType.CENTER_CROP);
         cardView.addView(im);
 
         foto_and_name.addView(cardView);
@@ -234,7 +235,7 @@ public class Profile extends AppCompatActivity {
         crd_for_button.setLayoutParams(crd_for_button_params);
         crd_for_button.setRadius(h_proc);
         crd_for_button.setContentPadding(0, 0, 0, 0);
-        crd_for_button.setCardBackgroundColor(Color.LTGRAY);
+        crd_for_button.setCardBackgroundColor(Color.parseColor("#36383F"));
         crd_for_button.addView(edit);
 
         mainlayout.addView(crd_for_button);
@@ -421,7 +422,8 @@ public class Profile extends AppCompatActivity {
             circle_im.setLayoutParams(circle_im_params);
             circle_im.setRadius(h_proc * 2);
             circle_im.setContentPadding(0, 0, 0, 0);
-            circle_im.setCardBackgroundColor(Color.LTGRAY);
+            circle_im.setCardBackgroundColor(Color.parseColor("#36383F"));
+            logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
             circle_im.addView(logo);
 
             one_friend.addView(circle_im);
@@ -478,7 +480,8 @@ public class Profile extends AppCompatActivity {
         crd_for_button.setLayoutParams(crd_for_button_params);
         crd_for_button.setRadius(w_proc * 2);
         crd_for_button.setContentPadding(0, 0, 0, 0);
-        crd_for_button.setCardBackgroundColor(Color.LTGRAY);
+        crd_for_button.setCardBackgroundColor(Color.parseColor("#36383F"));
+        kartinka.setScaleType(ImageView.ScaleType.CENTER_CROP);
         crd_for_button.addView(kartinka);
 
         logo_box.addView(crd_for_button);
@@ -520,7 +523,7 @@ public class Profile extends AppCompatActivity {
                 card.setLayoutParams(card_params);
                 card.setRadius(w_proc * 2);
                 card.setContentPadding(0, 0, 0, 0);
-                card.setCardBackgroundColor(Color.LTGRAY);
+                card.setCardBackgroundColor(Color.parseColor("#36383F"));
                 card.addView(im);
                 mainlayout.addView(card);
                 break;

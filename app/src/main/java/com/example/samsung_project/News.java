@@ -208,6 +208,7 @@ public class News extends AppCompatActivity {
         crd_for_button.setRadius(w_proc * 2);
         crd_for_button.setContentPadding(0, 0, 0, 0);
         crd_for_button.setCardBackgroundColor(Color.LTGRAY);
+        kartinka.setScaleType(ImageView.ScaleType.CENTER_CROP);
         crd_for_button.addView(kartinka);
 
         logo_box.addView(crd_for_button);
