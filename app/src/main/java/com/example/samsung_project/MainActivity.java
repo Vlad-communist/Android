@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, News.class);
             AsyncRequest a = new AsyncRequest();
             String ans = a.doInBackground(email, password);
+            System.out.println(ans);
             if (ans.contains("not ok")) {
                 Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
             } else {
@@ -119,11 +120,13 @@ public class MainActivity extends AppCompatActivity {
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
+                System.out.println(123);
                 response = new StringBuffer();
 
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
+                in.close();
                 return response.toString();
             } catch (Exception e) {
                 return e.toString();

@@ -186,7 +186,7 @@ public class News extends AppCompatActivity {
         line2.setId(in_block);
         linLayout.addView(line1);
 
-        count_fotos = 1; //maximum 10
+//        count_fotos = 1; //maximum 10
 
         LinearLayout logo_box = new LinearLayout(getApplicationContext());
         logo_box.setOrientation(LinearLayout.HORIZONTAL);

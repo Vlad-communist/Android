@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -37,15 +38,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 
 public class Profile extends AppCompatActivity {
 
     public int current_im = 0;
     public int in_block = 0;
     public String key;
+    public long vsnid = 984317834;
+    String name_of_chelik = "Биба Абоба Бобович";
+    String about_of_chelik = "Эчпочмааааааааааааааааааааааак";
+    public String image = "0.png";
+    public int friend_now = 1;
 
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -55,6 +68,13 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.profile);
         getSupportActionBar().hide();
 
+        try {
+            Get_data();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Display display = getWindowManager().getDefaultDisplay();
         int width_of_screen = display.getWidth();
         int height_of_screen = display.getHeight();
@@ -107,7 +127,6 @@ public class Profile extends AppCompatActivity {
 
         id_block.addView(id);
 
-        long vsnid = 984317834;
 
         TextView cifarki = new TextView(getApplicationContext());
         LinearLayout.LayoutParams for_cifarki = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -152,7 +171,7 @@ public class Profile extends AppCompatActivity {
         foto_and_name.setGravity(Gravity.START);
 
         ImageView im = new ImageView(getApplicationContext());
-        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+        new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/" + image);
         LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
         im.setLayoutParams(im_params);
         CardView cardView = new CardView(getApplicationContext());
@@ -171,9 +190,6 @@ public class Profile extends AppCompatActivity {
         name.setOrientation(LinearLayout.VERTICAL);
         name.setLayoutParams(for_name);
         name.setGravity(Gravity.START);
-
-        String name_of_chelik = "Биба Абоба Бобович";
-        String about_of_chelik = "Эчпочмааааааааааааааааааааааак";
 
         TextView fio = new TextView(getApplicationContext());
         TextView about = new TextView(getApplicationContext());
@@ -287,10 +303,10 @@ public class Profile extends AppCompatActivity {
         friends_layout.setId(228);
 
         friends_scroll.addView(friends_layout);
-        for (int i = 0; i < 6; i++){
+        for (int i = 0; i < 6; i++) {
             try {
                 Next_friend(friends_layout);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 System.out.println(ex);
             }
         }
@@ -322,10 +338,10 @@ public class Profile extends AppCompatActivity {
 
         mainlayout.addView(lable);
 
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             try {
                 Next_post(mainlayout);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 break;
             }
         }
@@ -338,7 +354,7 @@ public class Profile extends AppCompatActivity {
                         if (scroll.getChildAt(0).getBottom()
                                 <= (scroll.getHeight() + scroll.getScrollY())) {
                             try {
-                                for (int i = 0; i < 2; i++){
+                                for (int i = 0; i < 2; i++) {
                                     Next_post(mainlayout);
                                 }
                             } catch (Exception e) {
@@ -349,50 +365,84 @@ public class Profile extends AppCompatActivity {
                 });
     }
 
+    public void Get_data() throws IOException, JSONException {
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.query("sq", null, null, null, null, null, null);
+        c.moveToNext();
+        key = c.getString(1);
+
+        String url = "http://vsn.intercom.pro:9080/get_info/" + key;
+        URL obj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+        connection.setRequestMethod("GET");
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        JSONObject root = new JSONObject(in.readLine());
+        in.close();
+        System.out.println();
+        name_of_chelik = root.getString("name") + " " + root.getString("surname");
+        about_of_chelik = root.getString("status");
+        image = root.getString("photo");
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void Next_friend(LinearLayout friends_layout){
+    public void Next_friend(LinearLayout friends_layout) throws IOException, JSONException {
         Display display = getWindowManager().getDefaultDisplay();
         int width_of_screen = display.getWidth();
         int height_of_screen = display.getHeight();
         int h_proc = height_of_screen / 100;
         int w_proc = width_of_screen / 100;
-        String name_of_chelik = "Биба Абоба Бобович";
 
-        LinearLayout one_friend = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams one_friend_params = new LinearLayout.LayoutParams(h_proc * 8, LinearLayout.LayoutParams.WRAP_CONTENT);
-        one_friend_params.leftMargin = w_proc * 4;
-        one_friend.setLayoutParams(one_friend_params);
-        one_friend.setOrientation(LinearLayout.VERTICAL);
+        String url = "http://vsn.intercom.pro:9080/get_friends/" + key + '/' + friend_now;
+        URL obj = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+        connection.setRequestMethod("GET");
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        JSONObject root = new JSONObject(in.readLine());
+        in.close();
+        System.out.println();
+        if (!root.getString("ans").equals("NO")) {
 
-        ImageView logo = new ImageView(getApplicationContext());
-        new DownloadImageTask(logo).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
-        LinearLayout.LayoutParams logo_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
-        logo.setLayoutParams(logo_params);
-        CardView circle_im = new CardView(getApplicationContext());
-        LinearLayout.LayoutParams circle_im_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
-        circle_im.setLayoutParams(circle_im_params);
-        circle_im.setRadius(h_proc * 2);
-        circle_im.setContentPadding(0, 0, 0, 0);
-        circle_im.setCardBackgroundColor(Color.LTGRAY);
-        circle_im.addView(logo);
+            String name = root.getString("name") + " " + root.getString("surname");
+            String img = root.getString("photo");
 
-        one_friend.addView(circle_im);
+            LinearLayout one_friend = new LinearLayout(getApplicationContext());
+            LinearLayout.LayoutParams one_friend_params = new LinearLayout.LayoutParams(h_proc * 8, LinearLayout.LayoutParams.WRAP_CONTENT);
+            one_friend_params.leftMargin = w_proc * 4;
+            one_friend.setLayoutParams(one_friend_params);
+            one_friend.setOrientation(LinearLayout.VERTICAL);
 
-        TextView fio_friend = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams fio_friend_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        fio_friend.setLayoutParams(fio_friend_params);
-        fio_friend.setText(name_of_chelik);
-        fio_friend.setTextSize(10);
-        fio_friend.setTextColor(Color.parseColor("#FFFFFF"));
-        fio_friend.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            ImageView logo = new ImageView(getApplicationContext());
+            new DownloadImageTask(logo).execute("http://vsn.intercom.pro:9080/image/" + img);
+            LinearLayout.LayoutParams logo_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
+            logo.setLayoutParams(logo_params);
+            CardView circle_im = new CardView(getApplicationContext());
+            LinearLayout.LayoutParams circle_im_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
+            circle_im.setLayoutParams(circle_im_params);
+            circle_im.setRadius(h_proc * 2);
+            circle_im.setContentPadding(0, 0, 0, 0);
+            circle_im.setCardBackgroundColor(Color.LTGRAY);
+            circle_im.addView(logo);
 
-        one_friend.addView(fio_friend);
+            one_friend.addView(circle_im);
 
-        friends_layout.addView(one_friend);
+            TextView fio_friend = new TextView(getApplicationContext());
+            LinearLayout.LayoutParams fio_friend_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            fio_friend.setLayoutParams(fio_friend_params);
+            fio_friend.setText(name);
+            fio_friend.setTextSize(10);
+            fio_friend.setTextColor(Color.parseColor("#FFFFFF"));
+            fio_friend.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+            one_friend.addView(fio_friend);
+
+            friends_layout.addView(one_friend);
+            ++friend_now;
+        }
     }
 
 
-    public void Next_post(LinearLayout mainlayout){
+    public void Next_post(LinearLayout mainlayout) {
 
         Display display = getWindowManager().getDefaultDisplay();
         int width_of_screen = display.getWidth();
@@ -422,7 +472,7 @@ public class Profile extends AppCompatActivity {
         kartinka.setLayoutParams(for_kartinka);
 
         CardView crd_for_button = new CardView(getApplicationContext());
-        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams( w_proc * 10, w_proc * 10);
+        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams(w_proc * 10, w_proc * 10);
         crd_for_button_params.leftMargin = w_proc * 4;
         crd_for_button_params.topMargin = w_proc * 4;
         crd_for_button.setLayoutParams(crd_for_button_params);
@@ -451,7 +501,7 @@ public class Profile extends AppCompatActivity {
 
         int count_fotos = 1;
 
-        switch (count_fotos){
+        switch (count_fotos) {
             case 0:
                 break;
             case 1:
@@ -469,7 +519,7 @@ public class Profile extends AppCompatActivity {
                 card_params.gravity = Gravity.CENTER_HORIZONTAL;
                 card.setLayoutParams(card_params);
                 card.setRadius(w_proc * 2);
-                card.setContentPadding(0,0,0,0);
+                card.setContentPadding(0, 0, 0, 0);
                 card.setCardBackgroundColor(Color.LTGRAY);
                 card.addView(im);
                 mainlayout.addView(card);
