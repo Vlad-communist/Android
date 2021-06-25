@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
@@ -121,10 +122,12 @@ public class Profile extends AppCompatActivity {
         id_block.addView(cifarki);
 
         ImageButton copy = new ImageButton(getApplicationContext());
-        LinearLayout.LayoutParams for_copy = new LinearLayout.LayoutParams(100, 100);
+        LinearLayout.LayoutParams for_copy = new LinearLayout.LayoutParams(50, 50);
         for_copy.topMargin = w_proc;
-        for_copy.leftMargin = -w_proc;
+        for_copy.leftMargin = w_proc;
+        for_copy.gravity = Gravity.CENTER;
         copy.setImageResource(R.drawable.copy);
+        copy.setBackgroundColor(Color.parseColor("#36383F"));
         copy.setLayoutParams(for_copy);
         copy.setScaleType(ImageView.ScaleType.CENTER_CROP);
         copy.setOnClickListener(new View.OnClickListener() {
@@ -245,7 +248,7 @@ public class Profile extends AppCompatActivity {
         count_friends.setLayoutParams(count_friends_params);
         count_friends.setMinWidth(w_proc * 20);
         count_friends.setText("" + count);
-        count_friends.setTextColor(Color.parseColor("#555555"));
+        count_friends.setTextColor(Color.parseColor("#FFFFFF"));
         count_friends.setGravity(Gravity.START);
 
         friends_block.addView(count_friends);
@@ -319,7 +322,31 @@ public class Profile extends AppCompatActivity {
 
         mainlayout.addView(lable);
 
-        Next_post(mainlayout);
+        for (int i = 0; i < 3; i++){
+            try {
+                Next_post(mainlayout);
+            } catch (Exception ex){
+                break;
+            }
+        }
+
+        ScrollView scroll = (ScrollView) findViewById(R.id.lent);
+        scroll.getViewTreeObserver()
+                .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        if (scroll.getChildAt(0).getBottom()
+                                <= (scroll.getHeight() + scroll.getScrollY())) {
+                            try {
+                                for (int i = 0; i < 2; i++){
+                                    Next_post(mainlayout);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -366,7 +393,130 @@ public class Profile extends AppCompatActivity {
 
 
     public void Next_post(LinearLayout mainlayout){
-        String name = "Биба Абоба Бобович";
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width_of_screen = display.getWidth();
+        int height_of_screen = display.getHeight();
+        int h_proc = height_of_screen / 100;
+        int w_proc = width_of_screen / 100;
+
+        View line1 = new View(getApplicationContext());
+        LinearLayout.LayoutParams g = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
+        g.topMargin = w_proc * 4;
+        line1.setLayoutParams(g);
+        line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+        line1.setPadding(0, 0, 0, 0);
+
+        mainlayout.addView(line1);
+
+        LinearLayout logo_box = new LinearLayout(getApplicationContext());
+        logo_box.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams for_logo_box = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        logo_box.setLayoutParams(for_logo_box);
+
+        ImageView kartinka = new ImageView(getApplicationContext());
+
+        new DownloadImageTask(kartinka).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+
+        LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        kartinka.setLayoutParams(for_kartinka);
+
+        CardView crd_for_button = new CardView(getApplicationContext());
+        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams( w_proc * 10, w_proc * 10);
+        crd_for_button_params.leftMargin = w_proc * 4;
+        crd_for_button_params.topMargin = w_proc * 4;
+        crd_for_button.setLayoutParams(crd_for_button_params);
+        crd_for_button.setRadius(w_proc * 2);
+        crd_for_button.setContentPadding(0, 0, 0, 0);
+        crd_for_button.setCardBackgroundColor(Color.LTGRAY);
+        crd_for_button.addView(kartinka);
+
+        logo_box.addView(crd_for_button);
+
+        String name = "Ebobobobooooooooo";
+
+        TextView fio = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
+        for_fio.topMargin = w_proc * 4;
+        fio.setLayoutParams(for_fio);
+        fio.setGravity(Gravity.CENTER_VERTICAL);
+        fio.setPadding(w_proc * 2, 0, 0, 0);
+        fio.setTextSize(w_proc * 2);
+        fio.setTextColor(Color.parseColor("#FFFFFF"));
+        fio.setText(name);
+
+        logo_box.addView(fio);
+
+        mainlayout.addView(logo_box);
+
+        int count_fotos = 1;
+
+        switch (count_fotos){
+            case 0:
+                break;
+            case 1:
+                ImageView im = new ImageView(getApplicationContext());
+
+//                new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + image + ".jpg");
+                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+
+                LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                im.setLayoutParams(im_params);
+                im.setPadding(0, 0, 0, 0);
+                CardView card = new CardView(getApplicationContext());
+                LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100);
+                card_params.topMargin = w_proc * 4;
+                card_params.gravity = Gravity.CENTER_HORIZONTAL;
+                card.setLayoutParams(card_params);
+                card.setRadius(w_proc * 2);
+                card.setContentPadding(0,0,0,0);
+                card.setCardBackgroundColor(Color.LTGRAY);
+                card.addView(im);
+                mainlayout.addView(card);
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+        }
+
+        String some_text = "Повседневная практика показывает, что укрепление и развитие структуры в значительной степени обуславливает создание форм развития. Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности позволяет выполнять важные задания по разработке модели развития. Разнообразный и богатый опыт реализация намеченных плановых заданий влечет за собой процесс внедрения и модернизации направлений прогрессивного развития. Таким образом новая модель организационной деятельности позволяет выполнять важные задания по разработке соответствующий условий активизации. Значимость этих проблем настолько очевидна, что дальнейшее развитие различных форм деятельности играет важную роль в формировании позиций, занимаемых участниками в отношении поставленных задач.";
+
+        TextView text_of_post = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams text_of_post_params = new LinearLayout.LayoutParams(width_of_screen - 50, LinearLayout.LayoutParams.WRAP_CONTENT);
+        text_of_post_params.topMargin = w_proc * 4;
+        text_of_post_params.leftMargin = w_proc * 4;
+        text_of_post_params.gravity = Gravity.FILL;
+        text_of_post.setLayoutParams(text_of_post_params);
+        text_of_post.setText(some_text);
+        text_of_post.setTextColor(Color.parseColor("#FFFFFF"));
+        text_of_post.setTextSize(h_proc * 10 / 13);
+
+        mainlayout.addView(text_of_post);
+
+        View line2 = new View(getApplicationContext());
+        LinearLayout.LayoutParams gg = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
+        gg.topMargin = w_proc * 4;
+        gg.bottomMargin = -w_proc * 4 - 5;
+        line2.setLayoutParams(gg);
+        line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+        line2.setPadding(0, 0, 0, 0);
+
+        mainlayout.addView(line2);
     }
 
     public void New(View view) {
