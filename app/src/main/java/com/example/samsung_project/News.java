@@ -225,21 +225,19 @@ public class News extends AppCompatActivity {
                 new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + image + ".jpg");
 //                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
 
-                LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(width - 50, width - 50);
-                im_params.gravity = Gravity.CENTER_HORIZONTAL;
+                LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 im.setLayoutParams(im_params);
                 im.setPadding(0, 0, 0, 0);
-                in_block++;
-                im.setId(in_block);
-//                CardView cardView = new CardView(getApplicationContext());
-//                cardView.setLayoutParams(im_params);
-//                cardView.setRadius((float) Math.max(height, width) / 2);
-//                cardView.setContentPadding(0,0,0,0);
-//                cardView.setElevation(8);
-//                cardView.setCardBackgroundColor(Color.LTGRAY);
-//                cardView.setMaxCardElevation(12);
-//                cardView.addView(im);
-                linLayout.addView(im);
+                CardView card = new CardView(getApplicationContext());
+                LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100);
+                card_params.topMargin = w_proc * 4;
+                card_params.gravity = Gravity.CENTER_HORIZONTAL;
+                card.setLayoutParams(card_params);
+                card.setRadius(w_proc * 2);
+                card.setContentPadding(0, 0, 0, 0);
+                card.setCardBackgroundColor(Color.parseColor("#36383F"));
+                card.addView(im);
+                linLayout.addView(card);
                 break;
             case 2:
                 break;
@@ -282,6 +280,20 @@ public class News extends AppCompatActivity {
 
     public void Prof(View view) {
         Intent intent = new Intent(this, Profile.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left, R.anim.left1);
+        this.finish();
+    }
+
+    public void Video(View view){
+        Intent intent = new Intent(this, Video.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left, R.anim.left1);
+        this.finish();
+    }
+
+    public void Friends(View view){
+        Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left, R.anim.left1);
         this.finish();

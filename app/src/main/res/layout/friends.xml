@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/messeges_active" />
+        app:srcCompat="@drawable/messeges_not_active" />
 
     <ImageButton
         android:id="@+id/friends"
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toStartOf="@+id/me"
         app:layout_constraintStart_toEndOf="@+id/messages"
         app:layout_constraintTop_toTopOf="@+id/messages"
-        app:srcCompat="@drawable/friends_not_active" />
+        app:srcCompat="@drawable/friends_active" />
 
     <ImageButton
         android:id="@+id/me"

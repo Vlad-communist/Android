@@ -256,6 +256,7 @@ public class Profile extends AppCompatActivity {
 
         friends_block.addView(friends);
 
+        //чееееееееееееееееееееееееееееееееееееееееееееееееееееееел
         long count = 50;
 
         TextView count_friends = new TextView(getApplicationContext());
@@ -294,7 +295,7 @@ public class Profile extends AppCompatActivity {
         LinearLayout.LayoutParams scroll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         scroll_params.topMargin = h_proc * 2;
         friends_scroll.setLayoutParams(scroll_params);
-        friends_scroll.setHorizontalScrollBarEnabled(false);
+        friends_scroll.setHorizontalScrollBarEnabled(true);
         friends_scroll.setId(16516);
 
         LinearLayout friends_layout = new LinearLayout(getApplicationContext());
@@ -415,6 +416,7 @@ public class Profile extends AppCompatActivity {
 
             ImageView logo = new ImageView(getApplicationContext());
             new DownloadImageTask(logo).execute("http://vsn.intercom.pro:9080/image/" + img);
+            new DownloadImageTask(logo).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
             LinearLayout.LayoutParams logo_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
             logo.setLayoutParams(logo_params);
             CardView circle_im = new CardView(getApplicationContext());
@@ -590,6 +592,20 @@ public class Profile extends AppCompatActivity {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
         overridePendingTransition(R.anim.top, R.anim.top1);
+        this.finish();
+    }
+
+    public void Video(View view){
+        Intent intent = new Intent(this, Video.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right, R.anim.right1);
+        this.finish();
+    }
+
+    public void Friends(View view){
+        Intent intent = new Intent(this, Friends.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right, R.anim.right1);
         this.finish();
     }
 

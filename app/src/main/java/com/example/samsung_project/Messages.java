@@ -102,6 +102,20 @@ public class Messages extends AppCompatActivity {
         this.finish();
     }
 
+    public void Video(View view){
+        Intent intent = new Intent(this, Video.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.right, R.anim.right1);
+        this.finish();
+    }
+
+    public void Friends(View view){
+        Intent intent = new Intent(this, Friends.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left, R.anim.left1);
+        this.finish();
+    }
+
     public void Create_Chats() throws IOException, JSONException {
         URL url = new URL("http://vsn.intercom.pro:9080/all_messages/" + key);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

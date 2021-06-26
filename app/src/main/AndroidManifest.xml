@@ -31,6 +31,12 @@
         <activity android:name=".Profile"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Friends"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Video"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
