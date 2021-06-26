@@ -1,27 +1,19 @@
 package com.example.samsung_project;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -33,13 +25,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -52,8 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 public class Profile extends AppCompatActivity {
@@ -120,128 +106,79 @@ public class Profile extends AppCompatActivity {
 
         LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
 
-        LinearLayout id_block = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams for_id_block = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 100);
-        id_block.setOrientation(LinearLayout.HORIZONTAL);
-        id_block.setLayoutParams(for_id_block);
-        id_block.setGravity(Gravity.START);
-
-        TextView id = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams for_id = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        TextView id = (TextView) findViewById(R.id.text_vsnid);
+        LinearLayout.LayoutParams for_id = (LinearLayout.LayoutParams) id.getLayoutParams();
         for_id.leftMargin = w_proc * 4;
         for_id.topMargin = w_proc * 2;
         for_id.bottomMargin = w_proc * 2;
-        id.setText("VSNID:");
-        id.setTextColor(Color.parseColor("#FFFFFF"));
-        id.setTextSize(20);
         id.setLayoutParams(for_id);
 
-        id_block.addView(id);
-
-        LinearLayout digit_and_copy = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams digit_and_copy_params = new LinearLayout.LayoutParams(w_proc * 58, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout digit_and_copy = (LinearLayout) findViewById(R.id.digit_and_copy);
+        LinearLayout.LayoutParams digit_and_copy_params = (LinearLayout.LayoutParams) digit_and_copy.getLayoutParams();
+        digit_and_copy_params.width = w_proc * 58;
         digit_and_copy.setLayoutParams(digit_and_copy_params);
-        digit_and_copy.setOrientation(LinearLayout.HORIZONTAL);
-        digit_and_copy.setPadding(0, 0, 0, 0);
 
-        TextView cifarki = new TextView(getApplicationContext());
+        TextView cifarki = (TextView) findViewById(R.id.cifarki);
         LinearLayout.LayoutParams for_cifarki = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 100);
         for_cifarki.leftMargin = w_proc * 2;
         cifarki.setText("" + vsnid);
-        cifarki.setTextSize(20);
-        cifarki.setPadding(0, 20, 0, 0);
-        cifarki.setTextColor(Color.parseColor("#FFFFFF"));
         cifarki.setLayoutParams(for_cifarki);
 
-        digit_and_copy.addView(cifarki);
+        ImageButton copy = (ImageButton) findViewById(R.id.copy);
+        LinearLayout.LayoutParams copy_params = (LinearLayout.LayoutParams) copy.getLayoutParams();
+        copy_params.leftMargin = w_proc;
+        copy.setLayoutParams(copy_params);
 
-        ImageButton copy = new ImageButton(getApplicationContext());
-        LinearLayout.LayoutParams for_copy = new LinearLayout.LayoutParams(50, 50);
-        for_copy.leftMargin = w_proc;
-        for_copy.gravity = Gravity.BOTTOM;
-        for_copy.bottomMargin = 15;
-        copy.setImageResource(R.drawable.copy);
-        copy.setBackgroundColor(Color.parseColor("#36383F"));
-        copy.setLayoutParams(for_copy);
-        copy.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        copy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("", cifarki.getText().toString());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(getApplicationContext(), "VSNID скопирован в буфер обмена", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        digit_and_copy.addView(copy);
-
-        id_block.addView(digit_and_copy);
-
-        LinearLayout text_exit = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams text_exit_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        text_exit.setLayoutParams(text_exit_params);
-        text_exit.setOrientation(LinearLayout.HORIZONTAL);
-        text_exit.setPadding(0, 0, 0, 0);
-
-        TextView exit = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams exit_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        TextView exit = (TextView) findViewById(R.id.exit);
+        LinearLayout.LayoutParams exit_params = (LinearLayout.LayoutParams) exit.getLayoutParams();
+        exit_params.leftMargin = w_proc * 4;
         exit.setLayoutParams(exit_params);
-        exit.setText("Выйти");
-        exit.setTextColor(Color.parseColor("#FF0000"));
-        exit.setPadding(w_proc * 6, 30, 0, 0);
-        exit.setTextSize(16);
-        exit.setTypeface(null, Typeface.BOLD);
 
-        text_exit.addView(exit);
-
-        ImageButton off = new ImageButton(getApplicationContext());
-        LinearLayout.LayoutParams off_copy = new LinearLayout.LayoutParams(50, 50);
-        off_copy.gravity = Gravity.BOTTOM;
-        off_copy.leftMargin = w_proc * 2;
-        off_copy.bottomMargin = 13;
-        off.setImageResource(R.drawable.off);
-        off.setBackgroundColor(Color.parseColor("#36383F"));
+        ImageButton off = (ImageButton) findViewById(R.id.off);
+        LinearLayout.LayoutParams off_copy = (LinearLayout.LayoutParams) off.getLayoutParams();
+        off_copy.leftMargin = w_proc;
         off.setLayoutParams(off_copy);
-        off.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        id_block.addView(text_exit);
-
-        mainlayout.addView(id_block);
-
-        LinearLayout foto_and_name = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams for_foto_and_name = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 32);
+        LinearLayout foto_and_name = (LinearLayout) findViewById(R.id.foto_and_name);
+        LinearLayout.LayoutParams for_foto_and_name = (LinearLayout.LayoutParams) foto_and_name.getLayoutParams();
         for_foto_and_name.topMargin = w_proc * 2;
-        foto_and_name.setOrientation(LinearLayout.HORIZONTAL);
         foto_and_name.setLayoutParams(for_foto_and_name);
         foto_and_name.setGravity(Gravity.START);
 
-        ImageView im = new ImageView(getApplicationContext());
+        ImageView im = (ImageView) findViewById(R.id.im);
         new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/" + image);
-        LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
-        im.setLayoutParams(im_params);
-        CardView cardView = new CardView(getApplicationContext());
-        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
+//        LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
+//        im.setLayoutParams(im_params);
+        CardView cardView = (CardView) findViewById(R.id.cardView);
+//        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
+        LinearLayout.LayoutParams card_params = (LinearLayout.LayoutParams) cardView.getLayoutParams();
         card_params.leftMargin = w_proc * 4;
+        card_params.width = w_proc * 25;
+        card_params.height = w_proc * 25;
         cardView.setLayoutParams(card_params);
-        cardView.setRadius(w_proc * 7);
-        cardView.setContentPadding(0, 0, 0, 0);
-        cardView.setCardBackgroundColor(Color.parseColor("#36383F"));
-        im.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        cardView.addView(im);
+        cardView.setRadius(w_proc * 6);
+//        cardView.setContentPadding(0, 0, 0, 0);
+//        cardView.setCardBackgroundColor(Color.parseColor("#36383F"));
+//        im.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        cardView.addView(im);
 
-        foto_and_name.addView(cardView);
+//        foto_and_name.addView(cardView);
 
-        LinearLayout name = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams for_name = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        name.setOrientation(LinearLayout.VERTICAL);
-        name.setLayoutParams(for_name);
-        name.setGravity(Gravity.START);
+////        LinearLayout name = new LinearLayout(getApplicationContext());
+//        LinearLayout name = (LinearLayout) findViewById(R.id.name);
+////        LinearLayout.LayoutParams for_name = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        LinearLayout.LayoutParams for_name = (LinearLayout.LayoutParams) name.getLayoutParams();
+//        name.setLayoutParams(for_name);
+////        name.setGravity(Gravity.START);
 
-        TextView fio = new TextView(getApplicationContext());
-        TextView about = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        LinearLayout.LayoutParams for_about = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        TextView fio = new TextView(getApplicationContext());
+        TextView fio = (TextView) findViewById(R.id.fio);
+//        TextView about = new TextView(getApplicationContext());
+        TextView about = (TextView) findViewById(R.id.about);
+//        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams for_fio = (LinearLayout.LayoutParams) fio.getLayoutParams();
+//        LinearLayout.LayoutParams for_about = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams for_about = (LinearLayout.LayoutParams) about.getLayoutParams();
         for_fio.bottomMargin = w_proc * 1;
         for_fio.topMargin = -w_proc * 1;
         for_fio.leftMargin = w_proc * 4;
@@ -249,107 +186,121 @@ public class Profile extends AppCompatActivity {
         fio.setLayoutParams(for_fio);
         about.setLayoutParams(for_about);
         fio.setText(name_of_chelik);
-        fio.setTextColor(Color.parseColor("#FFFFFF"));
         about.setText(about_of_chelik);
-        about.setTextColor(Color.parseColor("#FFFFFF"));
         fio.setTextSize(18);
         about.setTextSize(14);
-        name.addView(fio);
-        name.addView(about);
+//        name.addView(fio);
+//        name.addView(about);
+//
+//        foto_and_name.addView(name);
 
-        foto_and_name.addView(name);
+//        mainlayout.addView(foto_and_name);
 
-        mainlayout.addView(foto_and_name);
-
-        Button edit = new Button(getApplicationContext());
-        LinearLayout.LayoutParams for_edit = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        edit.setTextColor(Color.parseColor("#FFFFFF"));
-        edit.setBackgroundColor(Color.parseColor("#555555"));
-        edit.setLayoutParams(for_edit);
-        edit.setText("Редактировать");
-        edit.setTextSize(12);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Редактировать", Toast.LENGTH_SHORT).show();
-            }
-        });
-        CardView crd_for_button = new CardView(getApplicationContext());
-        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 10);
+//        Button edit = new Button(getApplicationContext());
+        Button edit = (Button) findViewById(R.id.edit);
+//        LinearLayout.LayoutParams for_edit = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        edit.setTextColor(Color.parseColor("#FFFFFF"));
+//        edit.setBackgroundColor(Color.parseColor("#555555"));
+//        edit.setLayoutParams(for_edit);
+//        edit.setText("Редактировать");
+//        edit.setTextSize(12);
+//        edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getApplicationContext(), "Редактировать", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        CardView crd_for_button = new CardView(getApplicationContext());
+        CardView crd_for_button = (CardView) findViewById(R.id.crd_for_button);
+//        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 10);
+        LinearLayout.LayoutParams crd_for_button_params = (LinearLayout.LayoutParams) crd_for_button.getLayoutParams();
         crd_for_button_params.leftMargin = w_proc * 4;
-        crd_for_button_params.topMargin = -w_proc * 4;
+        crd_for_button_params.topMargin = w_proc * 4;
+//        crd_for_button_params.bottomMargin = w_proc * 4;
+        crd_for_button_params.width = w_proc * 100;
+        crd_for_button_params.height = w_proc * 10;
         crd_for_button.setLayoutParams(crd_for_button_params);
         crd_for_button.setRadius(h_proc);
-        crd_for_button.setContentPadding(0, 0, 0, 0);
-        crd_for_button.setCardBackgroundColor(Color.parseColor("#36383F"));
-        crd_for_button.addView(edit);
+//        crd_for_button.setContentPadding(0, 0, 0, 0);
+//        crd_for_button.setCardBackgroundColor(Color.parseColor("#36383F"));
+//        crd_for_button.addView(edit);
 
-        mainlayout.addView(crd_for_button);
+//        mainlayout.addView(crd_for_button);
 
-        LinearLayout friends_block = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams friends_block_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 3);
+//        LinearLayout friends_block = new LinearLayout(getApplicationContext());
+        LinearLayout friends_block = (LinearLayout) findViewById(R.id.friends_block);
+//        LinearLayout.LayoutParams friends_block_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 3);
+        LinearLayout.LayoutParams friends_block_params = (LinearLayout.LayoutParams) friends_block.getLayoutParams();
         friends_block_params.topMargin = w_proc * 3;
+        friends_block_params.height = h_proc * 3;
         friends_block.setLayoutParams(friends_block_params);
-        friends_block.setOrientation(LinearLayout.HORIZONTAL);
 
-        TextView friends = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams friends_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        TextView friends = new TextView(getApplicationContext());
+        TextView text_friends = (TextView) findViewById(R.id.text_friends);
+//        LinearLayout.LayoutParams friends_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams friends_params = (LinearLayout.LayoutParams) text_friends.getLayoutParams();
         friends_params.leftMargin = w_proc * 4;
-        friends.setLayoutParams(friends_params);
-        friends.setText("Друзья");
-        friends.setTextColor(Color.parseColor("#FFFFFF"));
-        friends.setGravity(Gravity.START);
+        text_friends.setLayoutParams(friends_params);
+//        text_friends.setText("Друзья");
+//        text_friends.setTextColor(Color.parseColor("#FFFFFF"));
+//        text_friends.setGravity(Gravity.START);
 
-        friends_block.addView(friends);
+//        friends_block.addView(friends);
 
-        //чееееееееееееееееееееееееееееееееееееееееееееееееееееееел
-
-        TextView count_friends = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams count_friends_params = new LinearLayout.LayoutParams(w_proc * 20, LinearLayout.LayoutParams.MATCH_PARENT);
+//        TextView count_friends = new TextView(getApplicationContext());
+        TextView count_friends = (TextView) findViewById(R.id.count_friends);
+//        LinearLayout.LayoutParams count_friends_params = new LinearLayout.LayoutParams(w_proc * 20, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams count_friends_params = (LinearLayout.LayoutParams) count_friends.getLayoutParams();
         count_friends_params.leftMargin = w_proc;
         count_friends_params.topMargin = h_proc / 10;
         count_friends.setLayoutParams(count_friends_params);
-        count_friends.setMinWidth(w_proc * 20);
+//        count_friends.setMinWidth(w_proc * 20);
         count_friends.setText("" + count);
-        count_friends.setTextColor(Color.parseColor("#FFFFFF"));
-        count_friends.setGravity(Gravity.START);
+//        count_friends.setTextColor(Color.parseColor("#FFFFFF"));
+//        count_friends.setGravity(Gravity.START);
 
-        friends_block.addView(count_friends);
+//        friends_block.addView(count_friends);
 
-        ImageButton right = new ImageButton(getApplicationContext());
-        LinearLayout.LayoutParams for_right = new LinearLayout.LayoutParams(h_proc * 3, h_proc * 3);
+//        ImageButton right = new ImageButton(getApplicationContext());
+        ImageButton right = (ImageButton) findViewById(R.id.right);
+//        LinearLayout.LayoutParams for_right = new LinearLayout.LayoutParams(h_proc * 3, h_proc * 3);
+        LinearLayout.LayoutParams for_right = (LinearLayout.LayoutParams) right.getLayoutParams();
         for_right.topMargin = -h_proc / 10 * 2;
-        for_right.leftMargin = w_proc * 60;
-        right.setImageResource(R.drawable.right);
+//        for_right.leftMargin = w_proc * 60;
+        for_right.height = h_proc * 3;
+        for_right.width = h_proc * 3;
+//        right.setImageResource(R.drawable.right);
         right.setLayoutParams(for_right);
-        right.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        right.setPadding(0, 0, 0, 0);
-        right.setBackgroundColor(Color.parseColor("#36383F"));
-        right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "вправо", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        right.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        right.setPadding(0, 0, 0, 0);
+//        right.setBackgroundColor(Color.parseColor("#36383F"));
+//        right.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                buuton_f(view);
+//            }
+//        });
 
-        friends_block.addView(right);
+//        friends_block.addView(right);
+//
+//        mainlayout.addView(friends_block);
 
-        mainlayout.addView(friends_block);
-
-        HorizontalScrollView friends_scroll = new HorizontalScrollView(getApplicationContext());
-        LinearLayout.LayoutParams scroll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        HorizontalScrollView friends_scroll = new HorizontalScrollView(getApplicationContext());
+        HorizontalScrollView friends_scroll = (HorizontalScrollView) findViewById(R.id.friends_scroll);
+//        LinearLayout.LayoutParams scroll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams scroll_params = (LinearLayout.LayoutParams) friends_scroll.getLayoutParams();
         scroll_params.topMargin = h_proc * 2;
         friends_scroll.setLayoutParams(scroll_params);
         friends_scroll.setHorizontalScrollBarEnabled(true);
-        friends_scroll.setId(16516);
 
-        LinearLayout friends_layout = new LinearLayout(getApplicationContext());
-        LinearLayout.LayoutParams friends_layout_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        friends_layout.setLayoutParams(friends_layout_params);
-        friends_layout.setOrientation(LinearLayout.HORIZONTAL);
-        friends_layout.setId(228);
+//        LinearLayout friends_layout = new LinearLayout(getApplicationContext());
+        LinearLayout friends_layout = (LinearLayout) findViewById(R.id.friends_layout);
+//        LinearLayout.LayoutParams friends_layout_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        LinearLayout.LayoutParams friends_layout_params = (LinearLayout.LayoutParams) friends_layout.getLayoutParams();
+//        friends_layout.setLayoutParams(friends_layout_params);
+//        friends_layout.setOrientation(LinearLayout.HORIZONTAL);
 
-        friends_scroll.addView(friends_layout);
+//        friends_scroll.addView(friends_layout);
         for (int i = 0; i < 6; i++) {
             try {
                 Next_friend(friends_layout);
@@ -357,7 +308,6 @@ public class Profile extends AppCompatActivity {
                 System.out.println(ex);
             }
         }
-
         friends_scroll.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                     @Override
@@ -372,18 +322,21 @@ public class Profile extends AppCompatActivity {
                         }
                     }
                 });
-        mainlayout.addView(friends_scroll);
+//        mainlayout.addView(friends_scroll);
 
-        TextView lable = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams lable_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 2);
+//        TextView lable = new TextView(getApplicationContext());
+        TextView lable = (TextView) findViewById(R.id.lable);
+//        LinearLayout.LayoutParams lable_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 2);
+        LinearLayout.LayoutParams lable_params = (LinearLayout.LayoutParams) lable.getLayoutParams();
         lable_params.leftMargin = w_proc * 4;
         lable_params.topMargin = h_proc * 2;
+        lable_params.height = h_proc * 2;
         lable.setLayoutParams(lable_params);
-        lable.setText("Мои записи");
-        lable.setTextColor(Color.parseColor("#FFFFFF"));
-        lable.setGravity(Gravity.START);
+//        lable.setText("Мои записи");
+//        lable.setTextColor(Color.parseColor("#FFFFFF"));
+//        lable.setGravity(Gravity.START);
 
-        mainlayout.addView(lable);
+//        mainlayout.addView(lable);
 
         for (int i = 0; i < 3; i++) {
             try {
@@ -392,7 +345,6 @@ public class Profile extends AppCompatActivity {
                 break;
             }
         }
-
         ScrollView scroll = (ScrollView) findViewById(R.id.lent);
         scroll.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -430,6 +382,17 @@ public class Profile extends AppCompatActivity {
         about_of_chelik = root.getString("status");
         image = root.getString("photo");
         count = Integer.parseInt(root.getString("friends"));
+    }
+
+    public void edit(View view){
+        Toast.makeText(getApplicationContext(), "Редактировать", Toast.LENGTH_SHORT).show();
+    }
+
+    public void copy(View view){
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("", Long.toString(vsnid));
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getApplicationContext(), "VSNID скопирован в буфер обмена", Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -661,7 +624,12 @@ public class Profile extends AppCompatActivity {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
         overridePendingTransition(R.anim.right, R.anim.right1);
-        this.finish();
+    }
+
+    public void buuton_f(View view) {
+        Intent intent = new Intent(this, Friends.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.left, R.anim.left1);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

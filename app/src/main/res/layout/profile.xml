@@ -16,6 +16,7 @@
         android:background="@color/background"
         app:layout_constraintBottom_toTopOf="@+id/messages"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,7 +24,231 @@
             android:id="@+id/ln"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/id_block"
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_vsnid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="2dp"
+                    android:text="VSNID:"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/digit_and_copy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:paddingLeft="0px"
+                    android:paddingTop="0px"
+                    android:paddingRight="0px"
+                    android:paddingBottom="0px">
+
+                    <TextView
+                        android:id="@+id/cifarki"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="0px"
+                        android:paddingTop="20px"
+                        android:paddingRight="0px"
+                        android:paddingBottom="0px"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
+
+                    <ImageButton
+                        android:id="@+id/copy"
+                        android:layout_width="50px"
+                        android:layout_height="50px"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="15px"
+                        android:background="#36383F"
+                        android:clickable="true"
+                        android:foreground="@drawable/copy"
+                        android:onClick="copy"
+                        android:scaleType="centerCrop" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/text_exit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingLeft="0px"
+                    android:paddingTop="0px"
+                    android:paddingRight="0px"
+                    android:paddingBottom="0px">
+
+                    <TextView
+                        android:id="@+id/exit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingLeft="0px"
+                        android:paddingTop="30px"
+                        android:paddingRight="0px"
+                        android:paddingBottom="0px"
+                        android:text="Выйти"
+                        android:textColor="#FF0000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/off"
+                        android:layout_width="50px"
+                        android:layout_height="50px"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="13px"
+                        android:background="#36383F"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/off" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/foto_and_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#36383F"
+                    app:contentPaddingBottom="0px"
+                    app:contentPaddingLeft="0px"
+                    app:contentPaddingRight="0px"
+                    app:contentPaddingTop="0px">
+
+                    <ImageView
+                        android:id="@+id/im"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/avatars" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/fio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/crd_for_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#36383F"
+                app:contentPaddingBottom="0px"
+                app:contentPaddingLeft="0px"
+                app:contentPaddingRight="0px"
+                app:contentPaddingTop="0px">
+
+                <Button
+                    android:id="@+id/edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#999999"
+                    android:onClick="edit"
+                    android:text="Редактировать"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/friends_block"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Друзья"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/count_friends"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:textColor="#FFFFFF" />
+
+                <ImageButton
+                    android:id="@+id/right"
+                    android:layout_width="50px"
+                    android:layout_height="50px"
+                    android:background="#36383F"
+                    android:foreground="@drawable/right"
+                    android:onClick="buuton_f"
+                    android:paddingLeft="0px"
+                    android:paddingTop="0px"
+                    android:paddingRight="0px"
+                    android:paddingBottom="0px"
+                    android:scaleType="centerCrop" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/friends_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="false"
+                android:scrollbars="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/friends_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/lable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Мои записи"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
 
     </ScrollView>
 
