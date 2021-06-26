@@ -21,7 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -50,7 +54,7 @@ public class Regestration extends AppCompatActivity {
         }
     }
 
-    public void onMyButtonClick(View view) {
+    public void onMyButtonClick(View view) throws IOException, JSONException {
         String pp, ee;
         final EditText em = (EditText) findViewById(R.id.email);
         String email = em.getText().toString();
@@ -70,16 +74,14 @@ public class Regestration extends AppCompatActivity {
             if (ans.contains("not ok")) {
                 Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
             } else {
-                ContentValues cv = new ContentValues();
-                DBHelper dbHelper = new DBHelper(this);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                Cursor c = db.query("sq", null, null, null, null, null, null);
-                String key = ans.substring(1, ans.length() - 1);
-                cv.put("yes", key);
-                db.insert("sq", null, cv);
-                cv.clear();
                 startActivity(intent);
                 overridePendingTransition(R.anim.top, R.anim.top1);
+                String url = "http://vsn.intercom.pro:9080/register?email=" + em.getText().toString() + "&password=" + pass.getText().toString();
+                URL obj = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+                connection.setRequestMethod("GET");
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                in.close();
                 this.finish();
             }
         }

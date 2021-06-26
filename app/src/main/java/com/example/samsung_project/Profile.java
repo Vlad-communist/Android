@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -203,14 +204,6 @@ public class Profile extends AppCompatActivity {
         off.setBackgroundColor(Color.parseColor("#36383F"));
         off.setLayoutParams(off_copy);
         off.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        text_exit.addView(off);
-        text_exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Аривидерчи", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         id_block.addView(text_exit);
 
