@@ -55,8 +55,8 @@ public class Profile extends AppCompatActivity {
     public int in_block = 0;
     public String key;
     public long vsnid = 984317834;
-    String name_of_chelik = "Биба Абоба Бобович";
-    String about_of_chelik = "Эчпочмааааааааааааааааааааааак";
+    public String name_of_chelik = "Биба Абоба Бобович";
+    public String about_of_chelik = "Эчпочмааааааааааааааааааааааак";
     public String image = "0.png";
     public int friend_now = 1;
 
@@ -477,7 +477,6 @@ public class Profile extends AppCompatActivity {
         logo_box.setLayoutParams(for_logo_box);
 
         ImageView kartinka = new ImageView(getApplicationContext());
-
         new DownloadImageTask(kartinka).execute("http://vsn.intercom.pro:9080/image/" + image);
 //        new DownloadImageTask(kartinka).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
         LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
