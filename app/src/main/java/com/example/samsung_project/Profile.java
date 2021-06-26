@@ -257,7 +257,7 @@ public class Profile extends AppCompatActivity {
         friends_block.addView(friends);
 
         //чееееееееееееееееееееееееееееееееееееееееееееееееееееееел
-        long count = 50;
+        long count = 4;
 
         TextView count_friends = new TextView(getApplicationContext());
         LinearLayout.LayoutParams count_friends_params = new LinearLayout.LayoutParams(w_proc * 20, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -416,7 +416,7 @@ public class Profile extends AppCompatActivity {
 
             ImageView logo = new ImageView(getApplicationContext());
             new DownloadImageTask(logo).execute("http://vsn.intercom.pro:9080/image/" + img);
-            new DownloadImageTask(logo).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+//            new DownloadImageTask(logo).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
             LinearLayout.LayoutParams logo_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
             logo.setLayoutParams(logo_params);
             CardView circle_im = new CardView(getApplicationContext());
@@ -454,6 +454,14 @@ public class Profile extends AppCompatActivity {
         int h_proc = height_of_screen / 100;
         int w_proc = width_of_screen / 100;
 
+        try {
+            Get_data();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         View line1 = new View(getApplicationContext());
         LinearLayout.LayoutParams g = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
         g.topMargin = w_proc * 4;
@@ -470,8 +478,8 @@ public class Profile extends AppCompatActivity {
 
         ImageView kartinka = new ImageView(getApplicationContext());
 
-        new DownloadImageTask(kartinka).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
-
+        new DownloadImageTask(kartinka).execute("http://vsn.intercom.pro:9080/image/" + image);
+//        new DownloadImageTask(kartinka).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
         LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         kartinka.setLayoutParams(for_kartinka);
 
@@ -488,8 +496,6 @@ public class Profile extends AppCompatActivity {
 
         logo_box.addView(crd_for_button);
 
-        String name = "Ebobobobooooooooo";
-
         TextView fio = new TextView(getApplicationContext());
         LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
         for_fio.topMargin = w_proc * 4;
@@ -498,7 +504,7 @@ public class Profile extends AppCompatActivity {
         fio.setPadding(w_proc * 2, 0, 0, 0);
         fio.setTextSize(w_proc * 2);
         fio.setTextColor(Color.parseColor("#FFFFFF"));
-        fio.setText(name);
+        fio.setText(name_of_chelik);
 
         logo_box.addView(fio);
 
