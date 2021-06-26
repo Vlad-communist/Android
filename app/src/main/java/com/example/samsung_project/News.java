@@ -47,9 +47,10 @@ import java.net.URL;
 
 
 public class News extends AppCompatActivity {
-    public int current_im = 0;
+    public int current_im = 1;
     public int in_block = 0;
     public String key;
+    boolean flag = true;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -102,15 +103,15 @@ public class News extends AppCompatActivity {
         System.out.println(key);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         try {
-           Next_posts();
-           Next_posts();
-           Next_posts();
+            Next_posts();
+            Next_posts();
+            Next_posts();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         scrollView.getViewTreeObserver()
                 .addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                    @Override   
+                    @Override
                     public void onScrollChanged() {
                         if (scrollView.getChildAt(0).getBottom()
                                 <= (scrollView.getHeight() + scrollView.getScrollY())) {
@@ -126,160 +127,166 @@ public class News extends AppCompatActivity {
                 });
     }
 
-//    @SuppressLint("SetTextI18n")
+    //    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("SetTextI18n")
     public void Next_posts() throws IOException, JSONException {
+        if (flag) {
+            String url = "http://vsn.intercom.pro:9080/new/" + key + "/" + current_im;
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            JSONObject root = new JSONObject(in.readLine());
+            in.close();
+            if (!root.getString("ans").equals("NO")) {
 
-        System.out.println(1);
+                String text = root.getString("text");
+                String title = root.getString("title");
+                String image = root.getString("photo");
+                String img = root.getString("u_photo");
+                String name = root.getString("name");
+                int count_fotos = Integer.parseInt(root.getString("count_photos").toString());
+                System.out.println(1);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        int width_of_screen = display.getWidth();
-        int height_of_screen = display.getHeight();
-        int h_proc = height_of_screen / 100;
-        int w_proc = width_of_screen / 100;
-        int width = width_of_screen;
+                Display display = getWindowManager().getDefaultDisplay();
+                int width_of_screen = display.getWidth();
+                int height_of_screen = display.getHeight();
+                int h_proc = height_of_screen / 100;
+                int w_proc = width_of_screen / 100;
+                int width = width_of_screen;
 
-        in_block = 0;
-        String url = "http://vsn.intercom.pro:9080/new/" + key + "/" + current_im;
+                in_block = 0;
 
-        URL obj = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-        connection.setRequestMethod("GET");
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        JSONObject root = new JSONObject(in.readLine());
-        in.close();
-        System.out.println();
-        String text = root.getString("text");
-        String title = root.getString("title");
-        String  image = root.getString("photo");
-        int count_fotos = Integer.parseInt(root.getString("count_photos").toString());
-        LinearLayout frameLayout = (LinearLayout) findViewById(R.id.ln);
-        //        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
-        LinearLayout linLayout = new LinearLayout(getApplicationContext());
-        linLayout.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linLayoutParam.setMargins(0, 0, 0, 20);
-        linLayout.setLayoutParams(linLayoutParam);
-        linLayout.setPadding(20, 20, 20, -5);
-        View line1 = new View(getApplicationContext());
-        View line2 = new View(getApplicationContext());
-        ViewGroup.LayoutParams g = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
-        line1.setLayoutParams(g);
-        line2.setLayoutParams(g);
-        line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
-        line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
-        line1.setPadding(0, 0, 0, 0);
+
+                LinearLayout frameLayout = (LinearLayout) findViewById(R.id.ln);
+                //        new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg" + current_im + ".png");
+                LinearLayout linLayout = new LinearLayout(getApplicationContext());
+                linLayout.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                linLayoutParam.setMargins(0, 0, 0, 20);
+                linLayout.setLayoutParams(linLayoutParam);
+                linLayout.setPadding(20, 20, 20, -5);
+                View line1 = new View(getApplicationContext());
+                View line2 = new View(getApplicationContext());
+                ViewGroup.LayoutParams g = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
+                line1.setLayoutParams(g);
+                line2.setLayoutParams(g);
+                line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+                line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+                line1.setPadding(0, 0, 0, 0);
 //        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
-        TextView textView = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams text_of_post_params = new LinearLayout.LayoutParams(width_of_screen - 50, LinearLayout.LayoutParams.WRAP_CONTENT);
-        text_of_post_params.topMargin = w_proc * 4;
-        text_of_post_params.leftMargin = w_proc * 4;
-        text_of_post_params.gravity = Gravity.FILL;
-        textView.setLayoutParams(text_of_post_params);
-        textView.setText(title + "\n" + text);
-        textView.setTextColor(Color.parseColor("#FFFFFF"));
-        textView.setTextSize(h_proc * 10 / 13);
+                TextView textView = new TextView(getApplicationContext());
+                LinearLayout.LayoutParams text_of_post_params = new LinearLayout.LayoutParams(width_of_screen - 50, LinearLayout.LayoutParams.WRAP_CONTENT);
+                text_of_post_params.topMargin = w_proc * 4;
+                text_of_post_params.leftMargin = w_proc * 4;
+                text_of_post_params.gravity = Gravity.FILL;
+                textView.setLayoutParams(text_of_post_params);
+                textView.setText(title + "\n" + text);
+                textView.setTextColor(Color.parseColor("#FFFFFF"));
+                textView.setTextSize(h_proc * 10 / 13);
 
-        linLayout.setId(current_im);
-        in_block++;
-        line1.setId(in_block);
-        in_block++;
-        textView.setId(in_block);
-        in_block++;
-        line2.setId(in_block);
-        linLayout.addView(line1);
+                linLayout.setId(current_im);
+                in_block++;
+                line1.setId(in_block);
+                in_block++;
+                textView.setId(in_block);
+                in_block++;
+                line2.setId(in_block);
+                linLayout.addView(line1);
 
 //        count_fotos = 1; //maximum 10
 
-        LinearLayout logo_box = new LinearLayout(getApplicationContext());
-        logo_box.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams for_logo_box = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        logo_box.setLayoutParams(for_logo_box);
+                LinearLayout logo_box = new LinearLayout(getApplicationContext());
+                logo_box.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams for_logo_box = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                logo_box.setLayoutParams(for_logo_box);
 
-        ImageView kartinka = new ImageView(getApplicationContext());
+                ImageView kartinka = new ImageView(getApplicationContext());
 
-        new DownloadImageTask(kartinka).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+                new DownloadImageTask(kartinka).execute("http://vsn.intercom.pro:9080/image" + img);
 
-        LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        kartinka.setLayoutParams(for_kartinka);
+                LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                kartinka.setLayoutParams(for_kartinka);
 
-        CardView crd_for_button = new CardView(getApplicationContext());
-        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams( w_proc * 10, w_proc * 10);
-        crd_for_button_params.leftMargin = w_proc * 4;
-        crd_for_button_params.topMargin = w_proc * 4;
-        crd_for_button.setLayoutParams(crd_for_button_params);
-        crd_for_button.setRadius(w_proc * 2);
-        crd_for_button.setContentPadding(0, 0, 0, 0);
-        crd_for_button.setCardBackgroundColor(Color.LTGRAY);
-        kartinka.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        crd_for_button.addView(kartinka);
+                CardView crd_for_button = new CardView(getApplicationContext());
+                LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams(w_proc * 10, w_proc * 10);
+                crd_for_button_params.leftMargin = w_proc * 4;
+                crd_for_button_params.topMargin = w_proc * 4;
+                crd_for_button.setLayoutParams(crd_for_button_params);
+                crd_for_button.setRadius(w_proc * 2);
+                crd_for_button.setContentPadding(0, 0, 0, 0);
+                crd_for_button.setCardBackgroundColor(Color.LTGRAY);
+                kartinka.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                crd_for_button.addView(kartinka);
 
-        logo_box.addView(crd_for_button);
+                logo_box.addView(crd_for_button);
 
-        String name = "Ebobobobooooooooo";
+                TextView fio = new TextView(getApplicationContext());
+                LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
+                for_fio.topMargin = w_proc * 4;
+                fio.setLayoutParams(for_fio);
+                fio.setGravity(Gravity.CENTER_VERTICAL);
+                fio.setPadding(w_proc * 2, 0, 0, 0);
+                fio.setTextSize(w_proc * 2);
+                fio.setTextColor(Color.parseColor("#FFFFFF"));
+                fio.setText(name);
 
-        TextView fio = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
-        for_fio.topMargin = w_proc * 4;
-        fio.setLayoutParams(for_fio);
-        fio.setGravity(Gravity.CENTER_VERTICAL);
-        fio.setPadding(w_proc * 2, 0, 0, 0);
-        fio.setTextSize(w_proc * 2);
-        fio.setTextColor(Color.parseColor("#FFFFFF"));
-        fio.setText(name);
+                logo_box.addView(fio);
 
-        logo_box.addView(fio);
+                linLayout.addView(logo_box);
 
-        linLayout.addView(logo_box);
+                ImageView logo = new ImageView(getApplicationContext());
+                switch (count_fotos) {
+                    case 0:
+                        break;
+                    case 1:
+                        ImageView im = new ImageView(getApplicationContext());
 
-        ImageView logo = new ImageView(getApplicationContext());
-        switch (count_fotos){
-            case 0:
-                break;
-            case 1:
-                ImageView im = new ImageView(getApplicationContext());
+                        new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/" + image);
 
-                new DownloadImageTask(im).execute("http://vsn.intercom.pro/image/" + image + ".jpg");
-//                new DownloadImageTask(im).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
-
-                LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                im.setLayoutParams(im_params);
-                im.setPadding(0, 0, 0, 0);
-                CardView card = new CardView(getApplicationContext());
-                LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100);
-                card_params.topMargin = w_proc * 4;
-                card_params.gravity = Gravity.CENTER_HORIZONTAL;
-                card.setLayoutParams(card_params);
-                card.setRadius(w_proc * 2);
-                card.setContentPadding(0, 0, 0, 0);
-                card.setCardBackgroundColor(Color.parseColor("#36383F"));
-                card.addView(im);
-                linLayout.addView(card);
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
+                        LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        im.setLayoutParams(im_params);
+                        im.setPadding(0, 0, 0, 0);
+                        CardView card = new CardView(getApplicationContext());
+                        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100);
+                        card_params.topMargin = w_proc * 4;
+                        card_params.gravity = Gravity.CENTER_HORIZONTAL;
+                        card.setLayoutParams(card_params);
+                        card.setRadius(w_proc * 2);
+                        card.setContentPadding(0, 0, 0, 0);
+                        card.setCardBackgroundColor(Color.parseColor("#36383F"));
+                        card.addView(im);
+                        linLayout.addView(card);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    case 9:
+                        break;
+                    case 10:
+                        break;
+                }
+                linLayout.addView(textView);
+                linLayout.addView(line2);
+                frameLayout.addView(linLayout);
+                current_im++;
+            }
+            else{
+                flag = false;
+            }
         }
-        linLayout.addView(textView);
-        linLayout.addView(line2);
-        frameLayout.addView(linLayout);
-        current_im++;
     }
 
     public void New(View view) {
@@ -303,14 +310,14 @@ public class News extends AppCompatActivity {
         this.finish();
     }
 
-    public void Video(View view){
+    public void Video(View view) {
         Intent intent = new Intent(this, Video.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left, R.anim.left1);
         this.finish();
     }
 
-    public void Friends(View view){
+    public void Friends(View view) {
         Intent intent = new Intent(this, Friends.class);
         startActivity(intent);
         overridePendingTransition(R.anim.left, R.anim.left1);

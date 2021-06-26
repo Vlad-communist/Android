@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void regestration(View v){
+    public void regestration(View v) {
         Intent intent = new Intent(this, Regestration.class);
         startActivity(intent);
         overridePendingTransition(R.anim.top, R.anim.top1);
@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     //                pp = c.getString(c.getColumnIndex("password"));
 //                ee = c.getString(c.getColumnIndex("email"));
-
 
     public class DBHelper extends SQLiteOpenHelper {
 
@@ -110,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
 
     class AsyncRequest extends AsyncTask<String, Integer, String> {
 
