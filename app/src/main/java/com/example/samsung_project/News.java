@@ -172,10 +172,14 @@ public class News extends AppCompatActivity {
         line1.setPadding(0, 0, 0, 0);
 //        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
         TextView textView = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams text_of_post_params = new LinearLayout.LayoutParams(width_of_screen - 50, LinearLayout.LayoutParams.WRAP_CONTENT);
+        text_of_post_params.topMargin = w_proc * 4;
+        text_of_post_params.leftMargin = w_proc * 4;
+        text_of_post_params.gravity = Gravity.FILL;
+        textView.setLayoutParams(text_of_post_params);
         textView.setText(title + "\n" + text);
         textView.setTextColor(Color.parseColor("#FFFFFF"));
-        textView.setGravity(Gravity.FILL_VERTICAL | Gravity.BOTTOM);
-        linLayout.setGravity(Gravity.FILL_VERTICAL);
+        textView.setTextSize(h_proc * 10 / 13);
 
         linLayout.setId(current_im);
         in_block++;
@@ -212,6 +216,20 @@ public class News extends AppCompatActivity {
         crd_for_button.addView(kartinka);
 
         logo_box.addView(crd_for_button);
+
+        String name = "Ebobobobooooooooo";
+
+        TextView fio = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
+        for_fio.topMargin = w_proc * 4;
+        fio.setLayoutParams(for_fio);
+        fio.setGravity(Gravity.CENTER_VERTICAL);
+        fio.setPadding(w_proc * 2, 0, 0, 0);
+        fio.setTextSize(w_proc * 2);
+        fio.setTextColor(Color.parseColor("#FFFFFF"));
+        fio.setText(name);
+
+        logo_box.addView(fio);
 
         linLayout.addView(logo_box);
 
