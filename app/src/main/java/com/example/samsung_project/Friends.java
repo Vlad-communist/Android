@@ -1,13 +1,20 @@
 package com.example.samsung_project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 public class Friends extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,41 @@ public class Friends extends AppCompatActivity {
         button_message.setLayoutParams(params_messages);
         button_friends.setLayoutParams(params_friends);
         button_me.setLayoutParams(params_me);
+
+        LinearLayout mainlayaput = (LinearLayout) findViewById(R.id.ln);
+        ScrollView mainscroll = (ScrollView) findViewById(R.id.lent);
+
+        TextView t = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams t_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        t_params.topMargin = w_proc * 4;
+        t_params.leftMargin = w_proc * 8;
+        t_params.gravity = Gravity.START;
+        t.setLayoutParams(t_params);
+        t.setText("Друзья");
+        t.setTextColor(Color.parseColor("#ffffff"));
+        t.setTextSize(w_proc * 2);
+
+        mainlayaput.addView(t);
+
+        LinearLayout search = new LinearLayout(getApplicationContext());
+//            new DownloadImageTask(logo).execute("https://images-ext-1.discordapp.net/external/qyfnjk5ZErAzQAqoFsKKmWoCdHisH_Kh4tBCFn0k940/%3Fsize%3D660x660%26quality%3D96%26sign%3De6467d23fd76b8cd213f681e7465e330%26type%3Dalbum/https/sun9-21.userapi.com/impg/3Z8gyexEsZRZu3Vg-NxyMXcNpkUXuLBNX5NIlg/i2z774wn3i8.jpg");
+        LinearLayout.LayoutParams search_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        search.setLayoutParams(search_params);
+        CardView circled_search = new CardView(getApplicationContext());
+        LinearLayout.LayoutParams circle_im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
+        circle_im_params.gravity = Gravity.CENTER;
+        circle_im_params.leftMargin = w_proc * 4;
+        circle_im_params.rightMargin = w_proc * 4;
+        circle_im_params.topMargin = w_proc * 4;
+        circled_search.setLayoutParams(circle_im_params);
+        circled_search.setRadius(w_proc * 25 / 10);
+        circled_search.setContentPadding(0, 0, 0, 0);
+        circled_search.setCardBackgroundColor(Color.parseColor("#555555"));
+        circled_search.addView(search);
+
+        mainlayaput.addView(circled_search);
+
+
     }
 
     public void New(View view) {
