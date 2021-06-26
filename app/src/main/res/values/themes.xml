@@ -13,4 +13,9 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="cursor">
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">#c0c0c0</item>
+        <item name="colorControlHighlight">#c0c0c0</item>
+    </style>
 </resources>

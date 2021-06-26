@@ -27,7 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class Regestration extends AppCompatActivity {
     public String a;
     public String key;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             this.finish();
         } else {
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.regestration);
         }
     }
 
@@ -56,8 +56,12 @@ public class MainActivity extends AppCompatActivity {
         String email = em.getText().toString();
         final EditText pass = (EditText) findViewById(R.id.password);
         String password = pass.getText().toString();
+        final EditText pass1 = (EditText) findViewById(R.id.password1);
+        String password_repeat = pass1.getText().toString();
         if (email.equals("") || password.equals("")) {
             Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
+        } else if (!password.equals(password_repeat)){
+            Toast.makeText(this, "Пароли не совпадают", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, News.class);
             AsyncRequest a = new AsyncRequest();
@@ -76,20 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 cv.clear();
                 startActivity(intent);
                 overridePendingTransition(R.anim.top, R.anim.top1);
+                this.finish();
             }
         }
     }
-
-    public void regestration(View v){
-        Intent intent = new Intent(this, Regestration.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.top, R.anim.top1);
-    }
-
-
-    //                pp = c.getString(c.getColumnIndex("password"));
-//                ee = c.getString(c.getColumnIndex("email"));
-
 
     public class DBHelper extends SQLiteOpenHelper {
 
