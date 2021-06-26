@@ -1,6 +1,8 @@
 package com.example.samsung_project;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -13,6 +15,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +37,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -54,7 +60,7 @@ public class Profile extends AppCompatActivity {
     public int current_im = 0;
     public int in_block = 0;
     public String key;
-    public long vsnid = 984317834;
+    public long vsnid = 1446464646;
     public String name_of_chelik = "Биба Абоба Бобович";
     public String about_of_chelik = "Эчпочмааааааааааааааааааааааак";
     public String image = "0.png";
@@ -131,24 +137,28 @@ public class Profile extends AppCompatActivity {
 
         id_block.addView(id);
 
+        LinearLayout digit_and_copy = new LinearLayout(getApplicationContext());
+        LinearLayout.LayoutParams digit_and_copy_params = new LinearLayout.LayoutParams(w_proc * 58, LinearLayout.LayoutParams.MATCH_PARENT);
+        digit_and_copy.setLayoutParams(digit_and_copy_params);
+        digit_and_copy.setOrientation(LinearLayout.HORIZONTAL);
+        digit_and_copy.setPadding(0, 0, 0, 0);
 
         TextView cifarki = new TextView(getApplicationContext());
-        LinearLayout.LayoutParams for_cifarki = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams for_cifarki = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 100);
         for_cifarki.leftMargin = w_proc * 2;
-        for_cifarki.topMargin = w_proc * 2;
-        for_cifarki.bottomMargin = w_proc * 2;
         cifarki.setText("" + vsnid);
         cifarki.setTextSize(20);
+        cifarki.setPadding(0, 20, 0, 0);
         cifarki.setTextColor(Color.parseColor("#FFFFFF"));
         cifarki.setLayoutParams(for_cifarki);
 
-        id_block.addView(cifarki);
+        digit_and_copy.addView(cifarki);
 
         ImageButton copy = new ImageButton(getApplicationContext());
         LinearLayout.LayoutParams for_copy = new LinearLayout.LayoutParams(50, 50);
-        for_copy.topMargin = w_proc;
         for_copy.leftMargin = w_proc;
-        for_copy.gravity = Gravity.CENTER;
+        for_copy.gravity = Gravity.BOTTOM;
+        for_copy.bottomMargin = 15;
         copy.setImageResource(R.drawable.copy);
         copy.setBackgroundColor(Color.parseColor("#36383F"));
         copy.setLayoutParams(for_copy);
@@ -163,7 +173,46 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        id_block.addView(copy);
+        digit_and_copy.addView(copy);
+
+        id_block.addView(digit_and_copy);
+
+        LinearLayout text_exit = new LinearLayout(getApplicationContext());
+        LinearLayout.LayoutParams text_exit_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        text_exit.setLayoutParams(text_exit_params);
+        text_exit.setOrientation(LinearLayout.HORIZONTAL);
+        text_exit.setPadding(0, 0, 0, 0);
+
+        TextView exit = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams exit_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        exit.setLayoutParams(exit_params);
+        exit.setText("Выйти");
+        exit.setTextColor(Color.parseColor("#FF0000"));
+        exit.setPadding(w_proc * 6, 30, 0, 0);
+        exit.setTextSize(16);
+        exit.setTypeface(null, Typeface.BOLD);
+
+        text_exit.addView(exit);
+
+        ImageButton off = new ImageButton(getApplicationContext());
+        LinearLayout.LayoutParams off_copy = new LinearLayout.LayoutParams(50, 50);
+        off_copy.gravity = Gravity.BOTTOM;
+        off_copy.leftMargin = w_proc * 2;
+        off_copy.bottomMargin = 13;
+        off.setImageResource(R.drawable.off);
+        off.setBackgroundColor(Color.parseColor("#36383F"));
+        off.setLayoutParams(off_copy);
+        off.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        text_exit.addView(off);
+        text_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Аривидерчи", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        id_block.addView(text_exit);
 
         mainlayout.addView(id_block);
 
@@ -450,7 +499,6 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-
     public void Next_post(LinearLayout mainlayout) throws IOException, JSONException {
         if (flag) {
             String url = "http://vsn.intercom.pro:9080/self_new/" + key + "/" + new_now;
@@ -525,13 +573,14 @@ public class Profile extends AppCompatActivity {
                         ImageView im = new ImageView(getApplicationContext());
 
                         new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/" + img);
-
                         LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                         im.setLayoutParams(im_params);
                         im.setPadding(0, 0, 0, 0);
                         CardView card = new CardView(getApplicationContext());
-                        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100);
+                        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                         card_params.topMargin = w_proc * 4;
+                        card_params.leftMargin = w_proc * 4;
+                        card_params.rightMargin = w_proc * 4;
                         card_params.gravity = Gravity.CENTER_HORIZONTAL;
                         card.setLayoutParams(card_params);
                         card.setRadius(w_proc * 2);
