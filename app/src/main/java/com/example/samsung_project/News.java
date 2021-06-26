@@ -139,7 +139,9 @@ public class News extends AppCompatActivity {
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             JSONObject root = new JSONObject(in.readLine());
             in.close();
-            if (!root.getString("ans").equals("NO")) {
+            System.out.println(root.getString("text"));
+            System.out.println(1233333321);
+            if (!root.getString("text").equals("nope")) {
 
                 String text = root.getString("text");
                 String title = root.getString("title");
@@ -203,9 +205,9 @@ public class News extends AppCompatActivity {
                 logo_box.setLayoutParams(for_logo_box);
 
                 ImageView kartinka = new ImageView(getApplicationContext());
-
-                new DownloadImageTask(kartinka).execute("http://vsn.intercom.pro:9080/image" + img);
-
+                System.out.println(img);
+                System.out.println(545);
+                new DownloadImageTask(kartinka).execute("http://vsn.intercom.pro:9080/image/" + img);
                 LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 kartinka.setLayoutParams(for_kartinka);
 
