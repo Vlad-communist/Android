@@ -304,7 +304,8 @@ public class Profile extends AppCompatActivity {
             try {
 //                Next_friend(friends_layout);
                 Async_next_friend task = new Async_next_friend();
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
+//                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
+                task.execute(friend_now);
                 friend_now++;
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -319,7 +320,8 @@ public class Profile extends AppCompatActivity {
                             try {
 //                                Next_friend(friends_layout);
                                 Async_next_friend task = new Async_next_friend();
-                                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
+//                                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
+                                task.execute(friend_now);
                                 friend_now++;
                             } catch (Exception ex) {
                                 System.out.println(ex);
@@ -347,7 +349,8 @@ public class Profile extends AppCompatActivity {
             try {
 //                Next_post(mainlayout);
                 Async_next_post task = new Async_next_post();
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
+//                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
+                task.execute(new_now);
                 new_now++;
             } catch (Exception ex) {
                 break;
@@ -364,7 +367,8 @@ public class Profile extends AppCompatActivity {
                                 for (int i = 0; i < 2; i++) {
 //                                    Next_post(mainlayout);
                                     Async_next_post task = new Async_next_post();
-                                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
+//                                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
+                                    task.execute(new_now);
                                     new_now++;
                                 }
                             } catch (Exception e) {
