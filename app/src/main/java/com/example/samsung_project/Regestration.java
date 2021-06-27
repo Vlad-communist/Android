@@ -64,26 +64,19 @@ public class Regestration extends AppCompatActivity {
         String password_repeat = pass1.getText().toString();
         if (email.equals("") || password.equals("")) {
             Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
-        } else if (!password.equals(password_repeat)){
+        } else if (!password.equals(password_repeat)) {
             Toast.makeText(this, "Пароли не совпадают", Toast.LENGTH_SHORT).show();
         } else {
-            Intent intent = new Intent(this, News.class);
-            AsyncRequest a = new AsyncRequest();
-            String ans = a.doInBackground(email, password);
-            System.out.println(ans);
-            if (ans.contains("not ok")) {
-                Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
-            } else {
-                startActivity(intent);
-                overridePendingTransition(R.anim.top, R.anim.top1);
-                String url = "http://vsn.intercom.pro:9080/register?email=" + em.getText().toString() + "&password=" + pass.getText().toString();
-                URL obj = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-                connection.setRequestMethod("GET");
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                in.close();
-                this.finish();
-            }
+            overridePendingTransition(R.anim.top, R.anim.top1);
+            String url = "http://vsn.intercom.pro:9080/register?email=" + em.getText().toString() + "&password=" + pass.getText().toString();
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            in.close();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            this.finish();
         }
     }
 

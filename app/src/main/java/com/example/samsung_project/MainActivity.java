@@ -21,7 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onMyButtonClick(View view) {
+    public void onMyButtonClick(View view) throws IOException, JSONException {
         String pp, ee;
         final EditText em = (EditText) findViewById(R.id.email);
         String email = em.getText().toString();
@@ -60,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
         } else {
             Intent intent = new Intent(this, News.class);
-            AsyncRequest a = new AsyncRequest();
-            String ans = a.doInBackground(email, password);
-            System.out.println(ans);
+            String url = "http://vsn.intercom.pro:9080/connect?email=" + em.getText().toString() + "&password=" + pass.getText().toString();
+            URL obj = new URL(url);
+            System.out.println(url);
+            System.out.println("123123123123123123123121312312");
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String ans = in.readLine();
+            in.close();
             if (ans.contains("not ok")) {
                 Toast.makeText(this, "Введены неверные данные", Toast.LENGTH_SHORT).show();
             } else {
@@ -110,32 +120,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    class AsyncRequest extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... arg) {
-            String url = "http://vsn.intercom.pro:9080/connect?email=" + arg[0] + "&password=" + arg[1];
-            StringBuffer response;
-            try {
-                URL obj = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-
-                connection.setRequestMethod("GET");
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                System.out.println(123);
-                response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-                return response.toString();
-            } catch (Exception e) {
-                return e.toString();
-            }
-        }
-    }
 }
