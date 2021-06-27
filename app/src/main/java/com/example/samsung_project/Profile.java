@@ -34,6 +34,7 @@ import androidx.cardview.widget.CardView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class Profile extends AppCompatActivity {
     public String name_of_chelik = "Биба Абоба Бобович";
     public String about_of_chelik = "Эчпочмааааааааааааааааааааааак";
     public String image = "0.png";
-    public int friend_now = 1;
+    public long friend_now = 1;
     public long count = 0;
     public long new_now = 1;
     public boolean flag = true;
@@ -66,8 +67,7 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().hide();
 
         try {
-            Async_get_data task = new Async_get_data();
-            task.execute();
+            Get_data();
         } catch (Exception ex) {
            System.out.println(ex);
         }
@@ -304,7 +304,8 @@ public class Profile extends AppCompatActivity {
             try {
 //                Next_friend(friends_layout);
                 Async_next_friend task = new Async_next_friend();
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
+                friend_now++;
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -318,7 +319,8 @@ public class Profile extends AppCompatActivity {
                             try {
 //                                Next_friend(friends_layout);
                                 Async_next_friend task = new Async_next_friend();
-                                task.execute();
+                                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
+                                friend_now++;
                             } catch (Exception ex) {
                                 System.out.println(ex);
                             }
@@ -345,7 +347,8 @@ public class Profile extends AppCompatActivity {
             try {
 //                Next_post(mainlayout);
                 Async_next_post task = new Async_next_post();
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
+                new_now++;
             } catch (Exception ex) {
                 break;
             }
@@ -361,7 +364,8 @@ public class Profile extends AppCompatActivity {
                                 for (int i = 0; i < 2; i++) {
 //                                    Next_post(mainlayout);
                                     Async_next_post task = new Async_next_post();
-                                    task.execute();
+                                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
+                                    new_now++;
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -402,40 +406,13 @@ public class Profile extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "VSNID скопирован в буфер обмена", Toast.LENGTH_SHORT).show();
     }
 
-    private class Async_get_data extends AsyncTask<Void, Void, Void> {
+    private class Async_next_friend extends AsyncTask<Long, Void, String[]> {
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                DBHelper dbHelper = new DBHelper(getApplicationContext());
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                Cursor c = db.query("sq", null, null, null, null, null, null);
-                c.moveToNext();
-                key = c.getString(1);
-                String url = "http://vsn.intercom.pro:9080/get_info/" + key;
-                URL obj = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-                connection.setRequestMethod("GET");
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                JSONObject root = new JSONObject(in.readLine());
-                in.close();
-                name_of_chelik = root.getString("name") + " " + root.getString("surname");
-                about_of_chelik = root.getString("status");
-                image = root.getString("photo");
-                count = Integer.parseInt(root.getString("friends"));
-            } catch (Exception ex){
-                System.out.println(ex);
-            }
-            return null;
-        }
-    }
-
-    private class Async_next_friend extends AsyncTask<Void, Void, String[]> {
-        @Override
-        protected String[] doInBackground(Void... voids) {
+        protected String[] doInBackground(Long... nomer) {
             if (flag2){
                 try {
-                    String url = "http://vsn.intercom.pro:9080/get_friends/" + key + '/' + friend_now;
+                    String url = "http://vsn.intercom.pro:9080/get_friends/" + key + '/' + nomer[0];
                     URL obj = new URL(url);
                     HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
                     connection.setRequestMethod("GET");
@@ -456,6 +433,7 @@ public class Profile extends AppCompatActivity {
             }
             return null;
         }
+
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         @Override
         protected void onPostExecute(String[] result) {
@@ -465,7 +443,6 @@ public class Profile extends AppCompatActivity {
             int height_of_screen = display.getHeight();
             int h_proc = height_of_screen / 100;
             int w_proc = width_of_screen / 100;
-            friend_now++;
             if (result == null){
                 return;
             }
@@ -510,12 +487,12 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    private class Async_next_post extends AsyncTask<Void, Void, String[][]>{
+    private class Async_next_post extends AsyncTask<Long, Void, String[][]>{
         @Override
-        protected String[][] doInBackground(Void... voids) {
+        protected String[][] doInBackground(Long... nomer) {
             try {
                 if (flag) {
-                    String url = "http://vsn.intercom.pro:9080/self_new/" + key + "/" + new_now;
+                    String url = "http://vsn.intercom.pro:9080/self_new/" + key + "/" + nomer[0];
                     URL obj = new URL(url);
                     HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
                     connection.setRequestMethod("GET");
@@ -548,16 +525,16 @@ public class Profile extends AppCompatActivity {
             int height_of_screen = display.getHeight();
             int h_proc = height_of_screen / 100;
             int w_proc = width_of_screen / 100;
-            new_now++;
             if (result == null){
                 return;
             }
             String text = result[0][0];
             String title = result[0][1];
-            Integer count_fotos = Integer.parseInt(result[0][1]);
-            String[] images = result[1];
-
-
+            int count_fotos = Integer.parseInt(result[0][2]);
+            String[] images = new String[count_fotos];
+            if (count_fotos > 0){
+                images = result[1];
+            }
             LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
             View line1 = new View(getApplicationContext());
             LinearLayout.LayoutParams g = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
