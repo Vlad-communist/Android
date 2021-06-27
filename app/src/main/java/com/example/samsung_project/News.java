@@ -73,6 +73,7 @@ public class News extends AppCompatActivity {
         key = c.getString(1);
         System.out.println(key);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
+        LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
 //        try {
 //            Next_posts();
 //            Next_posts();
