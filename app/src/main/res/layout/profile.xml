@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/background"
-        app:layout_constraintBottom_toTopOf="@+id/messages"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_block"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -252,63 +252,60 @@
 
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/background_blak"
-        android:onClick="New"
-        app:layout_constraintBottom_toBottomOf="@+id/messages"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/messages"
-        app:srcCompat="@drawable/home_not_active" />
-
-    <ImageButton
-        android:id="@+id/video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/background_blak"
-        android:onClick="Video"
-        app:layout_constraintBottom_toBottomOf="@+id/messages"
-        app:layout_constraintEnd_toStartOf="@+id/messages"
-        app:layout_constraintStart_toEndOf="@+id/home"
-        app:layout_constraintTop_toTopOf="@+id/messages"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/video_not_active" />
-
-    <ImageButton
-        android:id="@+id/messages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/background_blak"
-        android:onClick="Mes"
+    <LinearLayout
+        android:id="@+id/bottom_block"
+        android:layout_width="0dp"
+        android:layout_height="150px"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/messeges_not_active" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageButton
-        android:id="@+id/friends"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/background_blak"
-        android:onClick="Friends"
-        app:layout_constraintBottom_toBottomOf="@+id/messages"
-        app:layout_constraintEnd_toStartOf="@+id/me"
-        app:layout_constraintStart_toEndOf="@+id/messages"
-        app:layout_constraintTop_toTopOf="@+id/messages"
-        app:srcCompat="@drawable/friends_not_active" />
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_blak"
+            android:onClick="New"
+            app:srcCompat="@drawable/home_not_active" />
 
-    <ImageButton
-        android:id="@+id/me"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/background_blak"
-        android:onClick="Prof"
-        app:layout_constraintBottom_toBottomOf="@+id/messages"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/messages"
-        app:srcCompat="@drawable/me_active" />
+        <ImageButton
+            android:id="@+id/video"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_blak"
+            android:onClick="Video"
+            app:srcCompat="@drawable/video_not_active" />
+
+        <ImageButton
+            android:id="@+id/messages"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_blak"
+            android:onClick="Mes"
+            app:srcCompat="@drawable/messeges_not_active" />
+
+        <ImageButton
+            android:id="@+id/friends"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_blak"
+            android:onClick="Friends"
+            app:srcCompat="@drawable/friends_not_active" />
+
+        <ImageButton
+            android:id="@+id/me"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_blak"
+            android:onClick="Prof"
+            app:srcCompat="@drawable/me_active" />
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"
