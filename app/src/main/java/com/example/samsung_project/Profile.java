@@ -899,6 +899,8 @@ public class Profile extends AppCompatActivity {
         overridePendingTransition(R.anim.left, R.anim.left1);
     }
 
+    public void exit(View view){}
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
