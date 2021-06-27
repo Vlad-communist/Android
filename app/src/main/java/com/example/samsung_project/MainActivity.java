@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 cv.clear();
                 startActivity(intent);
                 overridePendingTransition(R.anim.top, R.anim.top1);
+                this.finish();
             }
         }
     }
