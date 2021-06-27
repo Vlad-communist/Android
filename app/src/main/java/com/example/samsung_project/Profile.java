@@ -3,6 +3,7 @@ package com.example.samsung_project;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -77,31 +78,6 @@ public class Profile extends AppCompatActivity {
         int h_proc = height_of_screen / 100;
         int w_proc = width_of_screen / 100;
         int width = width_of_screen / 5;
-//        ImageButton button_home = (ImageButton) findViewById(R.id.home);
-//        ImageButton button_video = (ImageButton) findViewById(R.id.video);
-//        ImageButton button_message = (ImageButton) findViewById(R.id.messages);
-//        ImageButton button_friends = (ImageButton) findViewById(R.id.friends);
-//        ImageButton button_me = (ImageButton) findViewById(R.id.me);
-//        ViewGroup.LayoutParams params_home = button_home.getLayoutParams();
-//        ViewGroup.LayoutParams params_video = button_video.getLayoutParams();
-//        ViewGroup.LayoutParams params_messages = button_message.getLayoutParams();
-//        ViewGroup.LayoutParams params_friends = button_friends.getLayoutParams();
-//        ViewGroup.LayoutParams params_me = button_me.getLayoutParams();
-//        params_home.width = width;
-//        params_video.width = width;
-//        params_messages.width = width;
-//        params_friends.width = width;
-//        params_me.width = width;
-//        params_home.height = 150;
-//        params_video.height = 150;
-//        params_messages.height = 150;
-//        params_friends.height = 150;
-//        params_me.height = 150;
-//        button_home.setLayoutParams(params_home);
-//        button_video.setLayoutParams(params_video);
-//        button_message.setLayoutParams(params_messages);
-//        button_friends.setLayoutParams(params_friends);
-//        button_me.setLayoutParams(params_me);
 
         LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
 
@@ -146,37 +122,19 @@ public class Profile extends AppCompatActivity {
 
         ImageView im = (ImageView) findViewById(R.id.im);
         new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/" + image);
-//        LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
-//        im.setLayoutParams(im_params);
         CardView cardView = (CardView) findViewById(R.id.cardView);
-//        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 25, w_proc * 25);
         LinearLayout.LayoutParams card_params = (LinearLayout.LayoutParams) cardView.getLayoutParams();
         card_params.leftMargin = w_proc * 4;
         card_params.width = w_proc * 25;
         card_params.height = w_proc * 25;
         cardView.setLayoutParams(card_params);
         cardView.setRadius(w_proc * 6);
-//        cardView.setContentPadding(0, 0, 0, 0);
-//        cardView.setCardBackgroundColor(Color.parseColor("#36383F"));
-//        im.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        cardView.addView(im);
 
-//        foto_and_name.addView(cardView);
 
-////        LinearLayout name = new LinearLayout(getApplicationContext());
-//        LinearLayout name = (LinearLayout) findViewById(R.id.name);
-////        LinearLayout.LayoutParams for_name = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//        LinearLayout.LayoutParams for_name = (LinearLayout.LayoutParams) name.getLayoutParams();
-//        name.setLayoutParams(for_name);
-////        name.setGravity(Gravity.START);
 
-//        TextView fio = new TextView(getApplicationContext());
         TextView fio = (TextView) findViewById(R.id.fio);
-//        TextView about = new TextView(getApplicationContext());
         TextView about = (TextView) findViewById(R.id.about);
-//        LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams for_fio = (LinearLayout.LayoutParams) fio.getLayoutParams();
-//        LinearLayout.LayoutParams for_about = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams for_about = (LinearLayout.LayoutParams) about.getLayoutParams();
         for_fio.bottomMargin = w_proc * 1;
         for_fio.topMargin = -w_proc * 1;
@@ -188,121 +146,59 @@ public class Profile extends AppCompatActivity {
         about.setText(about_of_chelik);
         fio.setTextSize(18);
         about.setTextSize(14);
-//        name.addView(fio);
-//        name.addView(about);
 //
-//        foto_and_name.addView(name);
 
-//        mainlayout.addView(foto_and_name);
 
-//        Button edit = new Button(getApplicationContext());
         Button edit = (Button) findViewById(R.id.edit);
-//        LinearLayout.LayoutParams for_edit = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-//        edit.setTextColor(Color.parseColor("#FFFFFF"));
-//        edit.setBackgroundColor(Color.parseColor("#555555"));
-//        edit.setLayoutParams(for_edit);
-//        edit.setText("Редактировать");
-//        edit.setTextSize(12);
-//        edit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(), "Редактировать", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        CardView crd_for_button = new CardView(getApplicationContext());
         CardView crd_for_button = (CardView) findViewById(R.id.crd_for_button);
-//        LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 10);
         LinearLayout.LayoutParams crd_for_button_params = (LinearLayout.LayoutParams) crd_for_button.getLayoutParams();
         crd_for_button_params.leftMargin = w_proc * 4;
         crd_for_button_params.topMargin = w_proc * 4;
-//        crd_for_button_params.bottomMargin = w_proc * 4;
         crd_for_button_params.width = w_proc * 100;
         crd_for_button_params.height = w_proc * 10;
         crd_for_button.setLayoutParams(crd_for_button_params);
         crd_for_button.setRadius(h_proc);
-//        crd_for_button.setContentPadding(0, 0, 0, 0);
-//        crd_for_button.setCardBackgroundColor(Color.parseColor("#36383F"));
-//        crd_for_button.addView(edit);
 
-//        mainlayout.addView(crd_for_button);
 
-//        LinearLayout friends_block = new LinearLayout(getApplicationContext());
         LinearLayout friends_block = (LinearLayout) findViewById(R.id.friends_block);
-//        LinearLayout.LayoutParams friends_block_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 3);
         LinearLayout.LayoutParams friends_block_params = (LinearLayout.LayoutParams) friends_block.getLayoutParams();
         friends_block_params.topMargin = w_proc * 3;
         friends_block_params.height = h_proc * 3;
         friends_block.setLayoutParams(friends_block_params);
 
-//        TextView friends = new TextView(getApplicationContext());
         TextView text_friends = (TextView) findViewById(R.id.text_friends);
-//        LinearLayout.LayoutParams friends_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams friends_params = (LinearLayout.LayoutParams) text_friends.getLayoutParams();
         friends_params.leftMargin = w_proc * 4;
         text_friends.setLayoutParams(friends_params);
-//        text_friends.setText("Друзья");
-//        text_friends.setTextColor(Color.parseColor("#FFFFFF"));
-//        text_friends.setGravity(Gravity.START);
 
-//        friends_block.addView(friends);
 
-//        TextView count_friends = new TextView(getApplicationContext());
         TextView count_friends = (TextView) findViewById(R.id.count_friends);
-//        LinearLayout.LayoutParams count_friends_params = new LinearLayout.LayoutParams(w_proc * 20, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams count_friends_params = (LinearLayout.LayoutParams) count_friends.getLayoutParams();
         count_friends_params.leftMargin = w_proc;
         count_friends_params.topMargin = h_proc / 10;
         count_friends.setLayoutParams(count_friends_params);
-//        count_friends.setMinWidth(w_proc * 20);
         count_friends.setText("" + count);
-//        count_friends.setTextColor(Color.parseColor("#FFFFFF"));
-//        count_friends.setGravity(Gravity.START);
 
-//        friends_block.addView(count_friends);
 
-//        ImageButton right = new ImageButton(getApplicationContext());
         ImageButton right = (ImageButton) findViewById(R.id.right);
-//        LinearLayout.LayoutParams for_right = new LinearLayout.LayoutParams(h_proc * 3, h_proc * 3);
         LinearLayout.LayoutParams for_right = (LinearLayout.LayoutParams) right.getLayoutParams();
         for_right.topMargin = -h_proc / 10 * 2;
-//        for_right.leftMargin = w_proc * 60;
         for_right.height = h_proc * 3;
         for_right.width = h_proc * 3;
-//        right.setImageResource(R.drawable.right);
         right.setLayoutParams(for_right);
-//        right.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        right.setPadding(0, 0, 0, 0);
-//        right.setBackgroundColor(Color.parseColor("#36383F"));
-//        right.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                buuton_f(view);
-//            }
-//        });
 
-//        friends_block.addView(right);
 //
-//        mainlayout.addView(friends_block);
 
-//        HorizontalScrollView friends_scroll = new HorizontalScrollView(getApplicationContext());
         HorizontalScrollView friends_scroll = (HorizontalScrollView) findViewById(R.id.friends_scroll);
-//        LinearLayout.LayoutParams scroll_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams scroll_params = (LinearLayout.LayoutParams) friends_scroll.getLayoutParams();
         scroll_params.topMargin = h_proc * 2;
         friends_scroll.setLayoutParams(scroll_params);
         friends_scroll.setHorizontalScrollBarEnabled(true);
 
-//        LinearLayout friends_layout = new LinearLayout(getApplicationContext());
         LinearLayout friends_layout = (LinearLayout) findViewById(R.id.friends_layout);
-//        LinearLayout.LayoutParams friends_layout_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        LinearLayout.LayoutParams friends_layout_params = (LinearLayout.LayoutParams) friends_layout.getLayoutParams();
-//        friends_layout.setLayoutParams(friends_layout_params);
-//        friends_layout.setOrientation(LinearLayout.HORIZONTAL);
 
-//        friends_scroll.addView(friends_layout);
         for (int i = 0; i < 6; i++) {
             try {
-//                Next_friend(friends_layout);
                 Async_next_friend task = new Async_next_friend();
 //                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
                 task.execute(friend_now);
@@ -318,7 +214,6 @@ public class Profile extends AppCompatActivity {
                         if (friends_scroll.getChildAt(0).getRight()
                                 <= (friends_scroll.getWidth() + friends_scroll.getScrollX())) {
                             try {
-//                                Next_friend(friends_layout);
                                 Async_next_friend task = new Async_next_friend();
 //                                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, friend_now);
                                 task.execute(friend_now);
@@ -329,25 +224,17 @@ public class Profile extends AppCompatActivity {
                         }
                     }
                 });
-//        mainlayout.addView(friends_scroll);
 
-//        TextView lable = new TextView(getApplicationContext());
         TextView lable = (TextView) findViewById(R.id.lable);
-//        LinearLayout.LayoutParams lable_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, h_proc * 2);
         LinearLayout.LayoutParams lable_params = (LinearLayout.LayoutParams) lable.getLayoutParams();
         lable_params.leftMargin = w_proc * 4;
         lable_params.topMargin = h_proc * 2;
         lable_params.height = h_proc * 2;
         lable.setLayoutParams(lable_params);
-//        lable.setText("Мои записи");
-//        lable.setTextColor(Color.parseColor("#FFFFFF"));
-//        lable.setGravity(Gravity.START);
 
-//        mainlayout.addView(lable);
 
         for (int i = 0; i < 3; i++) {
             try {
-//                Next_post(mainlayout);
                 Async_next_post task = new Async_next_post();
 //                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
                 task.execute(new_now);
@@ -365,7 +252,6 @@ public class Profile extends AppCompatActivity {
                                 <= (scroll.getHeight() + scroll.getScrollY())) {
                             try {
                                 for (int i = 0; i < 2; i++) {
-//                                    Next_post(mainlayout);
                                     Async_next_post task = new Async_next_post();
 //                                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new_now);
                                     task.execute(new_now);
@@ -880,7 +766,12 @@ public class Profile extends AppCompatActivity {
         overridePendingTransition(R.anim.left, R.anim.left1);
     }
 
-    public void exit(View view){}
+    public void exit(View view){
+        this.deleteDatabase("myDB");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -910,7 +801,6 @@ public class Profile extends AppCompatActivity {
     class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
-            // конструктор суперкласса
             super(context, "myDB", null, 1);
         }
 
