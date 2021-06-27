@@ -3,11 +3,14 @@ package com.example.samsung_project;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.KeyEventDispatcher;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,11 +18,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Insets;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.text.format.Time;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -32,15 +39,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -74,13 +86,75 @@ public class News extends AppCompatActivity {
         System.out.println(key);
         ScrollView scrollView = (ScrollView) findViewById(R.id.lent);
         LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
-//        try {
-//            Next_posts();
-//            Next_posts();
-//            Next_posts();
-//        } catch (IOException | JSONException e) {
-//            e.printStackTrace();
-//        }
+        TextView t = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams t_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        t_params.topMargin = w_proc * 4;
+        t_params.leftMargin = w_proc * 8;
+        t_params.gravity = Gravity.START;
+        t.setLayoutParams(t_params);
+        t.setText("Новости");
+        t.setTextColor(Color.parseColor("#ffffff"));
+        t.setTextSize(w_proc * 2);
+        mainlayout.addView(t);
+        View line1 = new View(getApplicationContext());
+        LinearLayout.LayoutParams line1_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, w_proc * 3 / 2);
+        line1_params.topMargin = w_proc * 4;
+        line1.setLayoutParams(line1_params);
+        line1.setBackgroundColor(Color.parseColor("#000000"));
+        mainlayout.addView(line1);
+        LinearLayout button = new LinearLayout(getApplicationContext());
+        LinearLayout.LayoutParams butoon_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        button.setLayoutParams(butoon_params);
+        button.setBackgroundColor(Color.parseColor("#434446"));
+        CardView card = new CardView(getApplicationContext());
+        LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 10);
+        card_params.topMargin = w_proc * 2;
+        card_params.gravity = Gravity.CENTER;
+        card.setLayoutParams(card_params);
+        card.setRadius(w_proc * 3);
+        LinearLayout for_pen = new LinearLayout(getApplicationContext());
+        LinearLayout.LayoutParams for_pen_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        for_pen_params.weight = 10;
+        for_pen_params.gravity = Gravity.CENTER;
+        for_pen.setLayoutParams(for_pen_params);
+        for_pen.setOrientation(LinearLayout.VERTICAL);
+        ImageView pen = new ImageView(getApplicationContext());
+        LinearLayout.LayoutParams pen_params = new LinearLayout.LayoutParams(w_proc * 5, w_proc * 5);
+        pen_params.gravity = Gravity.END;
+        pen_params.topMargin = w_proc * 5 / 2;
+        pen_params.rightMargin = w_proc;
+        pen.setLayoutParams(pen_params);
+        pen.setImageResource(R.drawable.pen_icon);
+        pen.setBackgroundColor(Color.parseColor("#434446"));
+        for_pen.addView(pen);
+        button.addView(for_pen);
+        TextView text = new TextView(getApplicationContext());
+        LinearLayout.LayoutParams text_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        text_params.topMargin = w_proc;
+        text_params.weight = 10;
+        text.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        text.setLayoutParams(text_params);
+        text.setPadding(0, w_proc / 2, w_proc * 5, 0);
+        text.setText("Создать запись");
+        text.setTextColor(Color.parseColor("#ffffff"));
+        text.setBackgroundColor(Color.parseColor("#434446"));
+        text.setTextSize(18);
+        button.addView(text);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "new", Toast.LENGTH_SHORT).show();
+            }
+        });
+        card.addView(button);
+        mainlayout.addView(card);
+        View line2 = new View(getApplicationContext());
+        LinearLayout.LayoutParams line2_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, w_proc * 3 / 2);
+        line2_params.topMargin = w_proc * 2;
+        line2_params.bottomMargin = -w_proc * 7 / 2;
+        line2.setLayoutParams(line2_params);
+        line2.setBackgroundColor(Color.parseColor("#000000"));
+        mainlayout.addView(line2);
         for (int i = 0; i < 3; i++) {
             try {
                 Async_next_post task = new Async_next_post();
@@ -183,14 +257,16 @@ public class News extends AppCompatActivity {
             LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             linLayoutParam.setMargins(0, 0, 0, 20);
             linLayout.setLayoutParams(linLayoutParam);
-            linLayout.setPadding(20, 20, 20, -5);
+            linLayout.setPadding(20, 20, 20, 0);
             View line1 = new View(getApplicationContext());
-            View line2 = new View(getApplicationContext());
-            ViewGroup.LayoutParams g = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5);
-            line1.setLayoutParams(g);
-            line2.setLayoutParams(g);
-            line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
-            line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+//            View line2 = new View(getApplicationContext());
+            LinearLayout.LayoutParams g1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, w_proc * 3 / 2);
+//            LinearLayout.LayoutParams g2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, w_proc * 2);
+//            g1.topMargin = w_proc * 4;
+            line1.setLayoutParams(g1);
+//            line2.setLayoutParams(g2);
+            line1.setBackgroundColor(Color.parseColor("#000000"));
+//            line2.setBackgroundColor(Color.parseColor("#000000"));
             line1.setPadding(0, 0, 0, 0);
 //        ViewGroup.LayoutParams im_params = new ViewGroup.LayoutParams();
             TextView textView = new TextView(getApplicationContext());
@@ -209,7 +285,7 @@ public class News extends AppCompatActivity {
             in_block++;
             textView.setId(in_block);
             in_block++;
-            line2.setId(in_block);
+//            line2.setId(in_block);
             linLayout.addView(line1);
 
 //        count_fotos = 1; //maximum 10
@@ -251,8 +327,6 @@ public class News extends AppCompatActivity {
             logo_box.addView(fio);
 
             linLayout.addView(logo_box);
-
-            ImageView logo = new ImageView(getApplicationContext());
             switch (count_fotos) {
                 case 0:
                     break;
@@ -264,19 +338,35 @@ public class News extends AppCompatActivity {
                     LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                     im.setLayoutParams(im_params);
                     im.setPadding(0, 0, 0, 0);
+                    im.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                    im.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            OpenPicture(view);
+                        }
+                    });
+
                     CardView card = new CardView(getApplicationContext());
-                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100 / 16 * 9);
+                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 50);
                     card_params.topMargin = w_proc * 4;
                     card_params.gravity = Gravity.CENTER_HORIZONTAL;
                     card.setLayoutParams(card_params);
-                    card.setRadius(w_proc * 2);
+                    card.setRadius(w_proc * 5);
                     card.setContentPadding(0, 0, 0, 0);
                     card.setCardBackgroundColor(Color.parseColor("#36383F"));
                     card.addView(im);
                     linLayout.addView(card);
                     break;
                 case 2:
-                    break;
+                    CardView for_images = new CardView(getApplicationContext());
+                    for_images.setRadius(w_proc * 10);
+                    LinearLayout.LayoutParams for_images_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100 / 16 * 9);
+                    LinearLayout images_layout = new LinearLayout(getApplicationContext());
+                    LinearLayout.LayoutParams images_layout_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    images_layout.setLayoutParams(images_layout_params);
+                    images_layout.setBackgroundColor(Color.parseColor("#000000"));
+                    for (int i = 0; i < 2; i ++){}
                 case 3:
                     break;
                 case 4:
@@ -295,8 +385,40 @@ public class News extends AppCompatActivity {
                     break;
             }
             linLayout.addView(textView);
-            linLayout.addView(line2);
+//            linLayout.addView(line2);
             frameLayout.addView(linLayout);
+        }
+    }
+
+
+    public void OpenPicture(View view)
+    {
+        String folderToSave = (getApplicationContext().getFileStreamPath("push.jpg").getPath()).toString();
+        OutputStream fOut = null;
+        Time time = new Time();
+        time.setToNow();
+        System.out.println(folderToSave);
+//        Toast.makeText(getApplicationContext(), folderToSave, Toast.LENGTH_LONG).show();
+        try {
+            File file = new File(folderToSave);
+            if (file.exists()){
+                file.delete();
+                file = new File(folderToSave);
+            }
+            fOut = new FileOutputStream(file);
+            Bitmap bitmap = ((BitmapDrawable) ((ImageView) view).getDrawable()).getBitmap();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(),  file.getName());
+//            Toast.makeText(getApplicationContext(), "Получилось: " + folderToSave, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, SeePicture.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.top, R.anim.top1);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), "Подождите чуть-чуть", Toast.LENGTH_SHORT).show();
         }
     }
 

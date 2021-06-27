@@ -114,7 +114,7 @@ public class Profile extends AppCompatActivity {
 
         LinearLayout digit_and_copy = (LinearLayout) findViewById(R.id.digit_and_copy);
         LinearLayout.LayoutParams digit_and_copy_params = (LinearLayout.LayoutParams) digit_and_copy.getLayoutParams();
-        digit_and_copy_params.width = w_proc * 58;
+        digit_and_copy_params.width = w_proc * 40;
         digit_and_copy.setLayoutParams(digit_and_copy_params);
 
         TextView cifarki = (TextView) findViewById(R.id.cifarki);
@@ -128,14 +128,15 @@ public class Profile extends AppCompatActivity {
         copy_params.leftMargin = w_proc;
         copy.setLayoutParams(copy_params);
 
-        TextView exit = (TextView) findViewById(R.id.exit);
-        LinearLayout.LayoutParams exit_params = (LinearLayout.LayoutParams) exit.getLayoutParams();
-        exit_params.leftMargin = w_proc * 4;
-        exit.setLayoutParams(exit_params);
+//        TextView exit = (TextView) findViewById(R.id.exit);
+//        LinearLayout.LayoutParams exit_params = (LinearLayout.LayoutParams) exit.getLayoutParams();
+//        exit_params. = w_proc * 14;
+//        exit.setLayoutParams(exit_params);
 
         ImageButton off = (ImageButton) findViewById(R.id.off);
         LinearLayout.LayoutParams off_copy = (LinearLayout.LayoutParams) off.getLayoutParams();
         off_copy.leftMargin = w_proc;
+        off_copy.rightMargin = w_proc * 4;
         off.setLayoutParams(off_copy);
 
         LinearLayout foto_and_name = (LinearLayout) findViewById(R.id.foto_and_name);
@@ -182,6 +183,7 @@ public class Profile extends AppCompatActivity {
         for_fio.topMargin = -w_proc * 1;
         for_fio.leftMargin = w_proc * 4;
         for_about.leftMargin = w_proc * 4;
+        for_about.rightMargin = w_proc * 4;
         fio.setLayoutParams(for_fio);
         about.setLayoutParams(for_about);
         fio.setText(name_of_chelik);
@@ -590,6 +592,7 @@ public class Profile extends AppCompatActivity {
                     LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                     im.setLayoutParams(im_params);
                     im.setPadding(0, 0, 0, 0);
+                    im.setScaleType(ImageView.ScaleType.FIT_XY);
                     CardView card = new CardView(getApplicationContext());
                     LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100 / 16 * 9);
                     card_params.topMargin = w_proc * 4;
@@ -597,7 +600,7 @@ public class Profile extends AppCompatActivity {
                     card_params.rightMargin = w_proc * 4;
                     card_params.gravity = Gravity.CENTER_HORIZONTAL;
                     card.setLayoutParams(card_params);
-                    card.setRadius(w_proc * 2);
+                    card.setRadius(w_proc * 4);
                     card.setContentPadding(0, 0, 0, 0);
                     card.setCardBackgroundColor(Color.parseColor("#36383F"));
                     card.addView(im);
