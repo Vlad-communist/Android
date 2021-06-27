@@ -40,4 +40,10 @@ public class SeePicture extends AppCompatActivity {
         System.out.println(folderToOpen);
         webview.loadUrl(folderToOpen);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.down, R.anim.down1);
+    }
 }
