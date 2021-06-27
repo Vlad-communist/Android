@@ -66,11 +66,10 @@ public class Profile extends AppCompatActivity {
         getSupportActionBar().hide();
 
         try {
-            Get_data();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+            Async_get_data task = new Async_get_data();
+            task.execute();
+        } catch (Exception ex) {
+           System.out.println(ex);
         }
         Display display = getWindowManager().getDefaultDisplay();
         int width_of_screen = display.getWidth();
@@ -303,7 +302,9 @@ public class Profile extends AppCompatActivity {
 //        friends_scroll.addView(friends_layout);
         for (int i = 0; i < 6; i++) {
             try {
-                Next_friend(friends_layout);
+//                Next_friend(friends_layout);
+                Async_next_friend task = new Async_next_friend();
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
@@ -315,7 +316,9 @@ public class Profile extends AppCompatActivity {
                         if (friends_scroll.getChildAt(0).getRight()
                                 <= (friends_scroll.getWidth() + friends_scroll.getScrollX())) {
                             try {
-                                Next_friend(friends_layout);
+//                                Next_friend(friends_layout);
+                                Async_next_friend task = new Async_next_friend();
+                                task.execute();
                             } catch (Exception ex) {
                                 System.out.println(ex);
                             }
@@ -340,7 +343,9 @@ public class Profile extends AppCompatActivity {
 
         for (int i = 0; i < 3; i++) {
             try {
-                Next_post(mainlayout);
+//                Next_post(mainlayout);
+                Async_next_post task = new Async_next_post();
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } catch (Exception ex) {
                 break;
             }
@@ -354,7 +359,9 @@ public class Profile extends AppCompatActivity {
                                 <= (scroll.getHeight() + scroll.getScrollY())) {
                             try {
                                 for (int i = 0; i < 2; i++) {
-                                    Next_post(mainlayout);
+//                                    Next_post(mainlayout);
+                                    Async_next_post task = new Async_next_post();
+                                    task.execute();
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -393,6 +400,266 @@ public class Profile extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("", Long.toString(vsnid));
         clipboard.setPrimaryClip(clip);
         Toast.makeText(getApplicationContext(), "VSNID скопирован в буфер обмена", Toast.LENGTH_SHORT).show();
+    }
+
+    private class Async_get_data extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                DBHelper dbHelper = new DBHelper(getApplicationContext());
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                Cursor c = db.query("sq", null, null, null, null, null, null);
+                c.moveToNext();
+                key = c.getString(1);
+                String url = "http://vsn.intercom.pro:9080/get_info/" + key;
+                URL obj = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+                connection.setRequestMethod("GET");
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                JSONObject root = new JSONObject(in.readLine());
+                in.close();
+                name_of_chelik = root.getString("name") + " " + root.getString("surname");
+                about_of_chelik = root.getString("status");
+                image = root.getString("photo");
+                count = Integer.parseInt(root.getString("friends"));
+            } catch (Exception ex){
+                System.out.println(ex);
+            }
+            return null;
+        }
+    }
+
+    private class Async_next_friend extends AsyncTask<Void, Void, String[]> {
+        @Override
+        protected String[] doInBackground(Void... voids) {
+            if (flag2){
+                try {
+                    String url = "http://vsn.intercom.pro:9080/get_friends/" + key + '/' + friend_now;
+                    URL obj = new URL(url);
+                    HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+                    connection.setRequestMethod("GET");
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    JSONObject root = new JSONObject(in.readLine());
+                    in.close();
+                    if (!root.getString("ans").equals("NO")) {
+                        String name = root.getString("name") + " " + root.getString("surname");
+                        String img = root.getString("photo");
+                        String[] answer = {name, img};
+                        return answer;
+                    } else {
+                        flag2 = false;
+                    }
+                } catch (Exception ex){
+                    System.out.println(ex);
+                }
+            }
+            return null;
+        }
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+        @Override
+        protected void onPostExecute(String[] result) {
+            super.onPostExecute(result);
+            Display display = getWindowManager().getDefaultDisplay();
+            int width_of_screen = display.getWidth();
+            int height_of_screen = display.getHeight();
+            int h_proc = height_of_screen / 100;
+            int w_proc = width_of_screen / 100;
+            friend_now++;
+            if (result == null){
+                return;
+            }
+            String name = result[0];
+            String img = result[1];
+
+            LinearLayout friends_layout = (LinearLayout) findViewById(R.id.friends_layout);
+
+            LinearLayout one_friend = new LinearLayout(getApplicationContext());
+            LinearLayout.LayoutParams one_friend_params = new LinearLayout.LayoutParams(h_proc * 8, LinearLayout.LayoutParams.WRAP_CONTENT);
+            one_friend_params.leftMargin = w_proc * 4;
+            one_friend.setLayoutParams(one_friend_params);
+            one_friend.setOrientation(LinearLayout.VERTICAL);
+
+            ImageView logo = new ImageView(getApplicationContext());
+            new DownloadImageTask(logo).execute("http://vsn.intercom.pro:9080/image/" + img);
+            LinearLayout.LayoutParams logo_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
+            logo.setLayoutParams(logo_params);
+            CardView circle_im = new CardView(getApplicationContext());
+            LinearLayout.LayoutParams circle_im_params = new LinearLayout.LayoutParams(h_proc * 8, h_proc * 8);
+            circle_im.setLayoutParams(circle_im_params);
+            circle_im.setRadius(h_proc * 2);
+            circle_im.setContentPadding(0, 0, 0, 0);
+            circle_im.setCardBackgroundColor(Color.parseColor("#36383F"));
+            logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            circle_im.addView(logo);
+
+            one_friend.addView(circle_im);
+
+            TextView fio_friend = new TextView(getApplicationContext());
+            LinearLayout.LayoutParams fio_friend_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            fio_friend.setLayoutParams(fio_friend_params);
+            fio_friend.setText(name);
+            fio_friend.setTextSize(10);
+            fio_friend.setTextColor(Color.parseColor("#FFFFFF"));
+            fio_friend.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+            one_friend.addView(fio_friend);
+
+            friends_layout.addView(one_friend);
+            ++friend_now;
+        }
+    }
+
+    private class Async_next_post extends AsyncTask<Void, Void, String[][]>{
+        @Override
+        protected String[][] doInBackground(Void... voids) {
+            try {
+                if (flag) {
+                    String url = "http://vsn.intercom.pro:9080/self_new/" + key + "/" + new_now;
+                    URL obj = new URL(url);
+                    HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+                    connection.setRequestMethod("GET");
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    JSONObject root = new JSONObject(in.readLine());
+                    in.close();
+                    if (!root.getString("text").equals("nope")) {
+                        String text = root.getString("text");
+                        String title = root.getString("title");
+                        String count_fotos = root.getString("count_photos").toString();
+                        String[] images = new String[Integer.parseInt(count_fotos)];
+                        for (int i = 0; i < Integer.parseInt(count_fotos); i++){
+                            String img = root.getString("photo");
+                            images[i] = img;
+                        }
+                        return new String[][]{new String[]{text, title, count_fotos}, images};
+                    } else {
+                        flag = false;
+                    }
+                }
+            } catch (Exception ex){
+                System.out.println(ex);
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String[][] result){
+            Display display = getWindowManager().getDefaultDisplay();
+            int width_of_screen = display.getWidth();
+            int height_of_screen = display.getHeight();
+            int h_proc = height_of_screen / 100;
+            int w_proc = width_of_screen / 100;
+            new_now++;
+            if (result == null){
+                return;
+            }
+            String text = result[0][0];
+            String title = result[0][1];
+            Integer count_fotos = Integer.parseInt(result[0][1]);
+            String[] images = result[1];
+
+
+            LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
+            View line1 = new View(getApplicationContext());
+            LinearLayout.LayoutParams g = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
+            g.topMargin = w_proc * 4;
+            line1.setLayoutParams(g);
+            line1.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+            line1.setPadding(0, 0, 0, 0);
+            mainlayout.addView(line1);
+            System.out.println(images);
+            System.out.println(1234321);
+            LinearLayout logo_box = new LinearLayout(getApplicationContext());
+            logo_box.setOrientation(LinearLayout.HORIZONTAL);
+            LinearLayout.LayoutParams for_logo_box = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            logo_box.setLayoutParams(for_logo_box);
+            ImageView kartinka = new ImageView(getApplicationContext());
+            new DownloadImageTask(kartinka).execute("http://vsn.intercom.pro:9080/image/" + image);
+            LinearLayout.LayoutParams for_kartinka = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            kartinka.setLayoutParams(for_kartinka);
+            CardView crd_for_button = new CardView(getApplicationContext());
+            LinearLayout.LayoutParams crd_for_button_params = new LinearLayout.LayoutParams(w_proc * 10, w_proc * 10);
+            crd_for_button_params.leftMargin = w_proc * 4;
+            crd_for_button_params.topMargin = w_proc * 4;
+            crd_for_button.setLayoutParams(crd_for_button_params);
+            crd_for_button.setRadius(w_proc * 2);
+            crd_for_button.setContentPadding(0, 0, 0, 0);
+            crd_for_button.setCardBackgroundColor(Color.parseColor("#36383F"));
+            kartinka.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            crd_for_button.addView(kartinka);
+            logo_box.addView(crd_for_button);
+            String name = name_of_chelik;
+            TextView fio = new TextView(getApplicationContext());
+            LinearLayout.LayoutParams for_fio = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, w_proc * 10);
+            for_fio.topMargin = w_proc * 4;
+            fio.setLayoutParams(for_fio);
+            fio.setGravity(Gravity.CENTER_VERTICAL);
+            fio.setPadding(w_proc * 2, 0, 0, 0);
+            fio.setTextSize(w_proc * 2);
+            fio.setTextColor(Color.parseColor("#FFFFFF"));
+            fio.setText(name);
+            logo_box.addView(fio);
+            mainlayout.addView(logo_box);
+            switch (count_fotos) {
+                case 0:
+                    break;
+                case 1:
+                    ImageView im = new ImageView(getApplicationContext());
+
+                    new DownloadImageTask(im).execute("http://vsn.intercom.pro:9080/image/" + images[0]);
+                    LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    im.setLayoutParams(im_params);
+                    im.setPadding(0, 0, 0, 0);
+                    CardView card = new CardView(getApplicationContext());
+                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    card_params.topMargin = w_proc * 4;
+                    card_params.leftMargin = w_proc * 4;
+                    card_params.rightMargin = w_proc * 4;
+                    card_params.gravity = Gravity.CENTER_HORIZONTAL;
+                    card.setLayoutParams(card_params);
+                    card.setRadius(w_proc * 2);
+                    card.setContentPadding(0, 0, 0, 0);
+                    card.setCardBackgroundColor(Color.parseColor("#36383F"));
+                    card.addView(im);
+                    mainlayout.addView(card);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+                case 10:
+                    break;
+            }
+            TextView text_of_post = new TextView(getApplicationContext());
+            LinearLayout.LayoutParams text_of_post_params = new LinearLayout.LayoutParams(width_of_screen - 50, LinearLayout.LayoutParams.WRAP_CONTENT);
+            text_of_post_params.topMargin = w_proc * 4;
+            text_of_post_params.leftMargin = w_proc * 4;
+            text_of_post_params.gravity = Gravity.FILL;
+            text_of_post.setLayoutParams(text_of_post_params);
+            text_of_post.setText(title + "\n" + text);
+            text_of_post.setTextColor(Color.parseColor("#FFFFFF"));
+            text_of_post.setTextSize(h_proc * 10 / 13);
+            mainlayout.addView(text_of_post);
+            View line2 = new View(getApplicationContext());
+            LinearLayout.LayoutParams gg = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
+            gg.topMargin = w_proc * 4;
+            gg.bottomMargin = -w_proc * 4 - 5;
+            line2.setLayoutParams(gg);
+            line2.setBackgroundResource(R.drawable.hz_kakaja_to_parasha);
+            line2.setPadding(0, 0, 0, 0);
+            mainlayout.addView(line2);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
