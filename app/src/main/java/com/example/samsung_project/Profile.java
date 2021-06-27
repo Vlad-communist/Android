@@ -591,7 +591,7 @@ public class Profile extends AppCompatActivity {
                     im.setLayoutParams(im_params);
                     im.setPadding(0, 0, 0, 0);
                     CardView card = new CardView(getApplicationContext());
-                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100 / 16 * 9);
                     card_params.topMargin = w_proc * 4;
                     card_params.leftMargin = w_proc * 4;
                     card_params.rightMargin = w_proc * 4;

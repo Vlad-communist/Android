@@ -264,7 +264,7 @@ public class News extends AppCompatActivity {
                     im.setLayoutParams(im_params);
                     im.setPadding(0, 0, 0, 0);
                     CardView card = new CardView(getApplicationContext());
-                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100);
+                    LinearLayout.LayoutParams card_params = new LinearLayout.LayoutParams(w_proc * 100, w_proc * 100 / 16 * 9);
                     card_params.topMargin = w_proc * 4;
                     card_params.gravity = Gravity.CENTER_HORIZONTAL;
                     card.setLayoutParams(card_params);
