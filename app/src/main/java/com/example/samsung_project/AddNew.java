@@ -62,6 +62,7 @@ public class AddNew extends AppCompatActivity {
         add_picture.setLayoutParams(dsasdasd);
         add_picture.setText("Добавить картинку");
         add_picture.setBackgroundResource(R.drawable.btnclr);
+        add_picture.setTextColor(Color.WHITE);
         mainlayout.addView(add_picture);
         add_picture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -108,6 +109,7 @@ public class AddNew extends AppCompatActivity {
         add_new_params.bottomMargin = (int) Math.round(w_proc * 4);
         add_new.setLayoutParams(add_new_params);
         add_new.setText("Создать новость");
+        add_new.setTextColor(Color.WHITE);
         add_new.setId(228);
         add_new.setBackgroundResource(R.drawable.btnclr);
         mainlayout.addView(add_new);
@@ -289,6 +291,7 @@ public class AddNew extends AppCompatActivity {
                         add_new.setLayoutParams(add_new_params);
                         add_new.setText("Создать новость");
                         add_new.setId(228);
+                        add_new.setTextColor(Color.WHITE);
                         add_new.setBackgroundResource(R.drawable.btnclr);
                         mainlayout.addView(add_new);
                         add_new.setOnClickListener(new View.OnClickListener() {
