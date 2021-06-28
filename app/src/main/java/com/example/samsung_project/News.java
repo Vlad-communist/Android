@@ -96,6 +96,7 @@ public class News extends AppCompatActivity {
         t.setTextColor(Color.parseColor("#ffffff"));
         t.setTextSize((int) Math.round(w_proc * 2));
         mainlayout.addView(t);
+
         View line1 = new View(getApplicationContext());
         LinearLayout.LayoutParams line1_params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) Math.round(w_proc * 3 / 2));
         line1_params.topMargin = (int) Math.round(w_proc * 4);

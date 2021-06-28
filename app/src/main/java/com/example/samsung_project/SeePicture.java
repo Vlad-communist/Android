@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import java.io.File;
 import java.util.Objects;
 
 public class SeePicture extends AppCompatActivity {
@@ -29,6 +30,8 @@ public class SeePicture extends AppCompatActivity {
         setContentView(R.layout.seepicture);
         Objects.requireNonNull(getSupportActionBar()).hide();
         WebView webview = (WebView) findViewById(R.id.webview);
+        String folderToOpen = (getApplicationContext().getFileStreamPath("push.jpg").getPath()).toString();
+        webview.loadUrl(folderToOpen);
         webview.getSettings().setSupportZoom(true);
         webview.setInitialScale(100);
         webview.getSettings().setBuiltInZoomControls(true);
@@ -36,9 +39,6 @@ public class SeePicture extends AppCompatActivity {
         webview.setScrollbarFadingEnabled(true);
         webview.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         webview.getSettings().setAllowFileAccess(true);
-        String folderToOpen = (getApplicationContext().getFileStreamPath("push.jpg").getPath()).toString();
-        System.out.println(folderToOpen);
-        webview.loadUrl(folderToOpen);
     }
 
     @Override
