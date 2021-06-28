@@ -48,6 +48,9 @@
         </activity>
         <activity android:name=".SeePicture">
         </activity>
+        <activity android:name=".AddNew"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

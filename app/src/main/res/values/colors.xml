@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="purple_200">#2F3036</color>
     <color name="purple_500">#2F3036</color>
     <color name="purple_700">#2F3036</color>
@@ -11,4 +11,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="start_gradient">#FF00FFFF</color>
     <color name="end_gradient">#FFA103FF</color>
+    <color name="border">
+        <gradient
+            android:angle="315"
+            android:startColor="#FF0000FF"
+            android:endColor="#FFFF03FF"
+            android:type="linear"/>
+    </color>
 </resources>

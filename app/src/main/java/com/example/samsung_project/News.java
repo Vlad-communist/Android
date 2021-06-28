@@ -143,7 +143,7 @@ public class News extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "new", Toast.LENGTH_SHORT).show();
+                addnew(view);
             }
         });
         card.addView(button);
@@ -276,6 +276,7 @@ public class News extends AppCompatActivity {
             text_of_post_params.gravity = Gravity.FILL;
             textView.setLayoutParams(text_of_post_params);
             textView.setText(title + "\n" + text);
+            textView.setLinksClickable(true);
             textView.setTextColor(Color.parseColor("#FFFFFF"));
             textView.setTextSize(h_proc * 10 / 13);
 
@@ -391,8 +392,13 @@ public class News extends AppCompatActivity {
     }
 
 
-    public void OpenPicture(View view)
-    {
+    public void addnew(View view){
+        Intent intent = new Intent(this, AddNew.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.top, R.anim.top1);
+    }
+
+    public void OpenPicture(View view) {
         String folderToSave = (getApplicationContext().getFileStreamPath("push.jpg").getPath()).toString();
         OutputStream fOut = null;
         Time time = new Time();

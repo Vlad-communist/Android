@@ -81,7 +81,7 @@ public class Friends extends AppCompatActivity {
         circled_search.setLayoutParams(circle_im_params);
         circled_search.setRadius(w_proc * 25 / 10);
         circled_search.setContentPadding(0, 0, 0, 0);
-        circled_search.setCardBackgroundColor(Color.parseColor("#555555"));
+        circled_search.setCardBackgroundColor(Color.parseColor("#434446"));
         circled_search.addView(search);
 
         mainlayaput.addView(circled_search);
