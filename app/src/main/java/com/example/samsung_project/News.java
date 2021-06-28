@@ -329,7 +329,6 @@ public class News extends AppCompatActivity {
 
             linLayout.addView(logo_box);
             linLayout.addView(textView);
-            count_fotos = 7;
             switch (count_fotos) {
                 case 0:
                     break;
