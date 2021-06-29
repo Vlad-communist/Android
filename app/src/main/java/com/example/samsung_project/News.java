@@ -979,11 +979,11 @@ public class News extends AppCompatActivity {
 
     public void OpenPicture(View view) {
         String folderToSave = (getApplicationContext().getFileStreamPath("push.jpg").getPath()).toString();
+        System.out.println(folderToSave);
         OutputStream fOut = null;
         Time time = new Time();
         time.setToNow();
         System.out.println(folderToSave);
-//        Toast.makeText(getApplicationContext(), folderToSave, Toast.LENGTH_LONG).show();
         try {
             File file = new File(folderToSave);
             if (file.exists()) {

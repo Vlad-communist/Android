@@ -7,11 +7,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.text.format.Time;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -26,8 +28,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -36,6 +41,8 @@ public class AddNew extends AppCompatActivity {
     private final int Pick_image = 1;
     private String selectedImagePath;
     public int count = 0;
+    public int shiiiit = 0;
+    public Vector<String> list = new Vector<String>();
 
     @SuppressLint("ResourceType")
     @Override
@@ -154,7 +161,6 @@ public class AddNew extends AppCompatActivity {
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     LinearLayout mainlayout = (LinearLayout) findViewById(R.id.mainlayout);
                     count++;
-
                     @SuppressLint("ResourceType") Button a = (Button) findViewById(228);
                     mainlayout.removeView(a);
 
@@ -177,6 +183,10 @@ public class AddNew extends AppCompatActivity {
                     kartinka.setScaleType(ImageView.ScaleType.FIT_XY);
                     crd_for_button.addView(kartinka);
                     kartinka.setImageBitmap(selectedImage);
+
+                    String path = saveimage(kartinka, Integer.toString(shiiiit++));
+                    list.addElement(path);
+
                     one_picture.addView(crd_for_button);
                     ImageView delete = new ImageView(getApplicationContext());
                     LinearLayout.LayoutParams delete_params = new LinearLayout.LayoutParams((int) Math.round(w_proc * 10), (int) Math.round(w_proc * 10));
@@ -192,6 +202,11 @@ public class AddNew extends AppCompatActivity {
                         public void onClick(View arg0) {
                             mainlayout.removeView(one_picture);
                             count--;
+                            File file = new File(path);
+                            if (file.exists()) {
+                                file.delete();
+                                list.removeElement(path);
+                            }
                         }
                     });
                     Button add_new = new Button(getApplicationContext());
@@ -255,6 +270,10 @@ public class AddNew extends AppCompatActivity {
                             kartinka.setScaleType(ImageView.ScaleType.FIT_XY);
                             crd_for_button.addView(kartinka);
                             kartinka.setImageBitmap(selectedImage);
+
+                            String path = saveimage(kartinka, Integer.toString(shiiiit++));
+                            list.addElement(path);
+
                             one_picture.addView(crd_for_button);
                             ImageView delete = new ImageView(getApplicationContext());
                             LinearLayout.LayoutParams delete_params = new LinearLayout.LayoutParams((int) Math.round(w_proc * 10), (int) Math.round(w_proc * 10));
@@ -270,6 +289,11 @@ public class AddNew extends AppCompatActivity {
                                 public void onClick(View arg0) {
                                     mainlayout.removeView(one_picture);
                                     count--;
+                                    File file = new File(path);
+                                    if (file.exists()) {
+                                        file.delete();
+                                        list.removeElement(path);
+                                    }
                                 }
                             });
 // Get the cursor
@@ -309,6 +333,31 @@ public class AddNew extends AppCompatActivity {
             System.out.println(e);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public String saveimage(View view, String name){
+        String folderToSave = (getApplicationContext().getFileStreamPath(name).getPath()).toString();
+        OutputStream fOut = null;
+        Time time = new Time();
+        time.setToNow();
+        try {
+            File file = new File(folderToSave);
+            if (file.exists()) {
+                file.delete();
+                file = new File(folderToSave);
+            }
+            fOut = new FileOutputStream(file);
+            Bitmap bitmap = ((BitmapDrawable) ((ImageView) view).getDrawable()).getBitmap();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+//            Toast.makeText(getApplicationContext(), "Получилось: " + folderToSave, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Произошла хуйня", Toast.LENGTH_SHORT).show();
+            folderToSave = "error";
+        }
+        return folderToSave;
     }
 
     @Override
