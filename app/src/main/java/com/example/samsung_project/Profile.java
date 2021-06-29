@@ -403,8 +403,7 @@ public class Profile extends AppCompatActivity {
                         String count_fotos = root.getString("count_photos").toString();
                         String[] images = new String[Integer.parseInt(count_fotos)];
                         for (int i = 0; i < Integer.parseInt(count_fotos); i++){
-                            String img = root.getString("photo");
-                            images[i] = img;
+                            images[i] = (root.getJSONArray("photo")).getString(i);
                         }
                         return new String[][]{new String[]{text, title, count_fotos}, images};
                     } else {
@@ -484,12 +483,13 @@ public class Profile extends AppCompatActivity {
             text_of_post.setTextColor(Color.parseColor("#FFFFFF"));
             text_of_post.setTextSize(16);
             mainlayout.addView(text_of_post);
+            int j = 0;
             switch (count_fotos) {
                 case 0:
                     break;
                 case 1:
                     ImageView im = new ImageView(getApplicationContext());
-                    new DownloadImageTask(im).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                    new DownloadImageTask(im).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
 
                     LinearLayout.LayoutParams im_params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                     im.setLayoutParams(im_params);
@@ -531,7 +531,7 @@ public class Profile extends AppCompatActivity {
                     for_images.addView(images_layout);
                     for (int i = 0; i < 2; i++) {
                         ImageView im2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[i]);
                         im2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -570,7 +570,7 @@ public class Profile extends AppCompatActivity {
                     images_layout3_v.addView(images_layout3_h);
                     for (int i = 0; i < 2; i++) {
                         ImageView im3_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im3_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im3_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im3_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im3_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -584,10 +584,11 @@ public class Profile extends AppCompatActivity {
                         im3_1.setLayoutParams(card_params3);
                         im3_1.setBackgroundColor(Color.GRAY);
                         images_layout3_h.addView(im3_1);
+                        ++j;
                     }
                     for (int i = 0; i < 1; i++) {
                         ImageView im3_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im3_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im3_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im3_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im3_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -599,6 +600,7 @@ public class Profile extends AppCompatActivity {
                         im3_2.setLayoutParams(card_params3_2);
                         im3_2.setBackgroundColor(Color.GRAY);
                         images_layout3_v.addView(im3_2);
+                        ++j;
                     }
                     mainlayout.addView(for_images3);
                     break;
@@ -630,7 +632,7 @@ public class Profile extends AppCompatActivity {
                     images_layout4_v.addView(images_layout4_h_2);
                     for (int i = 0; i < 2; i++) {
                         ImageView im4_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im4_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im4_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im4_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im4_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -644,10 +646,11 @@ public class Profile extends AppCompatActivity {
                         im4_1.setLayoutParams(card_params4);
                         im4_1.setBackgroundColor(Color.GRAY);
                         images_layout4_h_1.addView(im4_1);
+                        ++j;
                     }
                     for (int i = 0; i < 2; i++) {
                         ImageView im4_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im4_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im4_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im4_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im4_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -660,6 +663,7 @@ public class Profile extends AppCompatActivity {
                         im4_2.setLayoutParams(card_params4_2);
                         im4_2.setBackgroundColor(Color.GRAY);
                         images_layout4_h_2.addView(im4_2);
+                        ++j;
                     }
                     mainlayout.addView(for_images4);
                     break;
@@ -691,7 +695,7 @@ public class Profile extends AppCompatActivity {
                     images_layout5_v.addView(images_layout5_h_2);
                     for (int i = 0; i < 3; i++) {
                         ImageView im5_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im5_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im5_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im5_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im5_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -705,10 +709,11 @@ public class Profile extends AppCompatActivity {
                         im5_1.setLayoutParams(card_params5);
                         im5_1.setBackgroundColor(Color.GRAY);
                         images_layout5_h_1.addView(im5_1);
+                        ++j;
                     }
                     for (int i = 0; i < 2; i++) {
                         ImageView im5_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im5_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im5_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im5_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im5_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -721,6 +726,7 @@ public class Profile extends AppCompatActivity {
                         im5_2.setLayoutParams(card_params5_2);
                         im5_2.setBackgroundColor(Color.GRAY);
                         images_layout5_h_2.addView(im5_2);
+                        ++j;
                     }
                     mainlayout.addView(for_images5);
                     break;
@@ -752,7 +758,7 @@ public class Profile extends AppCompatActivity {
                     images_layout6_v.addView(images_layout6_h_2);
                     for (int i = 0; i < 3; i++) {
                         ImageView im6_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im6_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im6_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im6_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im6_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -766,10 +772,11 @@ public class Profile extends AppCompatActivity {
                         im6_1.setLayoutParams(card_params6);
                         im6_1.setBackgroundColor(Color.GRAY);
                         images_layout6_h_1.addView(im6_1);
+                        ++j;
                     }
                     for (int i = 0; i < 3; i++) {
                         ImageView im6_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im6_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im6_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im6_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im6_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -782,6 +789,7 @@ public class Profile extends AppCompatActivity {
                         im6_2.setLayoutParams(card_params6_2);
                         im6_2.setBackgroundColor(Color.GRAY);
                         images_layout6_h_2.addView(im6_2);
+                        ++j;
                     }
                     mainlayout.addView(for_images6);
                     break;
@@ -819,7 +827,7 @@ public class Profile extends AppCompatActivity {
                     images_layout7_v.addView(images_layout7_h_3);
                     for (int i = 0; i < 2; i++) {
                         ImageView im7_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -833,10 +841,11 @@ public class Profile extends AppCompatActivity {
                         im7_1.setLayoutParams(card_params7);
                         im7_1.setBackgroundColor(Color.GRAY);
                         images_layout7_h_1.addView(im7_1);
+                        ++j;
                     }
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -850,10 +859,11 @@ public class Profile extends AppCompatActivity {
                         im7_2.setLayoutParams(card_params7_2);
                         im7_2.setBackgroundColor(Color.GRAY);
                         images_layout7_h_2.addView(im7_2);
+                        ++j;
                     }
                     for (int i = 0; i < 2; i++) {
                         ImageView im7_3 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_3.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_3.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -866,6 +876,7 @@ public class Profile extends AppCompatActivity {
                         im7_3.setLayoutParams(card_params7_3);
                         im7_3.setBackgroundColor(Color.GRAY);
                         images_layout7_h_3.addView(im7_3);
+                        ++j;
                     }
                     mainlayout.addView(for_images7);
                     break;
@@ -903,7 +914,7 @@ public class Profile extends AppCompatActivity {
                     images_layout8_v.addView(images_layout8_h_3);
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -917,10 +928,11 @@ public class Profile extends AppCompatActivity {
                         im7_1.setLayoutParams(card_params7);
                         im7_1.setBackgroundColor(Color.GRAY);
                         images_layout8_h_1.addView(im7_1);
+                        ++j;
                     }
                     for (int i = 0; i < 2; i++) {
                         ImageView im7_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -934,10 +946,11 @@ public class Profile extends AppCompatActivity {
                         im7_2.setLayoutParams(card_params7_2);
                         im7_2.setBackgroundColor(Color.GRAY);
                         images_layout8_h_2.addView(im7_2);
+                        ++j;
                     }
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_3 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_3.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_3.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -950,6 +963,7 @@ public class Profile extends AppCompatActivity {
                         im7_3.setLayoutParams(card_params7_3);
                         im7_3.setBackgroundColor(Color.GRAY);
                         images_layout8_h_3.addView(im7_3);
+                        ++j;
                     }
                     mainlayout.addView(for_images8);
                     break;
@@ -987,7 +1001,7 @@ public class Profile extends AppCompatActivity {
                     images_layout9_v.addView(images_layout9_h_3);
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1001,10 +1015,11 @@ public class Profile extends AppCompatActivity {
                         im7_1.setLayoutParams(card_params7);
                         im7_1.setBackgroundColor(Color.GRAY);
                         images_layout9_h_1.addView(im7_1);
+                        ++j;
                     }
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1018,10 +1033,11 @@ public class Profile extends AppCompatActivity {
                         im7_2.setLayoutParams(card_params7_2);
                         im7_2.setBackgroundColor(Color.GRAY);
                         images_layout9_h_2.addView(im7_2);
+                        ++j;
                     }
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_3 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_3.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_3.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1034,6 +1050,7 @@ public class Profile extends AppCompatActivity {
                         im7_3.setLayoutParams(card_params7_3);
                         im7_3.setBackgroundColor(Color.GRAY);
                         images_layout9_h_3.addView(im7_3);
+                        ++j;
                     }
                     mainlayout.addView(for_images9);
                     break;
@@ -1071,7 +1088,7 @@ public class Profile extends AppCompatActivity {
                     images_layout10_v.addView(images_layout10_h_3);
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_1 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_1.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1085,10 +1102,11 @@ public class Profile extends AppCompatActivity {
                         im7_1.setLayoutParams(card_params7);
                         im7_1.setBackgroundColor(Color.GRAY);
                         images_layout10_h_1.addView(im7_1);
+                        ++j;
                     }
                     for (int i = 0; i < 4; i++) {
                         ImageView im7_2 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_2.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_2.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1103,10 +1121,11 @@ public class Profile extends AppCompatActivity {
                         im7_2.setLayoutParams(card_params7_2);
                         im7_2.setBackgroundColor(Color.GRAY);
                         images_layout10_h_2.addView(im7_2);
+                        ++j;
                     }
                     for (int i = 0; i < 3; i++) {
                         ImageView im7_3 = new ImageView(getApplicationContext());
-                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[0]);
+                        new DownloadImageTask(im7_3).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + images[j]);
                         im7_3.setScaleType(ImageView.ScaleType.FIT_XY);
                         im7_3.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1119,6 +1138,7 @@ public class Profile extends AppCompatActivity {
                         im7_3.setLayoutParams(card_params7_3);
                         im7_3.setBackgroundColor(Color.GRAY);
                         images_layout10_h_3.addView(im7_3);
+                        ++j;
                     }
                     mainlayout.addView(for_images10);
                     break;

@@ -2,14 +2,18 @@ package com.example.samsung_project;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
@@ -28,11 +32,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -43,6 +56,138 @@ public class AddNew extends AppCompatActivity {
     public int count = 0;
     public int shiiiit = 0;
     public Vector<String> list = new Vector<String>();
+
+    public static class FilesUploadingTask extends AsyncTask<Void, Void, String> {
+
+        // Конец строки
+        private String lineEnd = "\r\n";
+        // Два тире
+        private String twoHyphens = "--";
+        // Разделитель
+        private String boundary = "----WebKitFormBoundary9xFB2hiUhzqbBQ4M";
+
+        // Переменные для считывания файла в оперативную память
+        private int bytesRead, bytesAvailable, bufferSize;
+        private byte[] buffer;
+        private int maxBufferSize = 1 * 1024 * 1024;
+
+        // Путь к файлу в памяти устройства
+
+        // Адрес метода api для загрузки файла на сервер
+        public String API_FILES_UPLOADING_PATH = "http://vsn.intercom.pro:9080/add_new";
+
+        // Ключ, под которым файл передается на сервер
+        public Vector<String> list = new Vector<String>();
+
+        public FilesUploadingTask(Vector<String> filePath, String h) {
+            this.list = filePath;
+            this.API_FILES_UPLOADING_PATH += "/" + h;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // Результат выполнения запроса, полученный от сервера
+            String result = null;
+
+            try {
+                // Создание ссылки для отправки файла
+                URL uploadUrl = new URL(API_FILES_UPLOADING_PATH);
+
+                // Создание соединения для отправки файла
+                HttpURLConnection connection = (HttpURLConnection) uploadUrl.openConnection();
+
+                // Разрешение ввода соединению
+                connection.setDoInput(true);
+                // Разрешение вывода соединению
+                connection.setDoOutput(true);
+                // Отключение кеширования
+                connection.setUseCaches(false);
+
+                // Задание запросу типа POST
+                connection.setRequestMethod("POST");
+
+                // Задание необходимых свойств запросу
+                connection.setRequestProperty("Connection", "Keep-Alive");
+                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+
+                // Формирование multipart контента
+                for (int i = 1; i <= list.size(); ++i) {
+                    // Создание потока для записи в соединение
+                    DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+
+                    // Начало контента
+                    outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                    // Заголовок элемента формы
+                    outputStream.writeBytes("Content-Disposition: form-data; name=\"" +
+                            "file" + i + "\"; filename=\"" + list.get(i-1) + "\"" + lineEnd);
+                    // Тип данных элемента формы
+                    outputStream.writeBytes("Content-Type: image/jpeg" + lineEnd);
+                    // Конец заголовка
+                    outputStream.writeBytes(lineEnd);
+
+                    // Поток для считывания файла в оперативную память
+                    FileInputStream fileInputStream = new FileInputStream(new File(list.get(i-1)));
+
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    buffer = new byte[bufferSize];
+
+                    // Считывание файла в оперативную память и запись его в соединение
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+                        outputStream.write(buffer, 0, bufferSize);
+                        bytesAvailable = fileInputStream.available();
+                        bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                    }
+
+                    // Конец элемента формы
+                    outputStream.writeBytes(lineEnd);
+                    outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                    fileInputStream.close();
+                    outputStream.flush();
+                    outputStream.close();
+
+                }
+                // Получение ответа от сервера
+                int serverResponseCode = connection.getResponseCode();
+                // Закрытие соединений и потоков
+
+
+                // Считка ответа от сервера в зависимости от успеха
+                if (serverResponseCode == 200) {
+                    result = readStream(connection.getInputStream());
+                } else {
+                    result = readStream(connection.getErrorStream());
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        // Считка потока в строку
+        public static String readStream(InputStream inputStream) throws IOException {
+            StringBuffer buffer = new StringBuffer();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+
+            return buffer.toString();
+        }
+    }
 
     @SuppressLint("ResourceType")
     @Override
@@ -127,12 +272,22 @@ public class AddNew extends AppCompatActivity {
         });
     }
 
-    public void add_new(View view){
+    public void add_new(View view) {
         @SuppressLint("ResourceType") EditText t1 = (EditText) findViewById(230);
         @SuppressLint("ResourceType") EditText t = (EditText) findViewById(231);
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.query("sq", null, null, null, null, null, null);
+        c.moveToNext();
+        String key = c.getString(1);
+        c.close();
         String title = t1.getText().toString();
         String text = t.getText().toString();
-        Toast.makeText(this, "Создана новость\nЗаголовок:" + title + "\nТекст:" + text + "\nКоличество фото:" + count, Toast.LENGTH_SHORT).show();
+        new FilesUploadingTask(list, title + "/" + text + "/" + key).execute();
+        Intent intent = new Intent(this, News.class);
+        startActivity(intent);
+        this.finish();
+//        Toast.makeText(this, "Создана новость\nЗаголовок:" + title + "\nТекст:" + text + "\nКоличество фото:" + count, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("ResourceType")
@@ -149,10 +304,10 @@ public class AddNew extends AppCompatActivity {
 // Get the Image from data
                 String imageEncoded;
                 List<String> imagesEncodedList;
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 imagesEncodedList = new ArrayList<String>();
-                if(data.getData()!=null){
-                    if (count + 1 > 10){
+                if (data.getData() != null) {
+                    if (count + 1 > 10) {
                         Toast.makeText(this, "Вы выбрали слишком много изображений, максимум 10", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -230,14 +385,14 @@ public class AddNew extends AppCompatActivity {
 // Move to first row
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    imageEncoded  = cursor.getString(columnIndex);
+                    imageEncoded = cursor.getString(columnIndex);
                     cursor.close();
 
                 } else {
                     if (data.getClipData() != null) {
                         ClipData mClipData = data.getClipData();
                         ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-                        if (mClipData.getItemCount() + count > 10){
+                        if (mClipData.getItemCount() + count > 10) {
                             Toast.makeText(this, "Вы выбрали слишком много изображений, максимум 10", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -301,7 +456,7 @@ public class AddNew extends AppCompatActivity {
 // Move to first row
                             cursor.moveToFirst();
                             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                            imageEncoded  = cursor.getString(columnIndex);
+                            imageEncoded = cursor.getString(columnIndex);
                             imagesEncodedList.add(imageEncoded);
                             cursor.close();
 
@@ -335,7 +490,7 @@ public class AddNew extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public String saveimage(View view, String name){
+    public String saveimage(View view, String name) {
         String folderToSave = (getApplicationContext().getFileStreamPath(name).getPath()).toString();
         OutputStream fOut = null;
         Time time = new Time();
@@ -364,5 +519,24 @@ public class AddNew extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.down, R.anim.down1);
+    }
+    public class DBHelper extends SQLiteOpenHelper {
+
+        public DBHelper(Context context) {
+            // конструктор суперкласса
+            super(context, "myDB", null, 1);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL("create table sq ("
+                    + "id integer primary key autoincrement,"
+                    + "yes text" + ");");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
     }
 }
