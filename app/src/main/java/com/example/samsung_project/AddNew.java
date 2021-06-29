@@ -110,49 +110,46 @@ public class AddNew extends AppCompatActivity {
                 connection.setRequestProperty("Connection", "Keep-Alive");
                 connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 
+                // Создание потока для записи в соединение
+                DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
 
+                // Начало контента
+                outputStream.writeBytes(twoHyphens + boundary + lineEnd);
                 // Формирование multipart контента
                 for (int i = 1; i <= list.size(); ++i) {
-                    try {
-                        // Создание потока для записи в соединение
-                        DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
 
-                        // Начало контента
-                        outputStream.writeBytes(twoHyphens + boundary + lineEnd);
-                        // Заголовок элемента формы
-                        outputStream.writeBytes("Content-Disposition: form-data; name=\"" +
-                                "file" + i + "\"; filename=\"" + list.get(i-1) + "\"" + lineEnd);
-                        // Тип данных элемента формы
-                        outputStream.writeBytes("Content-Type: image/jpeg" + lineEnd);
-                        // Конец заголовка
-                        outputStream.writeBytes(lineEnd);
+                    // Заголовок элемента формы
+                    outputStream.writeBytes("Content-Disposition: form-data; name=\"" +
+                            "file" + i + "\"; filename=\"" + list.get(i - 1) + "\"" + lineEnd);
+                    // Тип данных элемента формы
+                    outputStream.writeBytes("Content-Type: image/jpeg" + lineEnd);
+                    // Конец заголовка
+                    outputStream.writeBytes(lineEnd);
 
-                        // Поток для считывания файла в оперативную память
-                        FileInputStream fileInputStream = new FileInputStream(new File(list.get(i-1)));
+                    // Поток для считывания файла в оперативную память
+                    FileInputStream fileInputStream = new FileInputStream(new File(list.get(i - 1)));
 
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    buffer = new byte[bufferSize];
+
+                    // Считывание файла в оперативную память и запись его в соединение
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                    while (bytesRead > 0) {
+                        outputStream.write(buffer, 0, bufferSize);
                         bytesAvailable = fileInputStream.available();
                         bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                        buffer = new byte[bufferSize];
-
-                        // Считывание файла в оперативную память и запись его в соединение
                         bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                        while (bytesRead > 0) {
-                            outputStream.write(buffer, 0, bufferSize);
-                            bytesAvailable = fileInputStream.available();
-                            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                        }
-
-                        // Конец элемента формы
-                        outputStream.writeBytes(lineEnd);
-                        outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-                        fileInputStream.close();
-                        outputStream.flush();
-                        outputStream.close();
-                    } catch (Exception ex){
-                        System.out.println("!!!!!!!!!!!!!!!!!!!!" + ex);
                     }
+
+                    // Конец элемента формы
+                    outputStream.writeBytes(lineEnd);
+                    outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                    fileInputStream.close();
+                    outputStream.flush();
+                    outputStream.close();
+
                 }
                 // Получение ответа от сервера
                 int serverResponseCode = connection.getResponseCode();
@@ -278,18 +275,23 @@ public class AddNew extends AppCompatActivity {
     public void add_new(View view) {
         @SuppressLint("ResourceType") EditText t1 = (EditText) findViewById(230);
         @SuppressLint("ResourceType") EditText t = (EditText) findViewById(231);
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor c = db.query("sq", null, null, null, null, null, null);
-        c.moveToNext();
-        String key = c.getString(1);
-        c.close();
-        String title = t1.getText().toString();
-        String text = t.getText().toString();
-        new FilesUploadingTask(list, title + "/" + text + "/" + key).execute();
-        Intent intent = new Intent(this, News.class);
-        startActivity(intent);
-        this.finish();
+        if (!t1.getText().toString().equals("") && !t.getText().toString().equals("")) {
+            DBHelper dbHelper = new DBHelper(this);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            Cursor c = db.query("sq", null, null, null, null, null, null);
+            c.moveToNext();
+            String key = c.getString(1);
+            c.close();
+            String title = t1.getText().toString();
+            String text = t.getText().toString();
+            new FilesUploadingTask(list, title + "/" + text + "/" + key).execute();
+            Intent intent = new Intent(this, News.class);
+            startActivity(intent);
+            this.finish();
+        }
+        else{
+            Toast.makeText(this, "Заолните поля заголовка и текста", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -522,6 +524,7 @@ public class AddNew extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.down, R.anim.down1);
     }
+
     public class DBHelper extends SQLiteOpenHelper {
 
         public DBHelper(Context context) {
