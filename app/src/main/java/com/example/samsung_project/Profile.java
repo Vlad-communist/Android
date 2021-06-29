@@ -81,44 +81,44 @@ public class Profile extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         int width_of_screen = display.getWidth();
         int height_of_screen = display.getHeight();
-        int h_proc = height_of_screen / 100;
-        int w_proc = width_of_screen / 100;
+        double h_proc = height_of_screen / 100;
+        double w_proc = width_of_screen / 100;
         int width = width_of_screen / 5;
 
         LinearLayout mainlayout = (LinearLayout) findViewById(R.id.ln);
 
         TextView id = (TextView) findViewById(R.id.text_vsnid);
         LinearLayout.LayoutParams for_id = (LinearLayout.LayoutParams) id.getLayoutParams();
-        for_id.leftMargin = w_proc * 4;
-        for_id.topMargin = w_proc * 2;
-        for_id.bottomMargin = w_proc * 2;
+        for_id.leftMargin = (int) Math.round(w_proc * 4);
+        for_id.topMargin = (int) Math.round(w_proc * 2);
+        for_id.bottomMargin = (int) Math.round(w_proc * 2);
         id.setLayoutParams(for_id);
 
         LinearLayout digit_and_copy = (LinearLayout) findViewById(R.id.digit_and_copy);
         LinearLayout.LayoutParams digit_and_copy_params = (LinearLayout.LayoutParams) digit_and_copy.getLayoutParams();
-        digit_and_copy_params.width = w_proc * 40;
+        digit_and_copy_params.width = (int) Math.round(w_proc * 40);
         digit_and_copy.setLayoutParams(digit_and_copy_params);
 
         TextView cifarki = (TextView) findViewById(R.id.cifarki);
         LinearLayout.LayoutParams for_cifarki = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 100);
-        for_cifarki.leftMargin = w_proc * 2;
+        for_cifarki.leftMargin = (int) Math.round(w_proc * 2);
         cifarki.setText("" + vsnid);
         cifarki.setLayoutParams(for_cifarki);
 
         ImageButton copy = (ImageButton) findViewById(R.id.copy);
         LinearLayout.LayoutParams copy_params = (LinearLayout.LayoutParams) copy.getLayoutParams();
-        copy_params.leftMargin = w_proc;
+        copy_params.leftMargin = (int) Math.round(w_proc);
         copy.setLayoutParams(copy_params);
 
         ImageButton off = (ImageButton) findViewById(R.id.off);
         LinearLayout.LayoutParams off_copy = (LinearLayout.LayoutParams) off.getLayoutParams();
-        off_copy.leftMargin = w_proc;
-        off_copy.rightMargin = w_proc * 4;
+        off_copy.leftMargin = (int) Math.round(w_proc);
+        off_copy.rightMargin = (int) Math.round(w_proc * 4);
         off.setLayoutParams(off_copy);
 
         LinearLayout foto_and_name = (LinearLayout) findViewById(R.id.foto_and_name);
         LinearLayout.LayoutParams for_foto_and_name = (LinearLayout.LayoutParams) foto_and_name.getLayoutParams();
-        for_foto_and_name.topMargin = w_proc * 2;
+        for_foto_and_name.topMargin = (int) Math.round(w_proc * 2);
         foto_and_name.setLayoutParams(for_foto_and_name);
         foto_and_name.setGravity(Gravity.START);
 
@@ -126,11 +126,11 @@ public class Profile extends AppCompatActivity {
         new DownloadImageTask(im).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "http://vsn.intercom.pro:9080/image/" + image);
         CardView cardView = (CardView) findViewById(R.id.cardView);
         LinearLayout.LayoutParams card_params = (LinearLayout.LayoutParams) cardView.getLayoutParams();
-        card_params.leftMargin = w_proc * 4;
-        card_params.width = w_proc * 25;
-        card_params.height = w_proc * 25;
+        card_params.leftMargin = (int) Math.round(w_proc * 4);
+        card_params.width = (int) Math.round(w_proc * 25);
+        card_params.height = (int) Math.round(w_proc * 25);
         cardView.setLayoutParams(card_params);
-        cardView.setRadius(w_proc * 6);
+        cardView.setRadius((int) Math.round(w_proc * 6));
 
 
 
@@ -138,11 +138,11 @@ public class Profile extends AppCompatActivity {
         TextView about = (TextView) findViewById(R.id.about);
         LinearLayout.LayoutParams for_fio = (LinearLayout.LayoutParams) fio.getLayoutParams();
         LinearLayout.LayoutParams for_about = (LinearLayout.LayoutParams) about.getLayoutParams();
-        for_fio.bottomMargin = w_proc * 1;
-        for_fio.topMargin = -w_proc * 1;
-        for_fio.leftMargin = w_proc * 4;
-        for_about.leftMargin = w_proc * 4;
-        for_about.rightMargin = w_proc * 4;
+        for_fio.bottomMargin = (int) Math.round(w_proc * 1);
+        for_fio.topMargin = (int) Math.round(-w_proc * 1);
+        for_fio.leftMargin = (int) Math.round(w_proc * 4);
+        for_about.leftMargin = (int) Math.round(w_proc * 4);
+        for_about.rightMargin = (int) Math.round(w_proc * 4);
         fio.setLayoutParams(for_fio);
         about.setLayoutParams(for_about);
         fio.setText(name_of_chelik);
@@ -155,46 +155,51 @@ public class Profile extends AppCompatActivity {
         Button edit = (Button) findViewById(R.id.edit);
         CardView crd_for_button = (CardView) findViewById(R.id.crd_for_button);
         LinearLayout.LayoutParams crd_for_button_params = (LinearLayout.LayoutParams) crd_for_button.getLayoutParams();
-        crd_for_button_params.leftMargin = w_proc * 4;
-        crd_for_button_params.topMargin = w_proc * 4;
-        crd_for_button_params.width = w_proc * 100;
-        crd_for_button_params.height = w_proc * 10;
+        crd_for_button_params.leftMargin = (int) Math.round(w_proc * 4);
+        crd_for_button_params.topMargin = (int) Math.round(w_proc * 4);
+        crd_for_button_params.width = (int) Math.round(w_proc * 100);
+        crd_for_button_params.height = (int) Math.round(w_proc * 10);
         crd_for_button.setLayoutParams(crd_for_button_params);
-        crd_for_button.setRadius(h_proc);
+        crd_for_button.setBackgroundColor(Color.parseColor("#434446"));
+        crd_for_button.setRadius((int) Math.round(h_proc));
+        crd_for_button.setBackgroundResource(R.drawable.btnclr);
+        edit.setBackgroundResource(R.drawable.btnclr);
+        edit.setBackgroundColor(Color.parseColor("#00ffffff"));
 
 
         LinearLayout friends_block = (LinearLayout) findViewById(R.id.friends_block);
         LinearLayout.LayoutParams friends_block_params = (LinearLayout.LayoutParams) friends_block.getLayoutParams();
-        friends_block_params.topMargin = w_proc * 3;
-        friends_block_params.height = h_proc * 3;
+        friends_block_params.topMargin = (int) Math.round(w_proc * 3);
+        friends_block_params.height = (int) Math.round(h_proc * 3);
         friends_block.setLayoutParams(friends_block_params);
 
         TextView text_friends = (TextView) findViewById(R.id.text_friends);
         LinearLayout.LayoutParams friends_params = (LinearLayout.LayoutParams) text_friends.getLayoutParams();
-        friends_params.leftMargin = w_proc * 4;
+        friends_params.leftMargin = (int) Math.round(w_proc * 4);
         text_friends.setLayoutParams(friends_params);
 
 
         TextView count_friends = (TextView) findViewById(R.id.count_friends);
         LinearLayout.LayoutParams count_friends_params = (LinearLayout.LayoutParams) count_friends.getLayoutParams();
-        count_friends_params.leftMargin = w_proc;
-        count_friends_params.topMargin = h_proc / 10;
+        count_friends_params.leftMargin = (int) Math.round(w_proc);
+        count_friends_params.topMargin = (int) Math.round(h_proc / 10);
         count_friends.setLayoutParams(count_friends_params);
         count_friends.setText("" + count);
 
 
         ImageButton right = (ImageButton) findViewById(R.id.right);
         LinearLayout.LayoutParams for_right = (LinearLayout.LayoutParams) right.getLayoutParams();
-        for_right.topMargin = -h_proc / 10 * 2;
-        for_right.height = h_proc * 3;
-        for_right.width = h_proc * 3;
+        for_right.topMargin = (int) Math.round(-h_proc / 10 * 2);
+        for_right.height = (int) Math.round(h_proc * 3);
+        for_right.width = (int) Math.round(h_proc * 3);
+        for_right.rightMargin = (int) Math.round(w_proc * 4);
         right.setLayoutParams(for_right);
 
 //
 
         HorizontalScrollView friends_scroll = (HorizontalScrollView) findViewById(R.id.friends_scroll);
         LinearLayout.LayoutParams scroll_params = (LinearLayout.LayoutParams) friends_scroll.getLayoutParams();
-        scroll_params.topMargin = h_proc * 2;
+        scroll_params.topMargin = (int) Math.round(h_proc * 2);
         friends_scroll.setLayoutParams(scroll_params);
         friends_scroll.setHorizontalScrollBarEnabled(true);
 
@@ -230,9 +235,9 @@ public class Profile extends AppCompatActivity {
 
         TextView lable = (TextView) findViewById(R.id.lable);
         LinearLayout.LayoutParams lable_params = (LinearLayout.LayoutParams) lable.getLayoutParams();
-        lable_params.leftMargin = w_proc * 4;
-        lable_params.topMargin = h_proc * 2;
-        lable_params.height = h_proc * 2;
+        lable_params.leftMargin = (int) Math.round(w_proc * 4);
+        lable_params.topMargin = (int) Math.round(h_proc * 2);
+        lable_params.height = (int) Math.round(h_proc * 2);
         lable.setLayoutParams(lable_params);
 
 
