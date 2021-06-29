@@ -207,8 +207,6 @@ public class News extends AppCompatActivity {
                     BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     JSONObject root = new JSONObject(in.readLine());
                     in.close();
-                    System.out.println(root.getString("text"));
-                    System.out.println(1233333321);
                     if (!root.getString("text").equals("nope")) {
                         String text = root.getString("text");
                         String title = root.getString("title");

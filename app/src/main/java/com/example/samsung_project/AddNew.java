@@ -310,4 +310,10 @@ public class AddNew extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.down, R.anim.down1);
+    }
 }
