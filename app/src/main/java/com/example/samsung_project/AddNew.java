@@ -113,43 +113,46 @@ public class AddNew extends AppCompatActivity {
 
                 // Формирование multipart контента
                 for (int i = 1; i <= list.size(); ++i) {
-                    // Создание потока для записи в соединение
-                    DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+                    try {
+                        // Создание потока для записи в соединение
+                        DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
 
-                    // Начало контента
-                    outputStream.writeBytes(twoHyphens + boundary + lineEnd);
-                    // Заголовок элемента формы
-                    outputStream.writeBytes("Content-Disposition: form-data; name=\"" +
-                            "file" + i + "\"; filename=\"" + list.get(i-1) + "\"" + lineEnd);
-                    // Тип данных элемента формы
-                    outputStream.writeBytes("Content-Type: image/jpeg" + lineEnd);
-                    // Конец заголовка
-                    outputStream.writeBytes(lineEnd);
+                        // Начало контента
+                        outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+                        // Заголовок элемента формы
+                        outputStream.writeBytes("Content-Disposition: form-data; name=\"" +
+                                "file" + i + "\"; filename=\"" + list.get(i-1) + "\"" + lineEnd);
+                        // Тип данных элемента формы
+                        outputStream.writeBytes("Content-Type: image/jpeg" + lineEnd);
+                        // Конец заголовка
+                        outputStream.writeBytes(lineEnd);
 
-                    // Поток для считывания файла в оперативную память
-                    FileInputStream fileInputStream = new FileInputStream(new File(list.get(i-1)));
+                        // Поток для считывания файла в оперативную память
+                        FileInputStream fileInputStream = new FileInputStream(new File(list.get(i-1)));
 
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    buffer = new byte[bufferSize];
-
-                    // Считывание файла в оперативную память и запись его в соединение
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                    while (bytesRead > 0) {
-                        outputStream.write(buffer, 0, bufferSize);
                         bytesAvailable = fileInputStream.available();
                         bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                        buffer = new byte[bufferSize];
+
+                        // Считывание файла в оперативную память и запись его в соединение
                         bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+                        while (bytesRead > 0) {
+                            outputStream.write(buffer, 0, bufferSize);
+                            bytesAvailable = fileInputStream.available();
+                            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                        }
+
+                        // Конец элемента формы
+                        outputStream.writeBytes(lineEnd);
+                        outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+                        fileInputStream.close();
+                        outputStream.flush();
+                        outputStream.close();
+                    } catch (Exception ex){
+                        System.out.println("!!!!!!!!!!!!!!!!!!!!" + ex);
                     }
-
-                    // Конец элемента формы
-                    outputStream.writeBytes(lineEnd);
-                    outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-                    fileInputStream.close();
-                    outputStream.flush();
-                    outputStream.close();
-
                 }
                 // Получение ответа от сервера
                 int serverResponseCode = connection.getResponseCode();
@@ -287,7 +290,6 @@ public class AddNew extends AppCompatActivity {
         Intent intent = new Intent(this, News.class);
         startActivity(intent);
         this.finish();
-//        Toast.makeText(this, "Создана новость\nЗаголовок:" + title + "\nТекст:" + text + "\nКоличество фото:" + count, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("ResourceType")
